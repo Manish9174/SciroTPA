@@ -1,0 +1,494 @@
+{% liquid
+  # Determine the aspect ratio for the product card
+
+  # check 3D ar ratio
+  if card_product.featured_media.media_type == 'model'
+    assign ar_ratio = 1
+  endif
+%}
+
+{% style %}
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+    /* Popup code ends */
+
+    .card-image .swiper-slide{
+      background:rgb(var(--color-background));
+    }
+
+     .main-product .product__details .variants ul[data-option-name="color"] li.option-item.btn.available.highlighted1.none_color {
+             background: rgb(var(--color-input-bg));
+              color: rgb(var(--color-input-text-color));
+             }
+
+   .main-product .product__details .variants ul[data-option-name="color"] li.option-item.swatch[data-id="{{ variant.id }}"]{
+              {%  if swatch_image %} background:url('{{ swatch_image |  image_url: width: 100 }}'); {% endif %}
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-color: {{ swatch_color }};
+   }
+
+
+  .image_wrapper img{
+    /* content-visibility: auto; */
+    background: rgba(var(--color-background));
+  }
+
+   {% if settings.card_align == "standard" %}
+      /* .card .card .card-body{ padding-bottom:0 !important;} */
+     {% endif %}
+    /* .card :is(.icon_container), .card :is(.icon_container) :is(.icon_container){
+         transform: translate(10px);
+         transition: all .4s ease;
+         opacity:0;
+      }
+    .card .card-image:hover :is(.icon_container), .card:focus-visible :is(.icon_container){
+        transform: translate(0);
+        opacity:1 !important;
+      } */
+     .card .icon_container{ transform: translate(10px); transition: all .4s ease;  opacity:0;}
+     .card .card-image:hover .icon_container{opacity:1;  transform: translate(0);}
+     .card-image:has(a:focus-visible) .icon_container{opacity:1;}
+     .card .icon_container:has(button:focus-visible){opacity:1;}
+      {% if secondary_img and card_product.images.size > 1   %}
+      @media (min-width: 992px){
+       /* .card :is(.icon_container), .card :is(.icon_container) :is(.icon_container){
+         transform: translate(10px);
+         transition: all 1s ease;
+          opacity:0;
+      }
+       .card .card-image:hover :is(.icon_container), .card:focus-visible :is(.icon_container){
+        transform: translate(0);
+         opacity:1 !important;
+      } */
+      }
+      .card .swiper {
+        transform: translateX(100%);
+        transition: all .5s ease;
+        background: rgb(var(--color-background));
+    }
+    .card .card-image:hover .swiper, .card:focus-visible .swiper, .card .card-image:focus-visible .swiper { transform:none; }
+
+        .card .card-image:hover .swiper,
+  .card:focus-visible .swiper,
+  .card .card-image:focus-visible .swiper {
+    transform: translateX(0); display:block;
+    opacity: 1;
+    visibility: visible;
+  }
+  {% endif %}
+   /* .card-image:has(a.card-img:focus-visible) {
+    outline: 2px solid var(--bs-border-color);
+   } */
+      .ratio .swiper-button>svg {
+        position: relative;
+    }
+    /* .quick-view:focus{
+      transform:translateX(20%);
+    } */
+    .card .card_swiper .swiper-button svg{ width:auto; height:auto;}
+    @media (max-width: 575.98px){
+      .card .card_swiper .swiper-button svg{ width:25px !important; height: 25px !important;}
+    }
+
+    .card .card-body .vendor{ font-size: var(--bs-font-md); }
+    .card .card-body > div { margin-bottom: 8px; font-size: var(--bs-body-font-size); }
+    .card .card-body > div:last-child { margin: 0; }
+    .card .card-body > div:empty { display: none !important; }
+    .card .card-body > div div.swatch {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      {% if settings.swatch_style == "round" %}
+        border-radius:50%;
+      {% endif %}
+      /* outline: 1px solid transparent;
+      outline-offset: 2px; */
+      transition: all .2s linear;
+  }
+    {% if settings.swatch_style == "round" %}
+       .card .card-body > div div.swatch img{
+             border-radius: 50%;
+       }
+      {% endif %}
+
+  /* .card .card-body > div div.swatch_active{
+      outline: 2px solid currentcolor !important;
+      outline-offset:3px;
+  }  */
+
+  .dot-pulse {
+    position: relative;
+    left: -9999px;
+    width: 3px;
+    height: 3px;
+    border-radius: 5px;
+    background-color: rgba(var(--color-background));
+    color:rgba(var(--color-background));
+    box-shadow: 9999px 0 0 -5px;
+    animation: dot-pulse 1.5s infinite linear;
+    animation-delay: 0.25s;
+  }
+  .dot-pulse::before, .dot-pulse::after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    width: 3px;
+    height: 3px;
+    border-radius: 5px;
+    background-color:rgba(var(--color-background));
+    color: rgba(var(--color-background));
+  }
+  .dot-pulse::before {
+    box-shadow: 9984px 0 0 -5px;
+    animation: dot-pulse-before 1.5s infinite linear;
+    animation-delay: 0s;
+  }
+  .dot-pulse::after {
+    box-shadow: 10014px 0 0 -5px;
+    animation: dot-pulse-after 1.5s infinite linear;
+    animation-delay: 0.5s;
+  }
+  .stage {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      padding: 32px 0;
+      margin: 0 -5%;
+      overflow: hidden;
+  }
+
+  /* card pagination */
+
+  .card_swiper_pagination{
+      position: absolute;
+      top: 0 !important;
+      height: fit-content;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+  .card_swiper_pagination .swiper-pagination-bullet {
+      width: 36% !important;
+      height: 2px !important;
+      margin: 0 !important;
+      margin-right: 7px !important;
+  }
+  .card_swiper_pagination .swiper-pagination-bullet:last-child{
+    margin-right:0 !important;
+  }
+
+  @keyframes dot-pulse-before {
+    0% {
+      box-shadow: 9984px 0 0 -5px;
+    }
+    30% {
+      box-shadow: 9984px 0 0 2px;
+    }
+    60%, 100% {
+      box-shadow: 9984px 0 0 -5px;
+    }
+  }
+  @keyframes dot-pulse {
+    0% {
+      box-shadow: 9999px 0 0 -5px;
+    }
+    30% {
+      box-shadow: 9999px 0 0 2px;
+    }
+    60%, 100% {
+      box-shadow: 9999px 0 0 -5px;
+    }
+  }
+  @keyframes dot-pulse-after {
+    0% {
+      box-shadow: 10014px 0 0 -5px;
+    }
+    30% {
+      box-shadow: 10014px 0 0 2px;
+    }
+    60%, 100% {
+      box-shadow: 10014px 0 0 -5px;
+    }
+  }
+  .card .image_wrapper .secondary_image {
+      /* transform: scale(0); */
+      opacity:0;
+      transition:all 0.3s linear;
+  }
+  /* .image_wrapper .primary_image{ z-index:1; }   */
+  .card .card-image:hover .image_wrapper .secondary_image{ /* transform: scale(1); */ opacity:1;}
+  @keyframes shine{
+    100% {
+      left: 125%;
+  }
+  }
+
+  .card .card-image .image_wrapper{ position:relative; }
+  /* .card .card-image .image_wrapper::after{
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -105%;
+      z-index: 2;
+      display: block;
+      width: 50%;
+      height: 100%;
+      pointer-events: none;
+  }
+  .card .card-image .image_wrapper:hover::after{
+    animation: shine 1s ease-in-out;
+  } */
+  .card-image.card_product_detail:has(a:focus-visible){
+      outline: 2px dashed currentcolor !important;
+      outline: -webkit-focus-ring-color solid 2px;
+  }
+  .swatches_container .swatch{
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+   }
+  .swatches_container .swatch.swatch_active{
+      outline: 2px solid currentColor;
+      outline-offset: 2px;
+  }
+{% endstyle %}
+
+{%- if card_product -%}
+  {% assign default_variant = card_product.selected_or_first_available_variant %}
+
+  <div
+    data-availablecheck="{% if default_variant.available == false and default_variant.inventory_policy == 'deny' %}false{% else %}true{% endif %}"
+    data-stockcount="{{ default_variant.inventory_quantity }}"
+    class="{{ settings.animation_effect }} card color-{{ settings.card_background }}{% if settings.card_align == "card" %} card_product_detail{% else %} bg-transparent{% endif %} h-100{% if secondary_img and card_product.images.size > 1 %} secondary_image{% endif %}"
+  >
+    <div class="card-image overflow-hidden{% if settings.card_align == "standard" %} card_product_detail color-{{ settings.card_background }} {% endif %}">
+      <div
+        class="image_wrapper ratio {{ aspect_ratio }}"
+        {% if card_product.featured_media.aspect_ratio == null %}
+          style=" --aspect-ratio:100%"
+        {% else %}
+          style=" --aspect-ratio:{%- if card_product.featured_media -%}{{ 1 | divided_by: card_product.featured_media.aspect_ratio | times: 100 }}% {%- else -%} 100% {%- endif -%};"
+        {% endif %}
+      >
+        <a href="{{ card_product.url }}" class="card-img" aria-label="{{ card_product.title }}">
+          {% if card_product.featured_media %}
+            {{
+              card_product.featured_media
+              | image_url: width: 1280
+              | image_tag:
+                aria_hidden: 'true',
+                loading: 'lazy',
+                fetchpriority: 'high',
+                width: card_product.featured_media.width,
+                height: card_product.featured_media.height,
+                sizes: '(max-width: 767px) 100vw, (min-width: 768px) calc((100vw - 120px) / 2), (min-width: 992px) calc((100vw - 130px) / 3), (min-width: 1200px) 650px',
+                widths: '320, 540, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946',
+                class: 'product-image img-fluid primary_image',
+                alt: card_product.featured_media.alt
+              | default: card_product.title
+              | escape
+            }}
+          {% else %}
+            <div class="placeholder-svg ">
+              {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            </div>
+          {% endif %}
+
+          {% if card_product.media[1] != null and secondary_img %}
+            {{
+              card_product.media[1]
+              | image_url: width: 1280
+              | image_tag:
+                aria_hidden: 'true',
+                loading: 'lazy',
+                width: card_product.media[1].width,
+                height: card_product.media[1].height,
+                sizes: '(min-width: 1200px) 650px, (min-width: 992px) calc((100vw - 130px) / 3), (min-width: 768px) calc((100vw - 120px) / 2), calc((100vw - 35px) / 2)',
+                widths: '320, 540, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946',
+                class: 'img-fluid secondary_image',
+                alt: card_product.media[1].alt
+              | default: card_product.title
+              | escape
+            }}
+          {% endif %}
+        </a>
+      </div>
+      <div class="tags position-absolute top-0 start-0 m-2 m-sm-3 z-1 d-grid gap-2">
+        {% if settings.show_sale and card_product.compare_at_price > card_product.price and card_product.available %}
+          <div class="slae_tag">
+            <span class="badges sale_badge"> {{ 'general.card.sale' | t }}</span>
+          </div>
+        {% endif %}
+
+        {% if settings.show_sold and card_product.available == false or card_product.inventory_quantity == 0 %}
+          <div class="sold_tag">
+            <span class="badges sold_badge">{{ 'general.card.sold' | t }}</span>
+          </div>
+        {% endif %}
+
+        {% if card_product.available
+          and card_product.available
+          and card_product.compare_at_price > card_product.price
+        %}
+          <div class="slae_price">
+            <div class="text-uppercase">
+              {% if settings.sale_type == 'percentage' %}
+                {% assign discount = card_product.compare_at_price | minus: card_product.price %}
+                {% assign sale_percentage = discount | times: 100 | divided_by: card_product.compare_at_price | round %}
+
+                <span class="badges sale_badge">{{ sale_percentage }} % {{ 'general.card.off' | t }}</span>
+
+              {% elsif settings.sale_type == 'amount' %}
+                {% assign discount_amount = card_product.compare_at_price | minus: card_product.price %}
+                <span class="badges sale_badge">
+                  {{- discount_amount | money_with_currency }}
+                  {{ 'general.card.off' | t -}}
+                </span>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      {% if enable_quickview %}
+        <div class="icon_container position-absolute top-0 end-0 z-1 m-2 m-sm-3 d-grid gap-2">
+          {% if card_product.has_only_default_variant %}
+            {% assign formated_money = shop.money_format | replace: '{{amount}}', '' | strip %}
+            {% assign default_variant = card_product.selected_or_first_available_variant %}
+            <button
+              {% if card_product.available == false or card_product.inventory_quantity == 0 %}
+                disabled
+              {% endif %}
+              class="{% if card_product.available == false or card_product.inventory_quantity == 0 %} disabled {% endif %} add_to_cart add_to_cart-{{ default_variant.id }}  border-0 justify-content-center align-items-center"
+              data-unitprice="
+                {{ default_variant.unit_price | money }}
+                {% if default_variant.unit_price_measurement.reference_value != 1 and default_variant.unit_price %}
+                / {{ default_variant.unit_price_measurement.reference_value }}
+                {% endif %}  {{ default_variant.unit_price_measurement.reference_unit }}
+              "
+              data-price="{{ default_variant.price | money }}"
+              data-currencySymbol="{{ formated_money }}"
+              data-carttype="{{ settings.cart_type }}"
+              data-cmpprice="{{ default_variant.compare_at_price | money }}"
+              data-variantdetails="{{ default_variant.id }}"
+              data-productdetails="{{ card_product.id }}"
+              aria-label="{{ 'general.card.add_to_cart' | t }}"
+            >
+
+<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M17.733 20.5555H4.02914C3.41123 20.5555 2.93405 20.0171 3.00747 19.4054L4.54301 6.91898C4.60419 6.40508 5.04469 6.01967 5.56471 6.01967H16.2035C16.7236 6.01967 17.158 6.40508 17.2252 6.91898L18.7608 19.4054C18.8343 20.0171 18.357 20.5555 17.7391 20.5555H17.733Z" stroke-width = "1.5px" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M8.02734 8.13001V4.84477C8.02734 3.2725 9.29986 2 10.8721 2C12.4445 2 13.7169 3.2725 13.7169 4.84477V8.13001" stroke-width = "1.5px" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+
+              <div class="cart-loader spinner-border spinner-border-sm" role="status" style="display: none;">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </button>
+          {% else %}
+            {% assign formated_money = shop.money_format | replace: '{{amount}}', '' | strip %}
+            <button
+              class="popup-modal popup-modal-{{ product.id }} quick-view border-0 d-none d-md-flex justify-content-center align-items-center"
+              id="quick-view-{{ card_product.id }}"
+              data-url="{{ card_product.url }}"
+              data-sectionId="{{ section_id }}"
+              data-productid="{{ card_product.id }}"
+              data-producthandle="{{ card_product.handle }}"
+              aria-label="{{ 'general.card.quick_view' | t }}"
+              data-currencySymbol="{{ formated_money }}"
+              data-quickviewtype="{{ settings.quick_view_style }}"
+              data-unitprice="
+                {{ default_variant.unit_price | money }}{% if default_variant.unit_price_measurement.reference_value != 1 and default_variant.unit_price %}
+                 / {{ default_variant.unit_price_measurement.reference_value }}
+                {% endif %}  {{ default_variant.unit_price_measurement.reference_unit }}
+              "
+              data-price="{{ default_variant.price | money }}"
+              data-cmpprice="{{ default_variant.compare_at_price | money }}"
+              data-variantdetails="{{ default_variant.id }}"
+              data-productdetails="{{ card_product.id }}"
+            >
+              {% render 'quick-view' %}
+              <div class="popup-loader spinner-border spinner-border-sm" role="status" style="display: none;">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </button>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+    <div class="card-body {% if settings.card_text_align == "center" %} text-center{% elsif settings.card_text_align == "right" %} text-right{% endif %} {% if settings.card_align != "card" %} px-1 pb-0{% endif %}">
+      {% if show_product_type %}
+        <div class="product_type mb-2">
+          <span class="text-break">{{ card_product.type }}</span>
+        </div>
+      {% endif %}
+      <h3 class="card-title {{ settings.card_text_size }} mb-1" id="title-{{ section_id }}-{{ card_product.id }}">
+        <a
+          href="{{ card_product.url }}"
+          id="CardLink-{{ section_id }}-{{ card_product.id }}"
+          aria-labelledby="CardLink-{{ section_id }}-{{ card_product.id }} "
+          class="text-decoration-none"
+        >
+          {{ card_product.title | escape }}
+        </a>
+      </h3>
+      {% if show_inventory %}
+        <div class="product_inventory">
+          {% assign default_variant = card_product.selected_or_first_available_variant %}
+
+          {% if default_variant.inventory_quantity > 10 %}
+            <span>In Stock </span>
+          {% elsif default_variant.inventory_quantity > 0 %}
+            <span>
+              {{- 'general.card.limited_stock' | t }}: {{ default_variant.inventory_quantity }}
+              {{ 'general.card.left' | t }}
+            </span>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% render 'price', product: card_product, price_class: '', show_compare_at_price: true, show_price: show_price %}
+
+      {% if show_vendor %}
+        <div class="vendor text-uppercase">
+          <span class="mb-0">{{ card_product.vendor }}</span>
+        </div>
+      {% endif %}
+
+      {% if show_swatches %}
+        {% render 'card-swatch', card_product: card_product %}
+      {% endif %}
+    </div>
+  </div>
+{%- else -%}
+  <div class="card overflow-hidden ele {{ settings.animation_effect }} color-{{ settings.card_background }}{% if settings.card_align == "card" %} card_product_detail{% else %} bg-transparent{% endif %}">
+    <div class="card-image overflow-hidden{% if settings.card_align == "standard" %} card_product_detail color-{{ settings.card_background }} {% endif %}">
+      <div
+        class="image_wrapper ratio {{ aspect_ratio }}"
+        {% if card_product.featured_media.aspect_ratio == null %}
+          style=" --aspect-ratio:100%"
+        {% else %}
+          style=" --aspect-ratio:{%- if card_product.featured_media -%}{{ 1 | divided_by: card_product.featured_media.aspect_ratio | times: 100 }}% {%- else -%} 100% {%- endif -%};"
+        {% endif %}
+      >
+        <div class="placeholder-img">
+          {{ placeholder_image | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      </div>
+    </div>
+    <div class="card-body {% if settings.card_text_align == "center" %} text-center{% elsif settings.card_text_align == "right" %} text-right{% endif %} {% if settings.card_align != "card" %} px-1 pb-0{% endif %}">
+      <h3 class="card-title {% if four_column %}h4 {% else %} h2 {% endif %}">
+        <a role="link" aria-disabled="true" class="text-decoration-none">
+          {{ 'onboarding.product_title' | t }}
+        </a>
+      </h3>
+      <div class="placeholder-price">{{ 0.00 | money }}</div>
+    </div>
+  </div>
+{%- endif -%}

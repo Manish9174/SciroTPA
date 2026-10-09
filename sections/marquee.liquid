@@ -1,0 +1,355 @@
+{% render 'spacing' %}
+{%- style -%}
+        .cs-btn{ font-size: clamp(0.9375rem, 0.85rem + 0.4375vw, 1.375rem); line-height:1.45em; padding:6px 22px; transition:all .3s linear;}
+        .cs-btn:hover{ background-color: rgb(var(--color-secondary-button-bg));}
+        .cs-btn svg{transition:all .3s linear;}
+        .cs-btn:hover svg{ transform:translateX(5px);}
+
+      {% if section.settings.pause_on_hover %} .marquee-section.section-{{ section.id }} .marquee_container:hover .marquee-list{animation-play-state:paused;}{% endif %}
+
+      .marquee-section.section-{{ section.id }} .marquee-list {animation: scroll-left {{ section.settings.speed }}s linear infinite;}
+      .marquee-section.section-{{ section.id }} .marquee-list.reverse {animation-direction: reverse;}
+      @keyframes scroll-left{0%{transform:translateX(0%);}100%{transform:translateX(-100%);}}
+    .marquee-image-{{ section.id}}{width:{{section.settings.marquee_img_width}}px;}
+    .marquee-image-{{ section.id}}:focus-within{border:2px solid;}
+    .marquee-section.section-{{ section.id }} .marquee-title.h1 {font-size: calc(var(--head-h1)* var(--head-font-scale)* 2); }
+    .marquee-section.section-{{ section.id }} .marquee-block .sub_heading > p{margin-bottom:0 !important;}
+    .marquee-section.section-{{ section.id }} .marquee-title.heading_font{font-family:var(--font-heading-family);}
+    .marquee-section.section-{{ section.id }} .marquee-title.body_font{font-family:var(--bs-body-font-family);}
+    .marquee-section.section-{{ section.id }} .marquee-list .marquee-block a{text-decoration:none}
+    .marquee-section.section-{{ section.id }} .marquee-block .description h3 { margin: 0; }
+
+  {% if section.settings.enable_edgefade %}
+    #dt-marquee-section-{{ section.id }}{position:relative;}
+    #dt-marquee-section-{{ section.id }}:before,
+    #dt-marquee-section-{{ section.id }}:after {
+      position: absolute;
+      top: 0;
+      width: 15%;
+      height: 100%;
+      content: "";
+      z-index: 2;
+      pointer-events: none;
+  }
+  #dt-marquee-section-{{ section.id }}:before {
+      left: 0;
+      background:linear-gradient(to right, rgba(var(--color-background),1), transparent);
+  }
+    #dt-marquee-section-{{ section.id }}:after {
+      right: 0;
+      background:linear-gradient(to left, rgba(var(--color-background),1), transparent);
+  }
+  {% endif %}
+
+.marquee-image-{{ section.id}} img{
+  aspect-ratio: 3/2;
+}
+#dt-marquee-section-{{ section.id }} .marquee-block .sub_heading{
+  text-box-trim: trim-start;
+}
+
+{%- endstyle -%}
+
+
+
+{% for block in section.blocks %}
+  {% assign heading_size = section.settings.heading_size %}
+{% endfor %}
+
+{% unless section.blocks.size == 0 %}
+  <div class="marquee-section color-{{ section.settings.color_scheme }} gradient section-{{ section.id }} section-{{ section.id }}-padding" {% if settings.animation != 'none' %} data-aos="{{ settings.animation}}" {% endif %}>
+    <div class="marquee_container {% if section.settings.full_width %}container-fluid px-0 {% else %}container gx-5 gx-sm-4{% endif %}">
+      <div class="row">
+        <div  id="dt-marquee-section-{{ section.id }}" data-speed="{{ section.settings.speed | times: 1000 }}">
+          <div class="marquee-blocks d-flex align-items-center overflow-hidden text-nowrap">
+            {% for i in (1..4) %}
+              <ul class="marquee-list  mb-0 {% if section.settings.content_reverse %}reverse{% endif %} d-flex  align-items-center list-unstyled position-relative justify-content-around flex-shrink-0 " {% if forloop.last %} tabindex="-1" {% endif %}>
+                  {% if section.blocks.size <= 2 %}
+                         {% for j in (1..6) %}
+                         {% for block in section.blocks %}
+                        {%- case block.type -%}
+                          {%- when 'heading' -%}
+                            {% if block.settings.block_heading != blank %}
+                              <li class="marquee-block position-relative  px-{{ section.settings.marquee_padding | minus: 1 }} px-md-{{ section.settings.marquee_padding }} d-flex gap-4 align-items-center" {{ block.shopify_attributes }}>
+                                <h2 class="marquee-title {{ heading_size }}">
+                                  {% if block.settings.block_heading_link != blank %}
+                                      {{ block.settings.block_heading -}}
+                                  {% else %}
+                                    {{ block.settings.block_heading }}
+                                  {% endif %}
+                                </h2>
+                                {%- if block.settings.text != blank -%}
+                                  <div class="sub_heading h4 mb-0">
+                                    {{- block.settings.text -}}
+                                  </div>
+                                {%- endif -%}
+                              </li>
+                            {% endif %}
+                            {% if block.settings.marquee_image != blank %}
+                              <li class="marquee-image-{{ section.id}}  mx-{{ section.settings.marquee_padding | minus: 1 }} mx-md-{{ section.settings.marquee_padding }} position-relative d-flex align-items-center overflow-hidden" {{ block.shopify_attributes }}>
+                                {% if block.settings.block_img_link != blank %}
+                                  <a href="{{ block.settings.block_img_link }}" {% if forloop.parentloop.last %} tabindex="-1" {% endif %}>
+                                    {{
+                                      block.settings.marquee_image
+                                      | image_url: width: 500
+                                      | image_tag:
+                                        class: 'w-100 h-100 object-fit-contain',
+                                        width: '100',
+                                        height: '100',
+                                        loading: 'lazy'
+                                    }}
+                                  </a>
+                                {% else %}
+                                  {{
+                                    block.settings.marquee_image
+                                    | image_url: width: 500
+                                    | image_tag:
+                                      class: 'w-100 h-100 object-fit-contain',
+                                      width: '100',
+                                      height: '100',
+                                      loading: 'lazy'
+                                  }}
+                                {% endif %}
+                              </li>
+                            {% endif %}
+                        {%- endcase -%}
+                      {% endfor %}
+                      {% endfor %}
+                  {% else %}
+                    {% for block in section.blocks %}
+                     {%- case block.type -%}
+                      {%- when 'heading' -%}
+                        {% if block.settings.block_heading != blank %}
+                          <li class="marquee-block position-relative px-{{ section.settings.marquee_padding | minus: 1 }} px-md-{{ section.settings.marquee_padding }} d-flex gap-4 align-items-center" {{ block.shopify_attributes }}>
+                            <h2 class="marquee-title {{ heading_size }}">
+                              {% if block.settings.block_heading_link != blank %}
+                                  {{ block.settings.block_heading -}}
+                              {% else %}
+                                {{ block.settings.block_heading }}
+                              {% endif %}
+                            </h2>
+                            {%- if block.settings.text != blank -%}
+                              <div class="sub_heading h4 mb-0">
+                                {{- block.settings.text -}}
+                              </div>
+
+                            {%- endif -%}
+                          </li>
+                        {% endif %}
+                        {% if block.settings.marquee_image != blank %}
+                          <li class="marquee-image-{{ section.id}} mx-{{ section.settings.marquee_padding | minus: 1 }} mx-md-{{ section.settings.marquee_padding }}  position-relative  d-flex align-items-center overflow-hidden" >
+                            {% if block.settings.block_img_link != blank %}
+                              <a href="{{ block.settings.block_img_link }}" {% if forloop.parentloop.last %} tabindex="-1" {% endif %}>
+                                {{
+                                  block.settings.marquee_image
+                                  | image_url: width: 500
+                                  | image_tag:
+                                    class: 'w-100 h-100 object-fit-contain',
+                                    width: '100',
+                                    height: '100',
+                                    loading: 'lazy',
+                                    alt: block.settings.marquee_image.alt | escape
+                                }}
+                              </a>
+                            {% else %}
+                              {{
+                                block.settings.marquee_image
+                                | image_url: width: 500
+                                | image_tag:
+                                  class: 'w-100 h-100 object-fit-contain',
+                                  width: '100',
+                                  height: '100',
+                                  loading: 'lazy',
+                                  alt: block.settings.marquee_image.alt | escape
+                              }}
+                            {% endif %}
+                          </li>
+                        {% endif %}
+                    {%- endcase -%}
+                    {% endfor %}
+                  {% endif %}
+              </ul>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endunless %}
+{% schema %}
+{
+  "name": "t:sections.marquee.name",
+  "class": "section section-marquee",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer","custom.overlay"]
+  },
+  "settings": [
+     {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "t:sections.all.full_width.label"
+      },
+      {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.marquee.settings.layout_features"
+    },
+      {
+      "type": "checkbox",
+      "id": "content_reverse",
+      "default": false,
+      "label": "t:sections.marquee.settings.content_reverse.label",
+        "info": "t:sections.marquee.settings.content_reverse.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_edgefade",
+      "default": true,
+      "label": "t:sections.marquee.settings.enable_edgefade.label",
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "default": true,
+      "label": "t:sections.marquee.settings.pause_on_hover.label",
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "t:sections.marquee.settings.animation_speed.label",
+      "info": "t:sections.marquee.settings.animation_speed.info",
+      "min": 30,
+      "max": 100,
+      "step": 10,
+      "unit": "s",
+      "default":70
+    },
+    {
+      "type": "range",
+      "id": "marquee_padding",
+      "min": 3,
+      "max": 5,
+      "step": 1,
+      "label": "t:sections.marquee.settings.marquee_padding.label",
+      "default": 3
+    },
+
+    {
+      "type": "header",
+      "content": "t:sections.marquee.settings.layout_image"
+    },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "options": [
+            {
+              "value": "h3",
+              "label": "t:sections.all.heading_size.options__1.label"
+            },
+            {
+              "value": "h2",
+              "label": "t:sections.all.heading_size.options__2.label"
+            },
+            {
+              "value": "h1",
+              "label": "t:sections.all.heading_size.options__3.label"
+            },
+
+          ],
+          "default": "h2",
+          "label": "t:sections.all.heading_size.label"
+        },
+    {
+        "type": "range",
+        "id": "marquee_img_width",
+        "min": 50,
+        "max":150,
+        "default": 100,
+       "step": 5,
+        "unit": "px",
+        "label": "t:sections.marquee.settings.marquee_img_width.label",
+        "info": "t:sections.marquee.settings.marquee_img_width.info"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.spacing.spacing_heading"
+    },
+    {
+      "type": "range",
+      "id": "top_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.top_space",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "bot_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.bot_space",
+      "default": 60
+    },
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "limit": 10,
+      "name": "t:sections.marquee.blocks.heading.name",
+      "settings": [
+       {
+          "type": "inline_richtext",
+          "id": "block_heading",
+          "label": "t:sections.marquee.blocks.heading.settings.block_heading.label",
+          "default": "Marquee Heading"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "label": "t:sections.marquee.blocks.heading.settings.text.label",
+          "visible_if": "{{ block.settings.block_heading != blank }}"
+        },
+        {
+          "type": "image_picker",
+          "id": "marquee_image",
+          "label": "t:sections.marquee.blocks.image.settings.marquee_image.label",
+          "info":"150 x 150px recommended"
+        },
+        {
+          "type": "url",
+          "id": "block_img_link",
+          "label": "t:sections.marquee.blocks.heading.settings.block_heading_link.label"
+        },
+      ]
+    },
+  ],
+  "presets": [
+    {
+      "name": "t:sections.marquee.name",
+      "blocks": [
+        {
+          "type": "heading"
+        },
+
+        {
+          "type": "heading"
+        },
+
+        {
+          "type": "heading"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

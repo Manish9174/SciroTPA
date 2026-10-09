@@ -1,0 +1,99 @@
+{% liquid
+  # Determine the aspect ratio for the product card
+
+  assign ar_ratio = card_product.featured_media.aspect_ratio
+  assign aspect_ratio = ''
+  case settings.card_aspect_ratio
+    when 'square'
+      assign aspect_ratio = 'ratio-1x1'
+    when 'portrait'
+      assign aspect_ratio = 'ratio-3x4'
+    when 'landscape'
+      assign aspect_ratio = 'ratio-4x3'
+    when 'wide'
+      assign aspect_ratio = 'ratio-16x9'
+    when 'adapt'
+      assign aspect_ratio = 'ratio-auto'
+    else
+      assign aspect_ratio = 'ratio-1x1'
+  endcase
+
+  # check 3D ar ratio
+  if card_product.featured_media.media_type == 'model'
+    assign ar_ratio = 1
+  endif
+
+  assign text_align = settings.text_align
+   assign swiper_class = 'complementary-' | append: section.id
+
+          if card_title_size == 'h4'
+            assign size = 'var(--h4)'
+          elsif card_title_size == 'h3'
+            assign size = 'var(--h3)'
+          elsif card_title_size == 'h2'
+            assign size = 'var(--h2)'
+          endif
+%}
+
+<div class="complementary-container ee-{{ card_title_size }} {{ size }} position-relative d-none color-{{ color }} complementary-{{ section.id }}"
+  data-product-id="{{ product.id }}"
+  data-section-id="{{ section.id }}"
+  data-card-style-card="{% if settings.card_align == 'card' %} card_product_detail{% else %} bg-transparent{% endif %}"
+  data-card-style-standard="{% if settings.card_align == 'standard' %} card_product_detail color-{{ settings.card_background }}{% endif %}"
+  data-card-body-align="{% if settings.card_text_align == 'center' %} text-center{% elsif settings.card_text_align == 'right' %} text-right{% endif %}{% if settings.card_align != 'card' %} px-0 pb-0{% endif %}"
+  data-price-align="{% if settings.card_text_align == 'center' %} justify-content-center{% elsif settings.card_text_align == 'right' %} justify-content-end{% endif %}"
+  data-setting-color="{{ settings.card_background }}"
+>
+  {% if heading != blank %}
+  <h3 class="h5 complementary-heading mb-3 d-none">{{ heading }}</h3>
+  {% endif %}
+   <div class="main-comlementary my-carousel swiper swiper-container swiper-container1 d-none">
+    <div
+      class="complementary-products swiper-wrapper"
+      data-product-id="{{ product.id }}" data-sectionId="{{ section.id }}"
+      data-product-url="/recommendations/products.json?product_id={{ product.id }}&intent=complementary"
+    ></div>
+  </div>
+</div>
+
+{% style %}
+  .complementary-products .swiper:not(.swiper-initialized) .swiper-wrapper .swiper-slide{width:50% !important;}
+  .complementary-products .swiper-slide .Product_container .card-body :is(svg){ width:30px; }
+  .complementary-products .swiper-slide .Product_container:hover .card-body .view-detail a svg{
+    transform:translateX(10px);
+  }
+  .complementary-products .swiper-slide .Product_container .card-body .view-detail a svg{
+    transition:all .5s ease;
+  }
+  .main-comlementary .swiper-pagination{ position:relative; margin-top: 30px; }
+  @media (max-width: 575.98px) and (min-width: 391px) {
+    .complementary-products .swiper-slide .Product_container .card-body .sale_pricecomplementory {
+      font-size: var(--bs-body-font-size);
+    }
+    .complementary-products .swiper-slide .Product_container .card-body h3 {
+      font-size: var(--bs-body-font-size);
+    }
+  }
+  .complementary-products .Product_container {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      align-items: flex-start;
+  }
+  .complementary-products .Product_container .card_image:has(.complemetary-image:focus){ outline-offset: 0px; outline: 2px dashed currentcolor; }
+  .complementary-products .Product_container .card_image { width: 100%; height:100%; object-fit:cover; }
+  .complementary-products .Product_container .card_image img{ height: 100%; width: 100%; object-fit: cover;}
+  .complementary-products .Product_container .card-body { width: 100%;  height: 100%; }
+  .complementary-products .Product_container .card-body .product_title{ font-size: calc({{ card_title_size }} * 0.8); }
+  .complementary-products .Product_container .card-body .sale_pricecomplementory{ font-size: var(--bs-body-font-size); }
+  .complementary-container .swiper-prev svg.icon_one,
+  .complementary-container .swiper-next svg.icon_one { width: 50px !important; }
+  .complementary-container .complementary-heading{ width:100%; max-width:60%; }
+  .complementary-container { padding: clamp(1.875rem, 1.5rem + 1.875vw, 3.75rem); border-radius: var(--bs-radius); }
+  @media (max-width:576px){
+  .complementary-container .swiper-navigation{ top:unset !important;left:0;bottom:0; }
+  .complementary-container .complementary-heading{ max-width:100%; }
+  }
+{% endstyle %}
+
+{% assign currency_symbol = shop.money_format | remove: '{{amount}}' %}

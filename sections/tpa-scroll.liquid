@@ -1,0 +1,494 @@
+
+
+<style>
+
+  .spacer {
+    height: 100vh;
+    background: #222;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 30px;
+  }
+
+  .cherry-section {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-image: url('https://cdn.shopify.com/s/files/1/0769/9064/4387/files/cycling-speed-men-bicycle-with-motion-blur-adrenaline-extreme-sports-generative-ai_copy.jpg?v=1789822816');
+    color: white;
+  }
+
+  .cherry-container {
+    position: relative;
+    width: 100%;
+    min-height: 700px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    padding: 80px 8%;
+    
+  }
+
+  .circle-one {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: #67676773;
+    left: -250px;
+    top: -220px;
+  }
+
+  .circle-two {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: #67676773;
+    left: 32%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .circle-three {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    border: 35px solid #67676773;
+    right: -100px;
+    bottom: -150px;
+  }
+
+  .cherry-content {
+    position: relative;
+    z-index: 2;
+    width: 60%;
+  }
+
+  .cherry-small-text {
+        font-size: 1.125rem;
+    color:#ffd4f6;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    line-height: 125%;
+  }
+
+  .cherry-heading {
+ font-size: 4.25rem;;
+    line-height: 0.95;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color:#ffffff;
+    
+  }
+
+  .cherry-description {
+    font-size: 14px;
+    line-height: 1.5;
+    max-width: 190px;
+    margin-bottom: 15px;
+  }
+
+  .cherry-alcohol {
+    display: inline-block;
+    font-size: 12px;
+    padding: 5px 7px;
+    margin-bottom: 12px;
+  }
+
+  .cherry-flavor {
+    font-weight: 300;
+    color:#fff8b5;
+    max-width: 160px;
+    margin-bottom: 22px;
+    font-size: 1.125rem;
+    line-height: 125%;
+  }
+
+  .cherry-button {
+    display: inline-block;
+
+
+    background-color: #ffd4f6;
+    color: hsla(7, 100%, 40%, 1.00);
+    text-align: center;
+    border: 1px #000;
+    border-radius: 8px;
+    padding: 15px 5rem;
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 120%;
+    text-decoration: none;
+
+
+  }
+
+  .cherry-product {
+    position: absolute;
+    z-index: 3;
+    width: 55%;
+    max-width: 650px;
+    right: 2%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+ .cherry-bottle {
+    display: block;
+    max-width: 50vh;
+    height: auto;
+    object-fit: contain;
+    transform-origin: 50% 50%;
+    will-change: transform;
+  }
+
+{% comment %} .cherry-bottle{
+
+   animation: bottleFloat 3s ease-in-out infinite;
+  will-change: transform;
+
+}
+
+@keyframes bottleFloat {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+} {% endcomment %}
+
+
+
+  {% comment %} .cherry-bottle {
+  animation: floatingProduct 2.5s ease-in-out infinite;
+}
+
+@keyframes floatingProduct {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-1.7rem);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}  {% endcomment %}
+
+
+
+
+  @media (max-width: 768px) {
+
+    .cherry-section {
+      min-height: 700px;
+    }
+
+    .cherry-container {
+      min-height: 700px;
+      padding: 40px 20px;
+      align-items: flex-start;
+          flex-direction: column-reverse;
+          row-gap:2rem;
+    }
+
+    .cherry-content {
+      width: 100%;
+
+      display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    }
+
+    .cherry-small-text {
+      font-size: 10px;
+    }
+
+    .cherry-heading {
+      font-size: 2.75rem;
+
+     
+    letter-spacing: -2.25px;
+    margin-bottom: 10px;
+    font-weight: 700;
+    line-height: 100%;
+
+    }
+
+    .cherry-description {
+      font-size: 1rem;
+    }
+
+    .cherry-button {
+              padding: 15px 5rem;
+    }
+
+    .cherry-product {
+      position:unset;
+      width: 50%;
+      max-width: 180px;
+      right: 50%;
+      top: 40px;
+      transform: translateX(50%);
+    }
+
+    .cherry-bottle {
+      width:auto;
+      max-width: 40vh;
+      rotate:-10deg!important;
+    }
+
+    .circle-one {
+      width: 300px;
+      height: 300px;
+      left: -180px;
+      top: -150px;
+    }
+
+    .circle-two {
+      width: 250px;
+      height: 250px;
+      left: 50%;
+      top: 25%;
+    }
+
+    .circle-three {
+      width: 200px;
+      height: 200px;
+      border-width: 25px;
+      right: -100px;
+      bottom: -100px;
+    }
+  }
+
+</style>
+
+<section
+  class="cherry-section"
+  {% if section.settings.bg_image != blank %}
+    style="background-image: url('{{ section.settings.bg_image | image_url: width: 2400 }}');"
+  {% endif %}
+>
+  <div class="circle-one"></div>
+  <div class="circle-two"></div>
+  <div class="circle-three"></div>
+
+  <div class="cherry-container">
+
+    <div class="cherry-content">
+
+     
+
+<h1 class="cherry-heading">
+  {{ section.settings.heading }}
+</h1>
+
+  <div class="cherry-small-text">
+  {{ section.settings.small_text }}
+</div>
+
+ 
+
+      <div class="cherry-alcohol">
+       <svg width="205" height="51" viewBox="0 0 205 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M200.416 2L2 5.12656L5.63413 48.562L203.602 49.6924L200.416 2Z" stroke="currentColor" stroke-width="2"></path>
+<path d="M26.0553 26.5403C24.3312 26.5403 22.8752 26.8136 21.6873 27.3603C20.4993 27.8964 19.5689 28.7269 18.8961 29.8518H14.7331V15.8489H34.1605V19.255H18.77V25.9411L19.9842 26.3826C22.0447 24.5955 24.4153 23.7019 27.096 23.7019C32.4785 23.7019 35.1698 26.4352 35.1698 31.9018C35.1698 34.6351 34.292 36.6482 32.5363 37.9413C30.7912 39.2344 28.1263 39.8809 24.5414 39.8809C22.1866 39.8809 20.2418 39.6496 18.7069 39.1871C17.1721 38.7245 16.0525 38.0727 15.3481 37.2317C14.6438 36.3907 14.3336 35.392 14.4177 34.2356L18.6123 33.2579C18.5492 33.4471 18.5177 33.6574 18.5177 33.8887C18.5177 34.6456 19.0433 35.2448 20.0946 35.6863C21.1564 36.1279 22.6807 36.3486 24.6676 36.3486C26.8753 36.3486 28.489 35.9649 29.5087 35.1975C30.5284 34.4196 31.0383 33.2264 31.0383 31.6179C31.0383 29.8098 30.5705 28.5114 29.6348 27.723C28.6992 26.9345 27.506 26.5403 26.0553 26.5403ZM39.6905 40.0386C39.1018 40.0386 38.6393 39.965 38.3029 39.8178C37.9665 39.6706 37.7247 39.4289 37.5775 39.0924C37.4303 38.756 37.3567 38.2935 37.3567 37.7048C37.3567 36.8638 37.5302 36.275 37.8771 35.9386C38.224 35.6022 38.8285 35.434 39.6905 35.434C40.2898 35.434 40.7576 35.5076 41.094 35.6548C41.4304 35.802 41.6722 36.0385 41.8194 36.3644C41.977 36.6903 42.0559 37.1371 42.0559 37.7048C42.0559 38.2935 41.9823 38.756 41.8351 39.0924C41.6879 39.4289 41.4409 39.6706 41.094 39.8178C40.7576 39.965 40.2898 40.0386 39.6905 40.0386ZM66.4575 33.4787C66.4575 35.5181 65.5113 37.095 63.619 38.2094C61.7268 39.3237 58.8988 39.8809 55.1353 39.8809C51.3823 39.8809 48.649 39.308 46.9354 38.1621C45.2324 37.0162 44.3808 35.4971 44.3808 33.6048C44.3808 32.5325 44.7488 31.5864 45.4847 30.7664C46.2206 29.9359 47.2823 29.2841 48.67 28.811V27.5968C47.419 27.1027 46.4571 26.4457 45.7843 25.6257C45.122 24.8057 44.7908 23.765 44.7908 22.5034C44.7908 21.0317 45.2692 19.7649 46.2258 18.7031C47.1825 17.6413 48.4387 16.8371 49.9946 16.2905C51.561 15.7438 53.243 15.4705 55.0407 15.4705C57.1958 15.4705 59.1038 15.7228 60.7648 16.2274C62.4258 16.732 63.7294 17.4942 64.6756 18.5139C65.6322 19.5336 66.1105 20.7899 66.1105 22.2827C66.1105 23.1552 65.9949 23.9016 65.7636 24.5219C65.5323 25.1421 65.1329 25.6783 64.5652 26.1303C64.008 26.5718 63.2406 26.9398 62.2629 27.2341V28.3537C63.619 28.8058 64.6545 29.4471 65.3694 30.2776C66.0948 31.0976 66.4575 32.1646 66.4575 33.4787ZM48.1023 32.9425C48.1023 34.0253 48.7068 34.8401 49.9158 35.3867C51.1247 35.9229 53.0012 36.1909 55.5453 36.1909C57.9317 36.1909 59.6978 35.9649 60.8437 35.5129C62.0001 35.0608 62.5783 34.3092 62.5783 33.2579C62.5783 32.522 62.2208 31.886 61.506 31.3499C60.8016 30.8137 59.6558 30.3774 58.0683 30.041L51.9027 28.7637C50.6937 29.2158 49.7581 29.8045 49.0958 30.5299C48.4335 31.2447 48.1023 32.049 48.1023 32.9425ZM48.5123 22.535C48.5123 23.2604 48.9118 23.9069 49.7108 24.4746C50.5097 25.0423 51.8343 25.5206 53.6846 25.9096L59.2195 27.0607C60.0395 26.7138 60.6334 26.4352 61.0014 26.2249C61.3693 26.0147 61.6742 25.694 61.916 25.263C62.1683 24.8215 62.2944 24.217 62.2944 23.4496C62.2944 22.535 61.9948 21.757 61.3956 21.1158C60.8069 20.4745 59.9711 19.9962 58.8883 19.6808C57.816 19.3549 56.5545 19.1919 55.1038 19.1919C50.7095 19.1919 48.5123 20.3063 48.5123 22.535ZM75.0163 33.0435C72.939 33.0435 71.3747 32.5136 70.3235 31.4539C69.2806 30.3943 68.7592 28.7459 68.7592 26.5088C68.7592 25.1043 69.0535 23.9269 69.6423 22.9765C70.2394 22.0178 71.0047 21.3113 71.9382 20.8572C72.8717 20.403 73.8473 20.1759 74.865 20.1759C76.9675 20.1759 78.5444 20.7142 79.5957 21.7907C80.6469 22.8588 81.1726 24.5156 81.1726 26.7611C81.1726 28.1908 80.8992 29.3766 80.3526 30.3186C79.8143 31.2521 79.0826 31.9417 78.1575 32.3875C77.2324 32.8248 76.1853 33.0435 75.0163 33.0435ZM71.3327 26.4835C71.3327 27.9974 71.6775 29.0865 72.3671 29.7509C73.0568 30.4153 73.9482 30.7475 75.0416 30.7475C75.7901 30.7475 76.4208 30.6382 76.9338 30.4195C77.4553 30.1924 77.8674 29.7845 78.1701 29.1958C78.4729 28.6071 78.6243 27.7955 78.6243 26.7611C78.6243 25.2725 78.2711 24.2002 77.5646 23.5442C76.8666 22.8798 75.9751 22.5476 74.8902 22.5476C74.1417 22.5476 73.5067 22.6611 72.9853 22.8882C72.4723 23.1153 72.0686 23.519 71.7742 24.0993C71.4799 24.6712 71.3327 25.4659 71.3327 26.4835ZM90.2555 20.5796H92.6524L78.5991 39.5024H76.2274L90.2555 20.5796ZM87.4045 33.321C87.4045 31.9165 87.6988 30.7391 88.2875 29.7887C88.8847 28.83 89.65 28.1235 90.5835 27.6694C91.517 27.2152 92.4926 26.9882 93.5102 26.9882C95.6128 26.9882 97.1897 27.5264 98.2409 28.6029C99.2922 29.671 99.8178 31.3278 99.8178 33.5733C99.8178 35.003 99.5445 36.1888 98.9979 37.1308C98.4596 38.0643 97.7279 38.7539 96.8028 39.1997C95.8777 39.637 94.8306 39.8557 93.6616 39.8557C91.5843 39.8557 90.02 39.3258 88.9688 38.2662C87.9259 37.2065 87.4045 35.5581 87.4045 33.321ZM89.978 33.2958C89.978 34.8096 90.3228 35.8987 91.0124 36.5631C91.7021 37.2275 92.5935 37.5597 93.6868 37.5597C94.4354 37.5597 95.0661 37.4504 95.5791 37.2317C96.1006 37.0046 96.5127 36.5967 96.8154 36.008C97.1182 35.4193 97.2696 34.6077 97.2696 33.5733C97.2696 32.0847 96.9163 31.0124 96.2099 30.3564C95.5118 29.692 94.6204 29.3598 93.5355 29.3598C92.787 29.3598 92.152 29.4733 91.6306 29.7004C91.1175 29.9275 90.7139 30.3312 90.4195 30.9115C90.1252 31.4834 89.978 32.2781 89.978 33.2958ZM108.357 29.0066C108.357 28.3422 108.601 27.7114 109.089 27.1143C109.585 26.5088 110.342 26.0168 111.36 25.6383C112.377 25.2599 113.63 25.0706 115.119 25.0706C116.641 25.0706 117.848 25.2599 118.739 25.6383C119.631 26.0168 120.27 26.5971 120.657 27.3792C121.052 28.1614 121.25 29.1832 121.25 30.4447V39.5024H118.878L119.383 35.6674L118.449 35.516C117.743 37.0635 116.902 38.1652 115.926 38.8212C114.959 39.4772 113.807 39.8052 112.47 39.8052C111.738 39.8052 111.086 39.6664 110.514 39.3889C109.942 39.1114 109.493 38.7119 109.165 38.1905C108.845 37.669 108.685 37.0551 108.685 36.3486C108.685 35.4403 108.937 34.6666 109.442 34.0274C109.947 33.3883 110.771 32.9005 111.915 32.5641C112.562 32.3706 113.437 32.1394 114.539 31.8702C115.489 31.6348 116.204 31.4371 116.683 31.2773C117.163 31.1175 117.541 30.9157 117.819 30.6718C118.105 30.4195 118.247 30.0915 118.247 29.6878C118.247 28.3758 117.163 27.7198 114.993 27.7198C113.883 27.7198 113.025 27.8838 112.419 28.2118C111.814 28.5314 111.511 29.0402 111.511 29.7383C111.511 29.9485 111.545 30.1335 111.612 30.2933L108.382 29.5112C108.366 29.3935 108.357 29.2252 108.357 29.0066ZM111.662 35.8693C111.662 36.3066 111.831 36.6598 112.167 36.9289C112.503 37.1981 112.958 37.3326 113.529 37.3326C114.101 37.3326 114.631 37.2401 115.119 37.0551C115.607 36.8617 116.107 36.5253 116.62 36.0459C117.133 35.5581 117.676 34.8769 118.247 34.0022V32.2108C117.919 32.3706 117.554 32.522 117.15 32.665C116.755 32.7996 116.086 33.0098 115.144 33.2958C114.177 33.5901 113.441 33.8719 112.936 34.141C112.44 34.4017 112.104 34.6666 111.927 34.9357C111.751 35.1964 111.662 35.5076 111.662 35.8693ZM124.418 39.5024V20.2769L127.32 19.6209V39.5024H124.418ZM129.719 32.4379C129.719 30.7811 130.018 29.4019 130.615 28.3001C131.221 27.1984 132.028 26.3868 133.037 25.8654C134.055 25.3356 135.194 25.0706 136.456 25.0706C138.331 25.0706 139.833 25.386 140.96 26.0168C142.095 26.6475 142.722 27.6189 142.839 28.9309L139.635 30.041V29.7887C139.635 29.057 139.341 28.5272 138.752 28.1992C138.163 27.8628 137.423 27.6946 136.532 27.6946C135.438 27.6946 134.559 28.0352 133.895 28.7164C133.231 29.3977 132.898 30.6382 132.898 32.4379C132.898 34.1368 133.239 35.3436 133.92 36.0585C134.61 36.7734 135.573 37.1308 136.809 37.1308C138.003 37.1308 138.937 36.9416 139.61 36.5631C140.283 36.1762 140.619 35.5833 140.619 34.7844C140.619 34.6246 140.594 34.4564 140.543 34.2797L143.546 35.1628C143.579 35.3394 143.596 35.5371 143.596 35.7557C143.596 36.5042 143.344 37.1854 142.839 37.7994C142.343 38.4133 141.599 38.9011 140.606 39.2628C139.614 39.6244 138.416 39.8052 137.011 39.8052C134.673 39.8052 132.873 39.1871 131.612 37.9508C130.35 36.7145 129.719 34.8769 129.719 32.4379ZM146.671 39.9314C146.2 39.9314 145.83 39.8725 145.561 39.7547C145.292 39.637 145.099 39.4436 144.981 39.1744C144.863 38.9053 144.804 38.5353 144.804 38.0643C144.804 37.3915 144.943 36.9205 145.221 36.6514C145.498 36.3823 145.982 36.2477 146.671 36.2477C147.151 36.2477 147.525 36.3066 147.794 36.4243C148.063 36.5421 148.257 36.7313 148.374 36.992C148.501 37.2527 148.564 37.6102 148.564 38.0643C148.564 38.5353 148.505 38.9053 148.387 39.1744C148.269 39.4436 148.072 39.637 147.794 39.7547C147.525 39.8725 147.151 39.9314 146.671 39.9314ZM157.033 25.3734L161.07 36.7271H162.003L166.04 25.3734H169.371L163.795 39.5024H159.253L153.703 25.3734H157.033ZM177.079 37.2822C177.945 37.2822 178.677 37.1518 179.274 36.8911C179.879 36.622 180.354 36.151 180.699 35.4782C181.044 34.797 181.217 33.8592 181.217 32.665C181.217 30.8989 180.809 29.6289 179.993 28.8552C179.185 28.0815 178.155 27.6946 176.902 27.6946C176.019 27.6946 175.279 27.825 174.682 28.0857C174.085 28.3464 173.614 28.8216 173.269 29.5112C172.933 30.1924 172.764 31.1428 172.764 32.3622C172.764 34.0947 173.168 35.3478 173.975 36.1216C174.783 36.8953 175.817 37.2822 177.079 37.2822ZM169.762 32.3622C169.762 30.7643 170.103 29.4187 170.784 28.3254C171.465 27.2236 172.348 26.4079 173.433 25.878C174.526 25.3398 175.683 25.0706 176.902 25.0706C179.349 25.0706 181.179 25.6888 182.39 26.9251C183.609 28.1614 184.219 30.0747 184.219 32.665C184.219 34.2629 183.904 35.5959 183.273 36.664C182.65 37.7321 181.801 38.5227 180.725 39.0357C179.648 39.5487 178.424 39.8052 177.053 39.8052C174.623 39.8052 172.798 39.1997 171.578 37.9886C170.367 36.7776 169.762 34.9021 169.762 32.3622ZM186.613 39.5024V20.2769L189.515 19.6209V39.5024H186.613Z" fill="currentColor"></path>
+</svg>
+      </div>
+<div class="cherry-flavor">
+  {{ section.settings.flavor_text }}
+</div>
+
+<a
+  href="{{ section.settings.button_link | default: '#' }}"
+  class="cherry-button"
+>
+  {{ section.settings.button_text }}
+</a>
+
+    </div>
+
+    <div class="cherry-product">
+
+{% if section.settings.product_image != blank %}
+  <img
+    src="{{ section.settings.product_image | image_url: width: 1000 }}"
+    alt="{{ section.settings.heading | escape }}"
+    class="cherry-bottle"
+    width="1000"
+    height="auto"
+  >
+{% else %}
+  <img
+    src="https://cdn.shopify.com/s/files/1/0769/9064/4387/files/Sciro_Guava_A__Listing_copy1.png?v=1789823069"
+    alt="Sciro Original"
+    class="cherry-bottle"
+    width="1000"
+    height="auto"
+  >
+{% endif %}
+    </div>
+
+  </div>
+
+</section>
+<script>
+  (function () {
+
+    var currentScript = document.currentScript;
+    var shopifySection = currentScript.closest(".shopify-section");
+
+    if (!shopifySection) return;
+
+    var section = shopifySection.querySelector(".cherry-section");
+    var bottle = shopifySection.querySelector(".cherry-bottle");
+
+    if (!section || !bottle) return;
+
+    var startRotation = {{ section.settings.start_rotation }};
+    var straightAt = {{ section.settings.straight_at }} / 100;
+
+    function initBottleAnimation() {
+
+      if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") {
+        setTimeout(initBottleAnimation, 300);
+        return;
+      }
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      var oldTrigger = ScrollTrigger.getById("cherry-bottle-animation");
+
+      if (oldTrigger) {
+        oldTrigger.kill();
+      }
+
+      gsap.killTweensOf(bottle);
+
+      /* Sirf rotation, x/y movement nahi */
+      gsap.set(bottle, {
+        rotation: startRotation,
+        transformOrigin: "50% 50%"
+      });
+
+      gsap.to(bottle, {
+        rotation: 0,
+        ease: "none",
+
+        scrollTrigger: {
+          id: "cherry-bottle-animation",
+          trigger: section,
+
+          /* Section jaise hi screen ke neeche se dikhna shuru ho */
+          start: "top bottom",
+
+          /* Jab section ka straightAt% hissa screen par dikh jaye */
+          end: function () {
+            return "top " + (window.innerHeight - section.offsetHeight * straightAt) + "px";
+          },
+
+          scrub: 0.3,
+          invalidateOnRefresh: true
+        }
+      });
+
+      ScrollTrigger.refresh();
+    }
+
+    initBottleAnimation();
+
+  })();
+</script>
+{% schema %}
+{
+  "name": "TPA Scroll",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "product_image",
+      "label": "Bottle image"
+    },
+
+
+        {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background image"
+    },
+     {
+      "type": "range",
+      "id": "straight_at",
+      "label": "Bottle seedhi ho jab section itna % screen par dikhe",
+      "min": 30,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 90
+    },
+    {
+      "type": "range",
+      "id": "start_rotation",
+      "label": "Bottle ka starting tilt",
+      "min": -90,
+      "max": 0,
+      "step": 5,
+      "unit": "°",
+      "default": -30
+    },
+    {
+      "type": "text",
+      "id": "small_text",
+      "label": "Small text",
+      "default": "Guava, Lemon, Bitters, Bubbles"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Sciro Original"
+    },
+    {
+      "type": "text",
+      "id": "flavor_text",
+      "label": "Flavor text",
+      "default": "Special 'gin' botanicals"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "TPA Scroll"
+    }
+  ]
+}
+{% endschema %}

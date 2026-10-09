@@ -1,0 +1,64 @@
+{% render 'spacing' %}
+{% render 'title-container' %}
+<div class='custom-liquid  color-{{ section.settings.color_scheme }} gradient text-center {{ section.settings.map_height }} '>
+    <div class="{% if section.settings.full_width %}container-fluid px-0{% else %}container{% endif %}  section-{{ section.id }}-padding">
+  {{ section.settings.custom-liquid }}
+    </div>
+</div>
+
+
+{% schema %}
+  {
+    "name": "t:sections.custom-liquid.name",
+    "class": "position-relative z-1",
+    "tag": "section",
+    "settings": [
+       {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "t:sections.all.full_width.label"
+      },
+         {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+      {
+        "type": "liquid",
+        "id": "custom-liquid",
+        "label": "t:sections.custom-liquid.settings.liquid.label",
+        "info":"t:sections.custom-liquid.settings.liquid.info",
+      },
+      {
+        "type": "header",
+        "content": "t:sections.all.spacing.spacing_heading"
+      },
+      {
+      "type": "range",
+      "id": "top_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.top_space",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "bot_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.bot_space",
+      "default": 140
+    }
+    ],
+    "disabled_on":{"groups":["custom.overlay"]},
+    "presets":[
+      {"name":"t:sections.custom-liquid.name"}
+    ]
+  }
+  
+{% endschema %}

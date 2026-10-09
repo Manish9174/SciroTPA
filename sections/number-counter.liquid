@@ -1,0 +1,401 @@
+{% style %}
+@media (max-width: 480px) {
+  .number-counter .number-counter-container .row-cols-2>* {width:100%;}
+  }
+  .section-{{ section.id }} .number-counter-banner{
+    border-radius: var(--bs-radius);
+    border: var(--bs-style-border) solid var(--bs-border-color);
+    overflow: hidden;
+  }
+{% endstyle %}
+
+{% render 'spacing' %}
+{% liquid
+  assign btn_style = ''
+  case section.settings.btn_style
+    when 'primary'
+      assign btn_style = 'btn-primary'
+    when 'secondary'
+      assign btn_style = 'btn-secondary'
+    when 'primary-outline'
+      assign btn_style = 'btn-outline-primary'
+    when 'secondary-outline'
+      assign btn_style = 'btn-outline-secondary'
+    when 'link'
+      assign btn_style = 'btn-link'
+    else
+      assign btn_style = 'btn-primary'
+  endcase
+%}
+<div class="color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  <div class="number-counter section-{{ section.id }}">
+    <div class="{% if section.settings.full_width %}container-fluid{% else %}container{% endif %}" {% if settings.animation != 'none' %} data-aos="{{ settings.animation}}" {% endif %}>
+      {% render 'title-container' %}
+      <div class="number-counter-wrapper row m-0 flex-column {% unless section.blocks.size == 0 %}gap-3 gap-sm-5 {% endunless %}">
+        {% if section.settings.hide_image %}
+          <div class="number-counter-banner w-100 px-0">
+            {% if section.settings.banner_image != blank %}
+              {{
+                section.settings.banner_image
+                | image_url: width: section.settings.banner_image.width, height: section.settings.banner_image.height
+                | image_tag: class: 'img-fluid w-100'
+              }}
+            {% else %}
+              {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder_svg' }}
+            {% endif %}
+          </div>
+        {% endif %}
+        <div class="number-counter-container w-100 px-4" {% if settings.animation != 'none' %} data-aos="{{ settings.animation}}" {% endif %}>
+          <div class="row row-cols-2 row-cols-lg-4 g-4 g-lg-4 justify-content-evenly">
+            {% for block in section.blocks %}
+              <div
+                class="number-counter-block text-break text-{{ block.settings.column_alignment }}"
+                {{ block.shopify_attributes }}
+              >
+                <div class="number-counter-content">
+                  {% if block.settings.value != blank or block.settings.value_text != blank %}
+                    <h2 class="counter-value display-1 m-0">
+                      <span class="number-counter-value text-break" data-value="{{ block.settings.value }}">
+                        {{- block.settings.value -}}</span
+                      ><span>{{ block.settings.value_text }}</span>
+                    </h2>
+                  {% endif %}
+                  {% if block.settings.title != blank %}
+                    <span class="number-counter-title  {{ block.settings.heading_size }}">
+                      {{- block.settings.title -}}
+                    </span>
+                  {% endif %}
+                  {% if block.settings.text != blank %}
+                    <p class="number-counter-description mb-0 mt-2">{{ block.settings.text }}</p>
+                  {% endif %}
+                  {% liquid
+                    assign btn_style = ''
+                    case block.settings.btn_style
+                      when 'primary'
+                        assign btn_style = 'btn-primary'
+                      when 'secondary'
+                        assign btn_style = 'btn-secondary'
+                      when 'primary-outline'
+                        assign btn_style = 'btn-outline-primary'
+                      when 'secondary-outline'
+                        assign btn_style = 'btn-outline-secondary'
+                      when 'link'
+                        assign btn_style = 'btn-link p-0'
+                      else
+                        assign btn_style = 'btn-primary'
+                    endcase
+                  %}
+                  {%- if block.settings.button_label != blank -%}
+                    <a
+                      {% if block.settings.button_link %}
+                        href="{{ block.settings.button_link }}"
+                      {% else %}
+                        role="link" aria-disabled="true"
+                      {% endif %}
+                      class="btn rounded-pill mt-2 {{ btn_style | default:"btn-primary" }} {% if block.settings.button_link == blank %} disabled {% endif %}"
+                    >
+                      {{- block.settings.button_label | escape -}}
+                    </a>
+                  {%- endif -%}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% javascript %}
+  document.addEventListener('DOMContentLoaded', function () {
+    const counters = document.querySelectorAll('.number-counter-value');
+    const updateCounter = (counter) => {
+      const target = +counter.getAttribute('data-value');
+      counter.innerText = '0';
+      const increment = target / 200;
+
+      const countUp = () => {
+        const current = +counter.innerText;
+        if (current < target) {
+          counter.innerText = Math.ceil(current + increment);
+          setTimeout(countUp, 5);
+        } else {
+          counter.innerText = target;
+        }
+      };
+
+      countUp();
+    };
+    const options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          updateCounter(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, options);
+
+    counters.forEach((counter) => {
+      observer.observe(counter);
+    });
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:sections.number-counter.name",
+  "class": "section-number-counter",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.overlay"]
+  },
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "t:sections.all.full_width.label",
+      "default": false
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:sections.all.heading.label",
+      "default": "t:sections.number-counter.settings.title.default"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "t:sections.all.description.label",
+      "default": "t:sections.all.content_description.default"
+    },
+    {
+      "type": "select",
+      "id": "column_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.all.content_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.all.content_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.all.content_alignment.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "t:sections.all.content_alignment.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.number-counter.settings.number-content.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_image",
+      "label": "t:sections.number-counter.settings.hide_image.label",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "t:sections.number-counter.settings.banner_image.label",
+      "info": "1920 x 860px recommended",
+      "visible_if": "{{ section.settings.hide_image == true }}"
+    },
+
+    {
+      "type": "header",
+      "content": "t:sections.all.spacing.spacing_heading"
+    },
+    {
+      "type": "range",
+      "id": "top_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.top_space",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "bot_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.bot_space",
+      "default": 140
+    }
+  ],
+  "blocks": [
+    {
+      "type": "icon",
+      "name": "t:sections.number-counter.blocks.icon.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:sections.number-counter.blocks.icon.settings.title.label",
+          "default": "Counter block"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "options": [
+            {
+              "value": "h6",
+              "label": "t:sections.number-counter.blocks.icon.settings.heading_size.options__1.label"
+            },
+            {
+              "value": "h5",
+              "label": "t:sections.number-counter.blocks.icon.settings.heading_size.options__2.label"
+            },
+            {
+              "value": "h4",
+              "label": "t:sections.number-counter.blocks.icon.settings.heading_size.options__3.label"
+            }
+          ],
+          "default": "h6",
+          "label": "t:sections.number-counter.blocks.icon.settings.heading_size.label"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "t:sections.number-counter.blocks.icon.settings.text.label",
+          "default": "Add text here"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "t:sections.all.button.label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.all.button_link.label",
+        },
+        {
+          "type": "select",
+          "id": "btn_style",
+          "label": "t:sections.all.button_style.label",
+          "options": [
+            {
+              "label": "t:sections.all.button_style.options.primary.label",
+              "value": "primary"
+            },
+            {
+              "label": "t:sections.all.button_style.options.secondary.label",
+              "value": "secondary"
+            },
+            {
+              "label": "t:sections.all.button_style.options.primary-outline.label",
+              "value": "primary-outline"
+            },
+            {
+              "label": "t:sections.all.button_style.options.secondary-outline.label",
+              "value": "secondary-outline"
+            },
+            {
+              "label": "t:sections.all.button_style.options.link.label",
+              "value": "link"
+            }
+          ],
+        },
+        {
+          "type": "header",
+          "content": "t:sections.number-counter.blocks.icon.settings.count"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "t:sections.number-counter.blocks.icon.settings.value.label",
+          "default": "50"
+        },
+        {
+          "type": "text",
+          "id": "value_text",
+          "label": "t:sections.number-counter.blocks.icon.settings.value_text.label",
+          "default": "K"
+        },
+        {
+          "type": "select",
+          "id": "column_alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "t:sections.all.content_alignment.options__1.label"
+            },
+            {
+              "value": "center",
+              "label": "t:sections.all.content_alignment.options__2.label"
+            },
+            {
+              "value": "right",
+              "label": "t:sections.all.content_alignment.options__3.label"
+            }
+          ],
+          "default": "center",
+          "label": "t:sections.all.content_alignment.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.number-counter.presets.name",
+      "blocks": [
+        {
+          "type": "icon"
+        },
+        {
+          "type": "icon"
+        },
+        {
+          "type": "icon"
+        },
+        {
+          "type": "icon"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,46 @@
+{% if menu_type == 'megamenu' and menu_layout != 'banner_with_menu' %}
+  <li class="img_banner {{ menu_layout }}">
+    <ul class="list-unstyled row row-cols-3">
+{% elsif menu_type == 'drawer' %}
+  <li class="img_banner mt-4 {{ menu_layout }}">
+    <ul class="list-unstyled row row-cols-1 g-4">
+{% endif %}
+
+  <li class="{% if menu_type != 'megamenu' %}col-6 {% else %}col{% endif %} {% if block.settings.banner_position == 'left' or block.settings.banner_position == 'between' and block.settings.image_1  %} order-first {% endif %}">
+    <div class="card h-100">
+      <a class="h-100"
+        {% if block.settings.image_1_link != blank %}
+          href="{{ block.settings.image_1_link }}" 
+        {% else %}
+          role="link" aria-disabled="true"
+        {% endif %}
+      >
+        {%- unless block.settings.image_1 == blank -%}
+          {{ block.settings.image_1 | image_url: width: 1280 | image_tag: class: 'img-fluid h-100 w-100 object-fit-cover', loading: 'lazy' }}
+        {%- endunless -%}
+      </a>
+    </div>
+  </li>
+ 
+  <li class="{% if menu_type != 'megamenu' %}col-6{% else %}col{% endif %} {% if block.settings.banner_position == 'left' and block.settings.image_2 != blank %}order-first{% endif %}">
+    <div class="card h-100">
+      <a class="h-100"
+        {% if block.settings.image_2_link != blank %}
+          href="{{ block.settings.image_2_link }}"
+        {% else %}
+          role="link" aria-disabled="true"
+        {% endif %}
+      >
+        {%- unless block.settings.image_2 == blank -%}
+          {{ block.settings.image_2 | image_url: width: 1280 | image_tag: class: 'img-fluid h-100 w-100 object-fit-cover', loading: 'lazy' }}
+        {%- endunless -%}
+      </a>
+    </div>
+  </li>
+{% if menu_type == 'megamenu' and menu_layout != 'banner_with_menu' %}
+  </ul>
+  </li>
+{% elsif menu_type == 'drawer' %}
+  </ul>
+  </li>
+{% endif %}

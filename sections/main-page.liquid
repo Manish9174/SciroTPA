@@ -1,0 +1,63 @@
+{% render 'spacing' %}
+
+<div class="container section-{{ section.id }}-padding">
+  <h1 class="main-page-title page-title mb-0 text-{{ section.settings.column_alignment }}" {% if settings.animation != 'none' %} data-aos="{{ settings.animation}}"{% endif %}>
+    {{ page.title | escape }}
+  </h1>
+  <div class="mt-2" {% if settings.animation != 'none' %}  data-aos="{{ settings.animation}}" {% endif %}>
+    {{ page.content }}
+  </div>
+</div>
+
+{% schema %}
+{
+ "name": "t:sections.main-page.name",
+  "tag": "section",
+  "class": "section-main-page",
+  "settings": [
+    {
+      "type": "select",
+      "id": "column_alignment",
+      "label": "t:sections.main-page.settings.heading-alignment.label",
+      "options": [
+        {
+          "value": "start",
+          "label": "t:sections.rich-text.settings.content_position.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.rich-text.settings.content_position.options__2.label"
+        },
+         {
+          "value": "end",
+          "label": "t:sections.rich-text.settings.content_position.options__3.label"
+        },
+      ]
+    },
+     {
+      "type": "header",
+      "content": "t:sections.all.spacing.spacing_heading"
+    },
+    {
+      "type": "range",
+      "id": "top_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.top_space",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "bot_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.bot_space",
+      "default": 140
+    }
+  ]
+}
+{% endschema %}

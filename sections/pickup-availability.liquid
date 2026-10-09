@@ -1,0 +1,94 @@
+{%- assign pick_up_availabilities = product_variant.store_availabilities | where: 'pick_up_enabled', true -%}
+<div id="pickup-availability">
+  {%- if pick_up_availabilities.size > 0 -%}
+    {%- liquid
+      assign closest_location = pick_up_availabilities.first
+    -%}
+    <pickup-availability class="pickup--availability">
+      {%- if closest_location.available -%}
+        <div class="mt-4">
+          <p class="mb-1" id="pickup-info">
+           {{ 'products.pickup_availability.pick_up_available' | t }} <span> {{ closest_location.location.name }}</span>
+          </p>
+          <p class="mb-1 pickuptime">{{ closest_location.pick_up_time }}</p>
+          <div>
+            <a
+              id="ShowPickupDrawer"
+              class="text-decoration-underline p-0"
+              data-bs-toggle="offcanvas"
+              data-bs-target="pickupOffCanvas-{{ section.id }}"
+              aria-controls="pickupDrawer" tabindex="0" role="button"
+            >
+              {%- if pick_up_availabilities.size == 1 -%}
+                {{ 'products.pickup_availability.view_store_info' | t }}
+              {%- else -%}
+                {{ 'products.pickup_availability.check_other_stores' | t }}
+              {%- endif -%}
+            </a>
+          </div>
+        </div>
+      {%- else -%}
+        <div class="mt-4">
+          <p class="mb-1" id="pickup-info">
+            {{ 'products.pickup_availability.pick_up_not_available' | t }} <span> {{ closest_location.location.name }}</span>
+          </p>
+          <div>
+            <a
+              id="ShowPickupDrawer"
+              class="text-decoration-underline p-0"
+              data-bs-toggle="offcanvas"
+              data-bs-target="pickupOffCanvas-{{ section.id }}"
+              aria-controls="pickupDrawer" tabindex="0" role="button"
+            >
+              {%- if pick_up_availabilities.size == 1 -%}
+                {{ 'products.pickup_availability.check_other_stores' | t }}
+              {%- else -%}
+                {{ 'products.pickup_availability.check_other_stores' | t }}
+              {%- endif -%}
+            </a>
+          </div>
+        </div>
+      {%- endif -%}
+        </pickup-availability>
+
+      <pickup-drawer
+        class="offcanvas offcanvas-end"
+        data-bs-scroll="false"
+        tabindex="-1"
+        id="pickupOffCanvas-{{ section.id }}"
+        aria-labelledby="pickupDrawer"
+      >
+        <div class="offcanvas-header offset-lg-1 text-center justify-content-center position-relative">
+          <h2 class="offcanvas-title h1" id="pickupDrawer">{{ product.title | escape }}</h2>
+        </div>
+
+        <div class="offcanvas-body offset-lg-1 pt-0 " >
+          <!-- All Pickup Locations Section -->
+          <div class="chosen text-center pickup_breadcrumb">{{ product_variant.options | join: '/' }}</div>
+          {%- for availability in pick_up_availabilities -%}
+            <div class="body-container pickup-availability-list__item pt-3 {% unless forloop.first %} border-1 border-top{% endunless %}">
+             
+               {%- if availability.available -%}
+                  <h3 class="h4">{% render 'available' %}  {{ availability.location.name | escape }}</h3>
+                  {%- else -%}
+                  <h3 class="h4"> {{ availability.location.name | escape }}</h3>
+                  {%- endif -%}
+
+              <p class="pickup-availability-preview caption-large">
+                {%- if availability.available -%}{{ availability.pick_up_time | downcase | capitalize }}{%- endif -%}
+              </p>
+
+              {%- assign address = availability.location.address -%}
+              <address class="pickup-availability-address">
+                {{ address | format_address }}
+
+                {%- if address.phone.size > 0 -%}
+                  <p>{{ address.phone }}</p>
+                {%- endif -%}
+              </address>
+            </div>
+          {%- endfor -%}
+        </div>
+      </pickup-drawer>
+  {%- endif -%}
+</div>

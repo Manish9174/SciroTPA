@@ -1,0 +1,26 @@
+<button type="button" class="share_button bg-transparent border-0 mt-2 mb-2 d-flex gap-2 align-items-center" data-bs-toggle="modal" data-bs-target="#shareModal" {{ block.shopify_attributes }}>
+     <span>{% render 'share-icon' %} </span>
+     <span class="text-decoration-underline">{{ share_title }} </span>
+</button>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const copyButton = document.getElementById('copyButton');
+        const productUrlInput = document.querySelector('.productUrl');
+        const successMessage = document.getElementById('successMessage');
+
+        copyButton.addEventListener('click', function () {
+            productUrlInput.select();
+            document.execCommand('copy');
+            successMessage.style.display = 'flex';
+            setTimeout(function () {
+                successMessage.style.display = 'none';
+            }, 2000);
+        });
+    });
+</script>
+
+<style>
+    #successMessage {
+        margin-top: 10px;
+    }
+</style>

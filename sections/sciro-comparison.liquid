@@ -1,0 +1,1318 @@
+{% liquid
+  assign section_id = 'sciro-comparison-' | append: section.id
+
+  assign has_images = false
+  if section.settings.feature_image != blank or section.settings.column_1_image != blank or section.settings.column_2_image != blank or section.settings.column_3_image != blank or section.settings.column_4_image != blank
+    assign has_images = true
+  endif
+%}
+
+<section
+  id="{{ section_id }}"
+  class="sciro-comparison"
+  style="
+    --sc-bg: {{ section.settings.background }};
+    --sc-text: {{ section.settings.text_color }};
+    --sc-border: {{ section.settings.border_color }};
+    --sc-brand: {{ section.settings.brand_color }};
+    --sc-brand-text: {{ section.settings.brand_text }};
+    --sc-check: {{ section.settings.check_color }};
+    --sc-cross: {{ section.settings.cross_color }};
+
+    --sc-max-width: {{ section.settings.max_width }}px;
+    --sc-desktop-spacing: {{ section.settings.desktop_spacing }}px;
+    --sc-mobile-spacing: {{ section.settings.mobile_spacing }}px;
+
+    --sc-feature-width: {{ section.settings.feature_width }}px;
+
+    --sc-desktop-heading-size: {{ section.settings.heading_size }}px;
+    --sc-mobile-heading-size: {{ section.settings.mobile_heading_size }}px;
+    --sc-heading-weight: {{ section.settings.heading_weight }};
+    --sc-heading-spacing: {{ section.settings.heading_bottom }}px;
+
+    --sc-desktop-top: {{ section.settings.padding_top }}px;
+    --sc-desktop-bottom: {{ section.settings.padding_bottom }}px;
+    --sc-mobile-top: {{ section.settings.mobile_padding_top }}px;
+    --sc-mobile-bottom: {{ section.settings.mobile_padding_bottom }}px;
+
+    --sc-row-padding: {{ section.settings.row_padding }}px;
+
+    --sc-img-h: {{ section.settings.image_height }}px;
+    --sc-img-h-m: {{ section.settings.mobile_image_height }}px;
+  "
+>
+
+  <div class="sciro-comparison__container">
+
+    {% if section.settings.heading != blank %}
+      <div class="sciro-comparison__heading">
+        {{ section.settings.heading }}
+      </div>
+    {% endif %}
+
+    <div class="sciro-comparison__table-wrap">
+
+      <table class="sciro-comparison__table">
+
+        <colgroup>
+          <col class="sciro-comparison__feature-col">
+          <col class="sciro-comparison__product-col">
+          <col class="sciro-comparison__product-col">
+          <col class="sciro-comparison__product-col">
+          <col class="sciro-comparison__product-col">
+        </colgroup>
+
+        <thead>
+          <tr>
+
+            <!-- FEATURE COLUMN HEADER -->
+            <th class="sciro-comparison__feature-heading">
+              {% if has_images %}
+                <div class="sciro-comparison__col-image">
+                  {% if section.settings.feature_image != blank %}
+                    {{
+                      section.settings.feature_image
+                      | image_url: width: 400
+                      | image_tag:
+                        loading: 'lazy',
+                        widths: '120,200,300,400',
+                        sizes: '(min-width: 768px) 280px, 90px',
+                        alt: section.settings.feature_image.alt | default: ''
+                    }}
+                  {% endif %}
+                </div>
+              {% endif %}
+              &nbsp;
+            </th>
+
+            <!-- SCIRO -->
+            <th class="sciro-comparison__brand-header">
+
+              <div class="sciro-comparison__brand-content">
+
+                {% if has_images %}
+                  <div class="sciro-comparison__col-image">
+                    {% if section.settings.column_1_image != blank %}
+                      {{
+                        section.settings.column_1_image
+                        | image_url: width: 240
+                        | image_tag:
+                          loading: 'lazy',
+                          widths: '80,120,160,240',
+                          sizes: '(min-width: 768px) 160px, 80px',
+                          alt: section.settings.column_1_image.alt | default: section.settings.product_name
+                      }}
+                    {% endif %}
+                  </div>
+                {% endif %}
+
+                {% if section.settings.logo != blank %}
+
+                  {{
+                    section.settings.logo
+                    | image_url: width: 160
+                    | image_tag:
+                      loading: 'lazy',
+                      widths: '80,120,160',
+                      class: 'sciro-comparison__logo',
+                      alt: section.settings.logo.alt | default: section.settings.product_name
+                  }}
+
+                {% else %}
+
+                  <span class="sciro-comparison__brand-name">
+                    {{ section.settings.product_name }}
+                  </span>
+
+                {% endif %}
+
+              </div>
+
+            </th>
+
+            <!-- COLUMN 2 -->
+            <th class="sciro-comparison__product-heading">
+              {% if has_images %}
+                <div class="sciro-comparison__col-image">
+                  {% if section.settings.column_2_image != blank %}
+                    {{
+                      section.settings.column_2_image
+                      | image_url: width: 240
+                      | image_tag:
+                        loading: 'lazy',
+                        widths: '80,120,160,240',
+                        sizes: '(min-width: 768px) 160px, 80px',
+                        alt: section.settings.column_2_image.alt | default: section.settings.column_2
+                    }}
+                  {% endif %}
+                </div>
+              {% endif %}
+              {{ section.settings.column_2 }}
+            </th>
+
+            <!-- COLUMN 3 -->
+            <th class="sciro-comparison__product-heading">
+              {% if has_images %}
+                <div class="sciro-comparison__col-image">
+                  {% if section.settings.column_3_image != blank %}
+                    {{
+                      section.settings.column_3_image
+                      | image_url: width: 240
+                      | image_tag:
+                        loading: 'lazy',
+                        widths: '80,120,160,240',
+                        sizes: '(min-width: 768px) 160px, 80px',
+                        alt: section.settings.column_3_image.alt | default: section.settings.column_3
+                    }}
+                  {% endif %}
+                </div>
+              {% endif %}
+              {{ section.settings.column_3 }}
+            </th>
+
+            <!-- COLUMN 4 -->
+            <th class="sciro-comparison__product-heading">
+              {% if has_images %}
+                <div class="sciro-comparison__col-image">
+                  {% if section.settings.column_4_image != blank %}
+                    {{
+                      section.settings.column_4_image
+                      | image_url: width: 240
+                      | image_tag:
+                        loading: 'lazy',
+                        widths: '80,120,160,240',
+                        sizes: '(min-width: 768px) 160px, 80px',
+                        alt: section.settings.column_4_image.alt | default: section.settings.column_4
+                    }}
+                  {% endif %}
+                </div>
+              {% endif %}
+              {{ section.settings.column_4 }}
+            </th>
+
+          </tr>
+        </thead>
+
+        <tbody>
+
+          {% for block in section.blocks %}
+
+            <tr {{ block.shopify_attributes }}>
+
+              <!-- FEATURE -->
+              <td class="sciro-comparison__feature">
+                {{ block.settings.feature_name }}
+              </td>
+
+              <!-- SCIRO -->
+              <td class="sciro-comparison__brand-cell">
+                {% case block.settings.sciro %}
+                  {% when 'yes' %}
+                    <span class="sciro-comparison__icon sciro-comparison__icon--yes" aria-label="Yes">
+                      <svg viewBox="0 0 18 13" aria-hidden="true"><path d="M17.2 1.06L6.2 12.06L1.2 7.06"></path></svg>
+                    </span>
+                  {% when 'no' %}
+                    <span class="sciro-comparison__icon sciro-comparison__icon--no" aria-label="No">
+                      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13 2.76L2.4 13.36M2.4 2.76L13 13.36"></path></svg>
+                    </span>
+                {% endcase %}
+              </td>
+
+              <!-- COLUMN 2 -->
+              <td class="sciro-comparison__cell">
+                {% case block.settings.multivitamins %}
+                  {% when 'yes' %}
+                    <span class="sciro-comparison__icon sciro-comparison__icon--yes">
+                      <svg viewBox="0 0 18 13" aria-hidden="true"><path d="M17.2 1.06L6.2 12.06L1.2 7.06"></path></svg>
+                    </span>
+                  {% when 'no' %}
+                    <span class="sciro-comparison__icon sciro-comparison__icon--no">
+                      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13 2.76L2.4 13.36M2.4 2.76L13 13.36"></path></svg>
+                    </span>
+                {% endcase %}
+              </td>
+
+              <!-- COLUMN 3 -->
+              <td class="sciro-comparison__cell">
+                {% case block.settings.probiotics %}
+                  {% when 'yes' %}
+                    <span class="sciro-comparison__icon sciro-comparison__icon--yes">
+                      <svg viewBox="0 0 18 13" aria-hidden="true"><path d="M17.2 1.06L6.2 12.06L1.2 7.06"></path></svg>
+                    </span>
+                  {% when 'no' %}
+                    <span class="sciro-comparison__icon sciro-comparison__icon--no">
+                      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13 2.76L2.4 13.36M2.4 2.76L13 13.36"></path></svg>
+                    </span>
+                {% endcase %}
+              </td>
+
+              <!-- COLUMN 4 -->
+              <td class="sciro-comparison__cell">
+                {% case block.settings.greens %}
+                  {% when 'yes' %}
+                    <span class="sciro-comparison__icon sciro-comparison__icon--yes">
+                      <svg viewBox="0 0 18 13" aria-hidden="true"><path d="M17.2 1.06L6.2 12.06L1.2 7.06"></path></svg>
+                    </span>
+                  {% when 'no' %}
+                    <span class="sciro-comparison__icon sciro-comparison__icon--no">
+                      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13 2.76L2.4 13.36M2.4 2.76L13 13.36"></path></svg>
+                    </span>
+                {% endcase %}
+              </td>
+
+            </tr>
+
+          {% endfor %}
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <!-- FOOTNOTE -->
+    {% if section.settings.footnote != blank %}
+      <div class="sciro-comparison__footnote">
+        <sup>†</sup>{{ section.settings.footnote }}
+      </div>
+    {% endif %}
+
+  </div>
+
+</section>
+
+<style>
+
+  /* =========================================================
+     BASE
+     ========================================================= */
+
+  #{{ section_id }} {
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--sc-bg);
+    color: var(--sc-text);
+    padding-top: var(--sc-desktop-top);
+    padding-bottom: var(--sc-desktop-bottom);
+    overflow: hidden;
+  }
+
+  #{{ section_id }} *,
+  #{{ section_id }} *::before,
+  #{{ section_id }} *::after {
+    box-sizing: border-box;
+  }
+
+  /* =========================================================
+     DESKTOP CONTAINER
+     ========================================================= */
+
+  #{{ section_id }} .sciro-comparison__container {
+    width: min(calc(100% - (var(--sc-desktop-spacing) * 2)), var(--sc-max-width));
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* =========================================================
+     HEADING
+     ========================================================= */
+
+  #{{ section_id }} .sciro-comparison__heading {
+    width: 100%;
+    margin: 0 0 var(--sc-heading-spacing);
+    color: var(--sc-text);
+    font-size: var(--sc-desktop-heading-size);
+    line-height: 1.15;
+    font-weight: var(--sc-heading-weight);
+    letter-spacing: -0.02em;
+  }
+
+  #{{ section_id }} .sciro-comparison__heading p { margin: 0; }
+
+  #{{ section_id }} .sciro-comparison__heading h1,
+  #{{ section_id }} .sciro-comparison__heading h2,
+  #{{ section_id }} .sciro-comparison__heading h3,
+  #{{ section_id }} .sciro-comparison__heading h4,
+  #{{ section_id }} .sciro-comparison__heading h5,
+  #{{ section_id }} .sciro-comparison__heading h6 {
+    margin: 0;
+    font: inherit;
+    color: inherit;
+  }
+
+  /* =========================================================
+     TABLE WRAPPER
+     ========================================================= */
+
+  #{{ section_id }} .sciro-comparison__table-wrap {
+    position: relative;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+
+  #{{ section_id }} .sciro-comparison__table-wrap::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  /* =========================================================
+     TABLE
+     ========================================================= */
+
+  #{{ section_id }} .sciro-comparison__table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  #{{ section_id }} .sciro-comparison__table th,
+  #{{ section_id }} .sciro-comparison__table td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    overflow-wrap: anywhere;
+  }
+
+  /* =========================================================
+     DESKTOP COLUMNS
+     ========================================================= */
+
+  #{{ section_id }} .sciro-comparison__feature-col { width: var(--sc-feature-width); }
+  #{{ section_id }} .sciro-comparison__product-col { width: auto; }
+
+  /* =========================================================
+     DESKTOP HEADER  (height auto => image + heading fit)
+     ========================================================= */
+
+  #{{ section_id }} .sciro-comparison__feature-heading,
+  #{{ section_id }} .sciro-comparison__product-heading,
+  #{{ section_id }} .sciro-comparison__brand-header {
+    height: auto;
+    min-height: 90px;
+    vertical-align: bottom;
+    border-bottom: 1px solid var(--sc-border);
+  }
+
+  #{{ section_id }} .sciro-comparison__feature-heading {
+    background: var(--sc-bg);
+    text-align: left;
+  }
+
+  #{{ section_id }} .sciro-comparison__product-heading {
+    padding: 10px 14px;
+    background: var(--sc-bg);
+    color: var(--sc-text);
+    text-align: center;
+    vertical-align: bottom;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 700;
+  }
+
+  /* =========================================================
+     COLUMN IMAGE (heading ke just upar)
+     ========================================================= */
+
+  #{{ section_id }} .sciro-comparison__col-image {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: 100%;
+    height: var(--sc-img-h);
+    margin: 0 auto 10px;
+  }
+
+  #{{ section_id }} .sciro-comparison__col-image img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  /* Left (feature) column image: left align */
+  #{{ section_id }} .sciro-comparison__feature-heading .sciro-comparison__col-image {
+    justify-content: flex-start;
+  }
+
+  /* =========================================================
+     SCIRO HEADER
+     ========================================================= */
+
+  #{{ section_id }} .sciro-comparison__brand-header {
+    background: var(--sc-brand);
+    color: var(--sc-brand-text);
+    text-align: center;
+    vertical-align: bottom;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+  }
+
+  #{{ section_id }} .sciro-comparison__brand-content {
+    width: 100%;
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 10px 8px;
+  }
+
+  #{{ section_id }} .sciro-comparison__logo {
+    display: block;
+    width: auto;
+    max-width: 100px;
+    max-height: 42px;
+    object-fit: contain;
+  }
+
+  #{{ section_id }} .sciro-comparison__brand-name {
+    display: block;
+    color: var(--sc-brand-text);
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  /* =========================================================
+     BODY
+     ========================================================= */
+
+  #{{ section_id }} tbody tr { margin: 0; padding: 0; }
+
+  #{{ section_id }} tbody td {
+    height: 64px;
+    min-height: 64px;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--sc-border);
+  }
+
+  #{{ section_id }} tbody tr:last-child td { border-bottom: 0; }
+
+  /* FEATURE */
+
+  #{{ section_id }} .sciro-comparison__feature {
+    background: var(--sc-bg);
+    color: var(--sc-text);
+    padding-top: var(--sc-row-padding);
+    padding-right: 16px;
+    padding-bottom: var(--sc-row-padding);
+    padding-left: 0;
+    text-align: left;
+    vertical-align: middle;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+  }
+
+  /* NORMAL CELLS */
+
+  #{{ section_id }} .sciro-comparison__cell {
+    background: var(--sc-bg);
+    color: var(--sc-text);
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  /* SCIRO CELLS */
+
+  #{{ section_id }} .sciro-comparison__brand-cell {
+    background: var(--sc-brand);
+    color: var(--sc-brand-text);
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  #{{ section_id }} tbody tr:last-child .sciro-comparison__brand-cell {
+    border-bottom-left-radius: 14px;
+    border-bottom-right-radius: 14px;
+  }
+
+  /* =========================================================
+     ICONS
+     ========================================================= */
+
+  #{{ section_id }} .sciro-comparison__icon {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    border-radius: 50%;
+    vertical-align: middle;
+  }
+
+  #{{ section_id }} .sciro-comparison__icon svg {
+    display: block;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  #{{ section_id }} .sciro-comparison__icon--yes {
+    background: var(--sc-check);
+    color: #000000;
+  }
+
+  #{{ section_id }} .sciro-comparison__icon--no {
+    background: transparent;
+    color: var(--sc-cross);
+    border: 2px solid currentColor;
+  }
+
+  /* =========================================================
+     FOOTNOTE
+     ========================================================= */
+
+  #{{ section_id }} .sciro-comparison__footnote {
+    margin-top: 14px;
+    color: var(--sc-text);
+    font-size: 12px;
+    line-height: 17px;
+    font-style: italic;
+  }
+
+  #{{ section_id }} .sciro-comparison__footnote sup {
+    display: inline-block;
+    margin-right: 2px;
+    font-size: 9px;
+    line-height: 1;
+    font-style: normal;
+    vertical-align: super;
+  }
+
+  /* =========================================================
+     MOBILE
+     ========================================================= */
+
+  @media screen and (max-width: 767px) {
+
+    #{{ section_id }} {
+      padding-top: var(--sc-mobile-top);
+      padding-bottom: var(--sc-mobile-bottom);
+    }
+
+    #{{ section_id }} .sciro-comparison__container {
+      width: calc(100% - (var(--sc-mobile-spacing) * 2));
+      max-width: none;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #{{ section_id }} .sciro-comparison__heading {
+      width: 100%;
+      margin-top: 0;
+      margin-bottom: var(--sc-heading-spacing);
+      font-size: var(--sc-mobile-heading-size);
+      line-height: 26px;
+      letter-spacing: -0.01em;
+      text-align: left;
+    }
+
+    #{{ section_id }} .sciro-comparison__heading p { margin: 0; }
+
+    #{{ section_id }} .sciro-comparison__heading h1,
+    #{{ section_id }} .sciro-comparison__heading h2,
+    #{{ section_id }} .sciro-comparison__heading h3,
+    #{{ section_id }} .sciro-comparison__heading h4,
+    #{{ section_id }} .sciro-comparison__heading h5,
+    #{{ section_id }} .sciro-comparison__heading h6 {
+      margin: 0;
+      font-size: inherit;
+      line-height: inherit;
+    }
+
+    #{{ section_id }} .sciro-comparison__table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    #{{ section_id }} .sciro-comparison__table-wrap::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+
+    /* 5 COLUMNS x 90PX */
+
+    #{{ section_id }} .sciro-comparison__table {
+      width: 450px;
+      min-width: 450px;
+      table-layout: fixed;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    #{{ section_id }} .sciro-comparison__feature-col,
+    #{{ section_id }} .sciro-comparison__product-col {
+      width: 90px;
+      min-width: 90px;
+      max-width: 90px;
+    }
+
+    #{{ section_id }} .sciro-comparison__table th,
+    #{{ section_id }} .sciro-comparison__table td {
+      width: 90px;
+      min-width: 90px;
+      max-width: 90px;
+      overflow-wrap: anywhere;
+    }
+
+    /* STICKY FEATURE COLUMN ONLY */
+
+    #{{ section_id }} .sciro-comparison__feature-heading,
+    #{{ section_id }} .sciro-comparison__feature {
+      position: sticky;
+      left: 0;
+      z-index: 10;
+      width: 90px;
+      min-width: 90px;
+      max-width: 90px;
+      background: var(--sc-bg);
+    }
+
+    #{{ section_id }} .sciro-comparison__feature-heading {
+      height: auto;
+      min-height: 48px;
+      padding: 0;
+      background: var(--sc-bg);
+    }
+
+    #{{ section_id }} .sciro-comparison__product-heading {
+      width: 90px;
+      min-width: 90px;
+      max-width: 90px;
+      height: auto;
+      min-height: 48px;
+      padding: 5px 4px;
+      background: var(--sc-bg);
+      color: var(--sc-text);
+      text-align: center;
+      vertical-align: bottom;
+      font-size: 12px;
+      line-height: 16px;
+      font-weight: 700;
+    }
+
+    #{{ section_id }} .sciro-comparison__col-image {
+      height: var(--sc-img-h-m);
+      margin-bottom: 6px;
+    }
+
+    #{{ section_id }} .sciro-comparison__brand-header {
+      width: 90px;
+      min-width: 90px;
+      max-width: 90px;
+      height: auto;
+      min-height: 48px;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+    }
+
+    #{{ section_id }} .sciro-comparison__brand-content {
+      width: 90px;
+      min-height: 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 5px 4px;
+    }
+
+    #{{ section_id }} .sciro-comparison__logo {
+      display: block;
+      width: auto;
+      max-width: 55px;
+      max-height: 28px;
+      object-fit: contain;
+    }
+
+    #{{ section_id }} .sciro-comparison__brand-name {
+      font-size: 13px;
+      line-height: 17px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    #{{ section_id }} tbody tr { height: 44px; }
+
+    #{{ section_id }} tbody td {
+      height: 44px;
+      min-height: 44px;
+      vertical-align: middle;
+    }
+
+    #{{ section_id }} .sciro-comparison__feature {
+      height: 44px;
+      padding-top: 7px;
+      padding-right: 5px;
+      padding-bottom: 7px;
+      padding-left: 0;
+      background: var(--sc-bg);
+      text-align: left;
+      vertical-align: middle;
+      font-size: 12px;
+      line-height: 16px;
+      font-weight: 400;
+    }
+
+    #{{ section_id }} .sciro-comparison__cell,
+    #{{ section_id }} .sciro-comparison__brand-cell {
+      height: 44px;
+      padding: 0;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    #{{ section_id }} .sciro-comparison__brand-cell {
+      background: var(--sc-brand);
+      color: var(--sc-brand-text);
+    }
+
+    #{{ section_id }} tbody tr:last-child .sciro-comparison__brand-cell {
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+    }
+
+    #{{ section_id }} .sciro-comparison__icon {
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
+      min-height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      border-radius: 50%;
+      vertical-align: middle;
+    }
+
+    #{{ section_id }} .sciro-comparison__icon svg {
+      display: block;
+      width: 13px;
+      height: 13px;
+      margin: 0;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    #{{ section_id }} .sciro-comparison__icon--no { border-width: 2px; }
+
+    #{{ section_id }} .sciro-comparison__footnote {
+      margin-top: 12px;
+      padding: 0;
+      font-size: 10px;
+      line-height: 14px;
+      font-style: italic;
+    }
+
+    #{{ section_id }} .sciro-comparison__footnote sup {
+      margin-right: 2px;
+      font-size: 8px;
+      line-height: 1;
+    }
+
+  }
+
+</style>
+
+{% schema %}
+{
+  "name": "Sciro Comparison",
+  "tag": "section",
+  "class": "section-sciro-comparison",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<h2>Sciro is a more-in-one solution</h2>"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Sciro logo"
+    },
+    {
+      "type": "text",
+      "id": "product_name",
+      "label": "Product name",
+      "default": "Sciro"
+    },
+    {
+      "type": "text",
+      "id": "column_2",
+      "label": "Column 2",
+      "default": "Multivitamins"
+    },
+    {
+      "type": "text",
+      "id": "column_3",
+      "label": "Column 3",
+      "default": "Probiotics"
+    },
+    {
+      "type": "text",
+      "id": "column_4",
+      "label": "Column 4",
+      "default": "Greens"
+    },
+    {
+      "type": "header",
+      "content": "Column images (heading ke upar)"
+    },
+    {
+      "type": "image_picker",
+      "id": "feature_image",
+      "label": "Left (feature) column image"
+    },
+    {
+      "type": "image_picker",
+      "id": "column_1_image",
+      "label": "Sciro column image"
+    },
+    {
+      "type": "image_picker",
+      "id": "column_2_image",
+      "label": "Column 2 image"
+    },
+    {
+      "type": "image_picker",
+      "id": "column_3_image",
+      "label": "Column 3 image"
+    },
+    {
+      "type": "image_picker",
+      "id": "column_4_image",
+      "label": "Column 4 image"
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "label": "Desktop image height",
+      "min": 30,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_height",
+      "label": "Mobile image height",
+      "min": 20,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "header",
+      "content": "Desktop Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Maximum width",
+      "min": 1000,
+      "max": 1700,
+      "step": 10,
+      "unit": "px",
+      "default": 1560
+    },
+    {
+      "type": "range",
+      "id": "desktop_spacing",
+      "label": "Desktop side spacing",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "feature_width",
+      "label": "Feature column width",
+      "min": 180,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "default": 280
+    },
+    {
+      "type": "range",
+      "id": "row_padding",
+      "label": "Row vertical padding",
+      "min": 5,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Mobile Layout"
+    },
+    {
+      "type": "range",
+      "id": "mobile_spacing",
+      "label": "Mobile side spacing",
+      "min": 0,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "mobile_heading_size",
+      "label": "Mobile heading size",
+      "min": 18,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Desktop heading size",
+      "min": 24,
+      "max": 52,
+      "step": 1,
+      "unit": "px",
+      "default": 34
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "heading_bottom",
+      "label": "Heading bottom spacing",
+      "min": 5,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Desktop top padding",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Desktop bottom padding",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "label": "Mobile top padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "label": "Mobile bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border",
+      "default": "#DDDDDD"
+    },
+    {
+      "type": "color",
+      "id": "brand_color",
+      "label": "Sciro highlight",
+      "default": "#004D4A"
+    },
+    {
+      "type": "color",
+      "id": "brand_text",
+      "label": "Sciro text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "check_color",
+      "label": "Check background",
+      "default": "#43D34A"
+    },
+    {
+      "type": "color",
+      "id": "cross_color",
+      "label": "Cross",
+      "default": "#888888"
+    },
+    {
+      "type": "text",
+      "id": "footnote",
+      "label": "Footnote",
+      "default": "Based on current available data for mass market dietary supplements."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Comparison row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "feature_name",
+          "label": "Feature",
+          "default": "Vitamins"
+        },
+        {
+          "type": "select",
+          "id": "sciro",
+          "label": "Sciro",
+          "options": [
+            {
+              "value": "yes",
+              "label": "Yes"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            },
+            {
+              "value": "empty",
+              "label": "Empty"
+            }
+          ],
+          "default": "yes"
+        },
+        {
+          "type": "select",
+          "id": "multivitamins",
+          "label": "Multivitamins",
+          "options": [
+            {
+              "value": "yes",
+              "label": "Yes"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            },
+            {
+              "value": "empty",
+              "label": "Empty"
+            }
+          ],
+          "default": "yes"
+        },
+        {
+          "type": "select",
+          "id": "probiotics",
+          "label": "Probiotics",
+          "options": [
+            {
+              "value": "yes",
+              "label": "Yes"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            },
+            {
+              "value": "empty",
+              "label": "Empty"
+            }
+          ],
+          "default": "no"
+        },
+        {
+          "type": "select",
+          "id": "greens",
+          "label": "Greens",
+          "options": [
+            {
+              "value": "yes",
+              "label": "Yes"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            },
+            {
+              "value": "empty",
+              "label": "Empty"
+            }
+          ],
+          "default": "no"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sciro Comparison",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "feature_name": "Vitamins",
+            "sciro": "yes",
+            "multivitamins": "yes",
+            "probiotics": "no",
+            "greens": "no"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "feature_name": "Minerals",
+            "sciro": "yes",
+            "multivitamins": "yes",
+            "probiotics": "no",
+            "greens": "no"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "feature_name": "Prebiotics",
+            "sciro": "yes",
+            "multivitamins": "no",
+            "probiotics": "no",
+            "greens": "no"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "feature_name": "Probiotics",
+            "sciro": "yes",
+            "multivitamins": "no",
+            "probiotics": "yes",
+            "greens": "no"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "feature_name": "Greens & Superfoods",
+            "sciro": "yes",
+            "multivitamins": "no",
+            "probiotics": "no",
+            "greens": "yes"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "feature_name": "Antioxidants",
+            "sciro": "yes",
+            "multivitamins": "no",
+            "probiotics": "no",
+            "greens": "yes"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "feature_name": "Digestive Enzymes",
+            "sciro": "yes",
+            "multivitamins": "no",
+            "probiotics": "no",
+            "greens": "no"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

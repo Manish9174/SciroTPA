@@ -1,0 +1,49 @@
+{% liquid
+  assign column_alignment = section.settings.column_alignment
+%}
+{% form 'customer' %}
+  <div class="form_input text-{{ column_alignment }} position-relative">
+    <label for="email" class="visually-hidden"></label>
+    <input
+      type="email"
+      class="form-control mb-4 mb-md-0 input_control"
+      name="contact[email]"
+      id="email"
+      placeholder="{% if section.settings.placeholder_text == blank -%}{{ 'newsletter.label' | t }}{% else %}{{ section.settings.placeholder_text | truncate:30 }}{% endif -%} "
+      pattern="^([a-zA-Z0-9_\-\+\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,9})$"
+      required
+    >
+    <button type="submit" class="btn btn-primary  position-absolute input_button">
+      <span class="d-block text-break">
+        {% if section.settings.button_label == blank -%}
+          {{- 'newsletter.button_label' | t }}
+        {% else %}
+          {{ section.settings.button_label }}
+        {% endif -%}
+      </span>
+      <span class="d-none">{% render 'icon-subscribe' %} </span>
+    </button>
+  </div>
+
+  {%- if form.errors -%}
+    <small class="badge text-bg-danger form__message" id="ContactFooter-error">
+      {{- form.errors.translated_fields.email | capitalize }}
+      {{ form.errors.messages.email -}}
+    </small>
+  {%- endif -%}
+
+  {%- if form.posted_successfully? -%}
+    <p
+      class=" d-flex flex-wrap gap-1 justify-content-{{ column_alignment }} form__message shadow-none mt-4 mb-0"
+      id="ContactFooter-success"
+      tabindex="-1"
+    >
+      <span class="text-success ">
+        {% render 'tick' %}
+      </span>
+      <span>
+        {{- 'newsletter.success' | t }}
+      </span>
+    </p>
+  {%- endif -%}
+{% endform %}

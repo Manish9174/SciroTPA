@@ -1,0 +1,454 @@
+{% render 'spacing' %}
+
+
+{% liquid
+
+  assign aspect_ratio = ''
+  case section.settings.aspect_ratio
+    when 'square'
+      assign aspect_ratio = 'ratio-1x1'
+    when 'portrait'
+      assign aspect_ratio = 'ratio-3x4'
+    when 'landscape'
+      assign aspect_ratio = 'ratio-4x3'
+    when 'wide'
+      assign aspect_ratio = 'ratio-16x9'
+    when 'adapt'
+      assign aspect_ratio = 'ratio-auto'
+    else
+      assign aspect_ratio = 'ratio-1x1'
+  endcase
+
+  # Assign heading and description
+  assign has_heading = section.settings.heading
+  assign has_description = section.settings.description
+  assign form_style = section.settings.form_style
+  assign reverse = section.settings.form_position
+  assign content_align = section.settings.column_alignment
+  assign alignment = section.settings.alignment
+  assign border = settings.input_border
+  assign opacity = settings.input_border_opacity
+  assign radius = settings.input_radius
+
+%}
+
+{% capture icon %} d-flex gap-2 align-items-start{% endcapture %}
+
+{% style %}
+  .section-{{ section.id }} .form-content #social_icons.d-flex{justify-content:{{section.settings.column_alignment}}}
+  .section-{{ section.id }} .form-content.form_second{flex-direction: column-reverse;}
+  .section-{{ section.id }} .form-content .contact_details span.icons svg {width: 15px;height: 15px;}
+  .section-{{ section.id }} .form-content .contact_details .left_map{min-height:500px;}
+  .section-{{ section.id }} .form-content iframe{width:100%;}
+  @media screen and (min-width:992px){
+  .border-lg-start{border-left:var(--bs-input-border) solid rgba(var(--color-input-border)) !important;}
+  .border-lg-end{border-right:var(--bs-input-border) solid rgba(var(--color-input-border))!important;}
+  .section-{{ section.id }} .form-content.form_second{flex-direction: row-reverse;}
+  }
+  @media (min-width: 576px) {
+  .section-{{ section.id }} .form-content .title-container h2,.section-{{ section.id }} .form-content .title-container
+  p:not(.caption) {max-width: 100%;}
+  }
+
+  {% if radius == "large" %}
+  textarea.form-control{
+     border-radius: var(--bs-border-radius-xl) !important;
+  }
+  {% endif %}
+
+{% endstyle %}
+
+
+
+
+<div
+  class="color-{{ section.settings.color_scheme }} gradient section-{{ section.id }} section-{{ section.id }}-padding"
+>
+  <div class="{% if section.settings.full_width %}container-fluid{% else %}container gx-sm-4{% endif %}">
+    {% render 'title-container' %}
+    <div
+      class="
+        form-content row-gap-lg-5 row-gap-4 
+        {% unless form_style == 'form_only' %}row 
+          {% if section.settings.custom_liquid == blank or section.settings.enable_contact == false %}
+          justify-content-center
+          {% else %}
+            justify-content-between
+          {% endif%}
+        {% endunless %}
+        {% unless form_style == 'form_only' %}  {{ reverse }} {% endunless %}
+      "
+    >
+      <div
+        class="
+          form-container position-lg-sticky {% if form_style == 'form_only'  %} col-12 col-lg-9 mx-lg-auto  {% endif %}
+
+          {% if form_style == 'form_with_img' %}
+            {% if section.settings.top-image == blank or section.settings.enable_contact == false  %}
+              col-lg-7 
+              {% elsif section.settings.top-image != blank or section.settings.enable_contact == false  %}
+                 col-lg-7 
+            {% endif%} 
+          {% elsif form_style == 'form_with_map' %} 
+             {% if section.settings.custom_liquid == blank and section.settings.enable_contact == false  %}
+                col-lg-9
+             {% elsif section.settings.custom_liquid != blank or section.settings.enable_contact != false %}
+               col-lg-7 
+            {% endif %}
+          {% endif %}
+        "
+      >
+        {% render 'contact-form' %}
+      </div>
+
+      <!-- form image -->
+      {% if form_style == 'form_with_img' or form_style == 'form_with_map' %}
+        <div
+          class="
+            right-block col-12 col-lg-5  d-flex flex-column gap-lg-5 gap-4 {% if reverse == "form_first" %}
+            ps-lg-5 {% else %} pe-lg-5 {% endif %}{% if form_style == 'form_with_img' or form_style == 'form_with_map' %}
+            position-lg-sticky {% endif %}
+          "
+          {% if settings.animation != 'none' %}
+            data-aos="{{ settings.animation}}"
+          {% endif %}
+        >
+          {% if form_style == 'form_with_img' %}
+            <div
+              class="top-image ratio {{ aspect_ratio }}"
+              {% if section.settings.aspect_ratio == 'adapt' %}
+                style="--aspect-ratio:{% if section.settings.top-image.aspect_ratio %}{{ 1 | divided_by: section.settings.top-image.aspect_ratio | times: 100  }}{% else %}100{% endif %}%;"
+              {% endif %}
+            >
+              {% if section.settings['top-image'] != blank %}
+                <img
+                  src="{{ section.settings.top-image | image_url: width: 1500 }}"
+                  alt="{{ section.settings.top-image.alt | escape }}"
+                  loading="lazy"
+                  width="{{ section.settings.top-image.width }}"
+                  height="{{ section.settings.top-image.height }}"
+                  class="w-100"
+                >
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'img-fluid w-100 h-100 placeholder-svg' }}
+              {% endif %}
+            </div>
+          {% elsif form_style == 'form_with_map' %}
+            {% if section.settings.custom_liquid != blank %}
+              <div class="left_map w-100 h-100">
+                {{ section.settings.custom_liquid }}
+              </div>
+            {% endif %}
+          {% endif %}
+
+          <!-- contact details -->
+          {% if section.settings.enable_contact %}
+            {% unless section.settings.info_title == blank
+              and section.settings.address == blank
+              and section.settings.email == blank
+              and section.settings.phone == blank
+              and section.settings.enable_social_icons == false
+            %}
+              <div class="contact-info d-flex flex-column gap-3 align-items-{{ alignment }} ">
+                {% if section.settings.info_title != blank %}
+                  <h4 class="mb-lg-2 mb-0  text-break">{{ section.settings.info_title }}</h4>
+                {% endif %}
+                {% if section.settings.address != blank %}
+                  <address class="mb-0 text-{{ alignment }}">
+                    <span class=" text-break {{ icon }}"
+                      ><span class="icons">{%- render 'icon-location' -%}</span>{{ section.settings.address -}}
+                    </span>
+                  </address>
+                {% endif %}
+                {% if section.settings.email != blank %}
+                  <a
+                    href="mailto:{{ section.settings.email }}"
+                    class="text-decoration-none text-reset mb-0  text-{{ alignment }}"
+                  >
+                    <span class="text-break {{ icon }}"
+                      ><span class="icons">{%- render 'icon-mail' -%}</span> {{ section.settings.email }}
+                    </span></a
+                  >
+                {%- endif %}
+                {% if section.settings.phone != blank %}
+                  <a
+                    href="tel: {{ section.settings.phone }}"
+                    class="mb-0 text-decoration-none text-reset  text-{{ alignment }}"
+                  >
+                    <span class="text-break {{ icon }}"
+                      ><span class="icons">{%- render 'icon-phone' -%}</span> {{ section.settings.phone }}
+                    </span></a
+                  >
+                {%- endif %}
+                {% if section.settings.enable_social_icons %}
+                  <div class="social-icons">{% render 'social-icons' %}</div>
+                {% endif %}
+              </div>
+            {% endunless %}
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "t:sections.contact-form.name",
+  "tag": "section",
+  "class": "section-contact-form",
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.overlay"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "t:sections.all.full_width.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "default": "t:sections.contact-form.settings.heading.default",
+      "label": "t:sections.all.heading.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "default": "t:sections.all.content_description.default",
+      "label": "t:sections.all.description.label"
+    },
+    {
+      "type": "select",
+      "id": "column_alignment",
+      "options": [
+        {
+          "value": "start",
+          "label": "t:sections.all.content_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.all.content_alignment.options__2.label"
+        },
+        {
+          "value": "end",
+          "label": "t:sections.all.content_alignment.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "t:sections.all.content_alignment.label"
+    },
+    {
+      "type": "select",
+      "id": "form_style",
+      "options": [
+        {
+          "value": "form_with_img",
+          "label": "t:sections.contact-form.settings.form_style.options.options__1.label"
+        },
+        {
+          "value": "form_with_map",
+          "label": "t:sections.contact-form.settings.form_style.options.options__2.label"
+        },
+        {
+          "value": "form_only",
+          "label": "t:sections.contact-form.settings.form_style.options.options__3.label"
+        }
+      ],
+      "default": "form_only",
+      "label": "t:sections.contact-form.settings.form_style.label"
+    },
+
+    {
+      "type": "select",
+      "id": "form_position",
+      "options": [
+        {
+          "value": "form_first",
+          "label": "t:sections.contact-form.settings.image_position.options.options__1.label"
+        },
+        {
+          "value": "form_second",
+          "label": "t:sections.contact-form.settings.image_position.options.options__2.label"
+        }
+      ],
+      "default": "form_first",
+      "label": "t:sections.contact-form.settings.image_position.label",
+      "info": "t:sections.contact-form.settings.image_position.info",
+      "visible_if": "{{ section.settings.form_style != 'form_only' }}"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.contact-form.settings.contact_heading",
+      "visible_if": "{{ section.settings.form_style == 'form_with_img' }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "top-image",
+      "label": "t:sections.contact-form.settings.top-image.label",
+      "info": "1400 x 900px recommended",
+      "visible_if": "{{ section.settings.form_style == 'form_with_img' }}"
+    },
+    {
+      "type": "select",
+      "id": "aspect_ratio",
+      "options": [
+        {
+          "value": "square",
+          "label": "t:settings_schema.card.settings.card_aspect_ratio.options__1.label"
+        },
+        {
+          "value": "portrait",
+          "label": "t:settings_schema.card.settings.card_aspect_ratio.options__2.label"
+        },
+        {
+          "value": "landscape",
+          "label": "t:settings_schema.card.settings.card_aspect_ratio.options__3.label"
+        },
+        {
+          "value": "adapt",
+          "label": "t:settings_schema.card.settings.card_aspect_ratio.options__4.label"
+        }
+      ],
+      "default": "square",
+      "label": "t:settings_schema.card.settings.card_aspect_ratio.label",
+      "visible_if": "{{ section.settings.form_style == 'form_with_img' }}"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.contact-form.settings.map_header.label",
+      "visible_if": "{{ section.settings.form_style == 'form_with_map' }}"
+    },
+    {
+      "type": "liquid",
+      "id": "custom_liquid",
+      "label": "t:sections.contact-form.settings.custom_liquid.label",
+      "info": "t:sections.contact-form.settings.custom_liquid.info",
+      "visible_if": "{{ section.settings.form_style == 'form_with_map' }}"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.contact-form.settings.contact.label",
+      "visible_if": "{{ section.settings.form_style != 'form_only' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_contact",
+      "default": true,
+      "label": "t:sections.contact-form.settings.enable_contact.label",
+      "visible_if": "{{ section.settings.form_style != 'form_only' }}"
+    },
+    {
+      "type": "text",
+      "id": "info_title",
+      "default": "Contact details",
+      "label": "t:sections.contact-form.settings.info_title.label",
+      "visible_if": "{{ section.settings.form_style != 'form_only' and section.settings.enable_contact }}"
+    },
+    {
+      "type": "text",
+      "id": "address",
+      "default": "75 9th Ave, New York, NY 10011-7006",
+      "label": "t:sections.contact-form.settings.address.label",
+      "visible_if": "{{ section.settings.form_style != 'form_only' and section.settings.enable_contact }}"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "default": "info@yourstore.com",
+      "label": "t:sections.contact-form.settings.email.label",
+      "visible_if": "{{ section.settings.form_style != 'form_only' and section.settings.enable_contact }}"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "default": "+1234567890",
+      "label": "t:sections.contact-form.settings.phone.label",
+      "visible_if": "{{ section.settings.form_style != 'form_only' and section.settings.enable_contact }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_social_icons",
+      "default": true,
+      "label": "t:sections.contact-form.settings.enable_social_icons.label",
+      "info": "t:sections.announcement-bar.settings.social_icons.info",
+      "visible_if": "{{ section.settings.form_style != 'form_only' and section.settings.enable_contact }}"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "options": [
+        {
+          "value": "start",
+          "label": "t:sections.all.content_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.all.content_alignment.options__2.label"
+        },
+        {
+          "value": "end",
+          "label": "t:sections.all.content_alignment.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "t:sections.all.content_alignment.label",
+      "visible_if": "{{ section.settings.form_style != 'form_only' and section.settings.enable_contact }}"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.spacing.spacing_heading"
+    },
+    {
+      "type": "range",
+      "id": "top_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.top_space",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "bot_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.bot_space",
+      "default": 120
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.contact-form.name"
+    }
+  ]
+}
+{% endschema %}

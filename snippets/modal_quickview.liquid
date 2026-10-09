@@ -1,0 +1,41 @@
+<div class="modal fade video-modal" id="videoModalLabel" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl"  >
+    <div class="modal-content">
+      <div class="modal-header">
+        {% comment %} <h5 class="modal-title">{{ quick_product.title }}</h5> {% endcomment %}
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'accessibility.close' | t }}"></button>
+      </div>
+      <div class="modal-body p-0">
+        <div class="quickview-modal row row-cols-2">
+          <div class="quickview_swiper swiper">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                {% if quick_product.preview_image %}
+                  <img
+                    src="{{ quick_product.preview_image | image_url: 'large' }}"
+                    class="img-fluid"
+                    alt="Secondary Image"
+                  >
+                {% else %}
+                  {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                {% endif %}
+              </div>
+            </div>
+            <div class="swiper-next"></div>
+            <div class="swiper-prev"></div>
+          </div>
+          <div class="quickview_content mt-3">
+            <div class="quickview_vendor"></div>
+            <div class="description"></div>
+            <div class="product_title"></div>
+            <div class="product_price"></div>
+            <div class="product_tax"></div>
+            <div id="variant-list"></div>
+            <button class="quickadd-to-cart">{{ 'general.card.add_to_cart' | t }}</button>
+          </div>
+          <!-- Content will be populated dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,57 @@
+<div class="header__logo-container d-flex flex-1 {{ custom_class }} {% if section.settings.logo_position == 'middle-left' %}order-0 justify-content-center justify-content-lg-start{% else %}order-2 justify-content-center{% endif %}">
+  <div class="{% unless section.settings.logo_position == 'middle-left' %}text-lg-center {% endunless %}text-sm-start">
+
+    {%- liquid
+      assign logo_w = settings.logo_width | default: 150
+      assign logo_w_2x = logo_w | times: 2
+      assign logo_w_3x = logo_w | times: 3
+      assign logo_alt = settings.logo.alt | default: shop.name | escape
+      assign logo_sizes = logo_w | append: 'px'
+    -%}
+
+    {% if section.settings.transparent_logo and section.settings.curved_header_style == 'standard' and section.settings.transparent_header and template == 'index' %}
+
+      {%- liquid
+        assign logo_img = section.settings.transparent_logo
+        assign logo_height = logo_w | divided_by: logo_img.aspect_ratio | round
+        assign logo_widths = logo_w | append: ',' | append: logo_w_2x | append: ',' | append: logo_w_3x
+      -%}
+
+      <a href="{% unless template == 'password' %}{{ routes.root_url }}{% else %}#{% endunless %}" class="header-logo d-block" aria-label="{{ shop.name }} - Home">
+        {{
+          logo_img
+          | image_url: width: 1200
+          | image_tag:
+            class: 'img-fluid',
+            widths: logo_widths,
+            height: logo_height,
+            width: logo_w,
+            alt: logo_alt,
+            sizes: logo_sizes,
+            loading: 'eager',
+            fetchpriority: 'high'
+        }}
+      </a>
+
+    {%- elsif settings.logo != blank -%}
+
+      {%- liquid
+        assign logo_img = settings.logo
+        assign logo_height = logo_w | divided_by: logo_img.aspect_ratio | round
+        assign logo_widths = logo_w | append: ',' | append: logo_w_2x | append: ',' | append: logo_w_3x
+      -%}
+
+      <a href="{% unless template == 'password' %}{{ routes.root_url }}{% else %}#{% endunless %}" class="gggg header-logo d-block" aria-label="{{ shop.name }} - Home">
+       <img src="{{ logo_img |  img_url:'master'}}">
+      </a>
+
+    {%- else -%}
+      <h2 class="header__logo-title mb-0 text-break {% if section.settings.logo_position == 'middle-left' %}text-start{% else %}text-center{% endif %}">
+        <a href="{{ routes.root_url }}" class="text-decoration-none" aria-label="{{ shop.name }} - Home">
+          {{ shop.name }}
+        </a>
+      </h2>
+    {%- endif -%}
+
+  </div>
+</div>

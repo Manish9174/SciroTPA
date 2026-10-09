@@ -1,0 +1,42 @@
+{% style %}
+  {% if section.settings.mobile_pagination == 'artistic' %}
+ .{{ swiper-class }} .swiper-pagination:has(.swiper-pagination-bullet){
+  background:rgb(var(--color-secondary-button-bg));
+   border-radius:10rem;
+}
+    {% endif %}
+  {% if section.settings.mobile_pagination != 'regular' %}
+    .{{ swiper-class }} .swiper-pagination-bullet-active {
+    opacity: var(--swiper-pagination-bullet-opacity, 1);
+    animation: circle-to-rectangle-{{ swiper-class }} 0.2s forwards;
+    width: 30px;
+    height: 10px;
+   {% if section.settings.mobile_pagination == "bold" %} border-radius: 0; {% elsif section.settings.mobile_pagination == 'artistic' %} border-radius: 15px;{% endif %}
+    background: var(--swiper-pagination-color, var(--swiper-theme-color));
+}
+.{{ swiper-class }} span.swiper-pagination-bullet {
+    --swiper-pagination-bullet-width: 10px;
+    --swiper-pagination-bullet-height: 10px;
+    {% if section.settings.mobile_pagination == 'artistic' %}background: rgba(var(--color-secondary-button-text));{% endif %}
+    margin: 6px 10px;
+    clip-path: none;
+    {% if section.settings.mobile_pagination == "bold" %} border-radius: 0; {% elsif section.settings.mobile_pagination == 'artistic' %} border-radius: 50%;{% endif %}
+}
+ @keyframes circle-to-rectangle-{{ swiper-class }} {
+  0% {
+    width: 10px;
+    height: 10px;
+    {% if section.settings.mobile_pagination == "bold" %} border-radius: 0; {% elsif section.settings.mobile_pagination == 'artistic' %} border-radius: 50%;{% endif %}
+  }
+  100% {
+    width: 40px;
+    height: 10px;
+   {% if section.settings.mobile_pagination == "bold" %} border-radius: 0; {% elsif section.settings.mobile_pagination == 'artistic' %} border-radius: 15px;{% endif %}
+  }
+}
+    {% endif %}
+{% endstyle %}
+
+<div class='align-items-center d-flex justify-content-center mt-3 mt-sm-4'>
+   <div class="swiper-pagination swiper-pagination-{{ section.id }}  bottom-0 w-auto d-flex flex-wrap row-gap-2 align-items-center justify-content-center position-relative {% if section.settings.mobile_pagination == "artistic" %} p-2 {% else %} px-2 {% endif %} "></div>
+</div>

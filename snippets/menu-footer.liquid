@@ -1,0 +1,29 @@
+<div class="menu_wrapper--{{ menu_type }}{% if footer_align == "two" %} mb-3{% endif %} text-break">
+  {% if menu_title %}
+    <h2 class="h4 d-flex footer-menu-title justify-content-center
+      {% if  menu_alignment == 'center' %} justify-content-center
+       {% elsif menu_alignment == 'start' %} justify-content-md-start 
+       {% elsif menu_alignment == 'end' %} justify-content-md-end {% endif %}">
+          {{ linklists[menu].title }}</h2>
+  {% endif %}
+  <ul
+    class= "justify-content-center 
+    {% if  menu_alignment == 'center' %} justify-content-center
+       {% elsif menu_alignment == 'start' %} justify-content-md-start 
+       {% elsif menu_alignment == 'end' %} justify-content-md-end {% endif %}
+       {% if menu_alignment == 'center' %} justify-content-center align-items-center {% endif %}
+         column-gap-3 column-gap-sm-5 row-gap-2 d-flex
+          {% if mobile_layout == 'stacked' %}flex-column {% endif %}
+            flex-md-row flex-wrap list-unstyled"
+
+    id="footerMenu{{ menu_type }}{{ forloop.index }}"
+  >
+    {%- for link in linklists[menu].links -%}
+      <li class="p-0">
+        <a href="{{ link.url }}" class="nav-link{% if link.active %} active{% endif %}">
+          {{ link.title }}
+        </a>
+      </li>
+    {%- endfor -%}
+  </ul>
+</div>

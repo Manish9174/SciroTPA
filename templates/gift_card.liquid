@@ -1,0 +1,288 @@
+{% layout none %}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+
+    {%- if settings.favicon -%}
+      <link rel="icon" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    {%- unless settings.type_header_font.system? -%}
+      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    {%- endunless -%}
+    {{ 'style.css' | asset_url | stylesheet_tag }}
+    {{ content_for_header }}
+    {{ 'theme.css' | asset_url | stylesheet_tag }}
+    {{ 'style.css' | asset_url | stylesheet_tag }}
+    {%- liquid
+      assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
+      assign body_font_italic = settings.type_body_font | font_modify: 'style', 'italic'
+      assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
+    %}
+    {% style %}
+      {{ settings.type_body_font | font_face: font_display: 'swap' }}
+      {{ body_font_bold | font_face: font_display: 'swap' }}
+      {{ body_font_italic | font_face: font_display: 'swap' }}
+      {{ body_font_bold_italic | font_face: font_display: 'swap' }}
+      {{ settings.type_header_font | font_face: font_display: 'swap' }}
+
+      {% for scheme in settings.color_schemes -%}
+        {% assign scheme_classes = scheme_classes | append: ', .color-' | append: scheme.id %}
+        {% if forloop.index == 1 -%}
+          :root,
+        {%- endif %}
+         .color-{{ scheme.id }} {
+          --color-background: {{ scheme.settings.background.red }},{{ scheme.settings.background.green }},{{ scheme.settings.background.blue }};
+        {% if scheme.settings.background_gradient != blank %}
+          --gradient-background: {{ scheme.settings.background_gradient }};
+        {% else %}
+          --gradient-background: {{ scheme.settings.background }};
+        {% endif %}
+        {% liquid
+          assign background_color = scheme.settings.background
+          assign background_color_brightness = background_color | color_brightness
+          if background_color_brightness <= 26
+            assign background_color_contrast = background_color | color_lighten: 50
+          elsif background_color_brightness <= 65
+            assign background_color_contrast = background_color | color_lighten: 5
+          else
+            assign background_color_contrast = background_color | color_darken: 25
+          endif
+        %}
+       --color-foreground: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
+        --color-bg-hex: {{ scheme.settings.background }};
+        --color-background-contrast: {{ background_color_contrast.red }},{{ background_color_contrast.green }},{{ background_color_contrast.blue }};
+        --color-heading: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
+        --color-primary-button-bg: {{ scheme.settings.button.red }},{{ scheme.settings.button.green }},{{ scheme.settings.button.blue }};
+        --color-primary-button-text: {{ scheme.settings.button_label.red }},{{ scheme.settings.button_label.green }},{{ scheme.settings.button_label.blue }};
+        --color-primary-button-border:{{ scheme.settings.button_border.red }},{{ scheme.settings.button_border.green }},{{ scheme.settings.button_border.blue }};
+        --color-secondary-button-bg: {{ scheme.settings.secondary_button.red }},{{ scheme.settings.secondary_button.green }},{{ scheme.settings.secondary_button.blue }};
+        --color-secondary-button-text: {{ scheme.settings.secondary_button_label.red }},{{ scheme.settings.secondary_button_label.green }},{{ scheme.settings.secondary_button_label.blue }};
+        --color-secondary-button-border:{{ scheme.settings.secondary_border.red }},{{ scheme.settings.secondary_border.green }},{{ scheme.settings.secondary_border.blue }};
+        --color-link: {{ scheme.settings.link_color.red }},{{ scheme.settings.link_color.green }},{{ scheme.settings.link_color.blue }};
+        --color-input-background: {{ scheme.settings.bg_input.red }},{{ scheme.settings.bg_input.green }},{{ scheme.settings.bg_input.blue }};
+        --color-border: {{ scheme.settings.color_border.red }},{{ scheme.settings.color_border.green }},{{ scheme.settings.color_border.blue }};
+        --color-input-bg: {{ scheme.settings.color_input.red }},{{ scheme.settings.color_input.green }},{{ scheme.settings.color_input.blue }};
+        --color-input-text-color: {{ scheme.settings.input_text.red }},{{ scheme.settings.input_text.green }},{{ scheme.settings.input_text.blue }};
+        --color-badge-foreground: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
+        --color-badge-background: {{ scheme.settings.background.red }},{{ scheme.settings.background.green }},{{ scheme.settings.background.blue }};
+        --color-badge-border: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
+        --payment-terms-background-color: rgb({{ scheme.settings.background.rgb }});
+        --bs-link-color-rgb: var(--color-link);
+        --bs-link-hover-color-rgb:var(--color-link);
+        --bs-bg-input:rgb(var(--color-input-background));
+        --bs-border-color: rgb(var(--color-input-text-color));
+        --swiper-pagination-color:rgb(var(--color-primary-button-bg));
+        --bs-navbar-color: rgba(var(--color-foreground), 1);
+        --bs-navbar-active-color:rgba(var(--color-link),1);
+      }
+       {% endfor %}
+      {{ scheme_classes | prepend: 'body' }} {
+        --bs-body-color: rgba(var(--color-foreground), 0.75);
+        --bs-body-color-rgb: var(--color-foreground);
+        color: rgba(var(--color-foreground), 0.75);
+        background-color: rgb(var(--color-background));
+      }
+      :root {
+        --bs-body-bg:var(--color-bg-hex);
+        --bs-body-bg-rgb:var(--color-background);
+        --bs-body-font-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+        --font-body-style: {{ settings.type_body_font.style }};
+        --font-body-weight: {{ settings.type_body_font.weight }};
+        --font-body-weight-bold: {{ settings.type_body_font.weight | plus: 300 | at_most: 1000 }};
+
+        --font-heading-family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
+        --font-heading-style: {{ settings.type_header_font.style }};
+        --font-heading-weight: {{ settings.type_header_font.weight }};
+        --font-heading-color:var(--color-foreground);
+
+        --font-body-scale: {{ settings.body_scale | divided_by: 100.0 }};
+        --font-heading-scale: {{ settings.heading_scale | times: 1.0 | divided_by: settings.body_scale }};
+      }
+       :root{
+  --circle-bg:#E0D2B5;
+  --head-h1:clamp(1.875rem, 1.5rem + 1.875vw, 3.75rem);
+  --head-h2:clamp(1.5rem, 1.3rem + 1vw, 2.5rem);
+  --head-h3:clamp(1.375rem, 1.2rem + 0.875vw, 2.25rem);
+  --head-h4:clamp(1.25rem, 1.125rem + 0.625vw, 1.875rem);
+  --head-h5:clamp(1.125rem, 1.05rem + 0.375vw, 1.5rem);
+  --head-h6:clamp(1rem, 0.95rem + 0.25vw, 1.25rem);
+  --bg-white: #fff;
+  --head-font-scale:{{ settings.header_size | times:0.01 }};
+  --body-font-scale:{{ settings.base_font_size | times:0.01 }};
+  --h1:calc(var(--head-h1) * var(--head-font-scale));
+  --h2:calc(var(--head-h2) * var(--head-font-scale));
+  --h3:calc(var(--head-h3) * var(--head-font-scale));
+  --h4:calc(var(--head-h4) * var(--head-font-scale));
+  --h5:calc(var(--head-h5) * var(--head-font-scale));
+  --h6:calc(var(--head-h6) * var(--head-font-scale));
+
+}
+      .gradient {
+        background: rgb(var(--color-background));
+        background: var(--gradient-background);
+        background-attachment: fixed;
+      }
+      h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1{
+        --bs-heading-color:rgba(var(--color-heading),var(--wdt-text-opacity));
+        --wdt-text-opacity: 1;
+        font-family: var(--font-heading-family);
+        text-transform: uppercase;
+      }
+      @media (min-width: 1540px) {
+        .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+          max-width: calc(1440px + 48px); /*default --bs-gutter-x:1.5rem*/
+      }
+      }
+        {% if settings.btn_radius == "small" %}
+        .cs-btn{ border-radius: 0.25rem !important; }
+      {% elsif settings.btn_radius == "medium" %}
+        .cs-btn{ border-radius: 0.5rem !important; }
+      {% elsif settings.btn_radius == "large" %}
+        .cs-btn{ border-radius: 50rem !important; }
+      {% elsif settings.btn_radius == "none" %}
+        .cs-btn{ border-radius:0rem !important; }
+      {% endif %}
+
+      .gift-card__information > * {
+          margin-bottom: 1.5rem;
+      }
+      .gift-card__copy-success svg{
+            width: 12px;
+            height: 10px;
+        }
+        .gift-card__copy-success p{ font-size: var(--bs-font-sm); }
+       .gift-card .gift-card__image-wrapper{ max-width: 500px; }
+    {% endstyle %}
+    <script src="{{ 'vendor/qrcode.js' | shopify_asset_url }}" defer></script>
+  </head>
+  <body class="text-center my-3">
+    <header class="gift-card__title">
+      <div class="gift_logo mb-3 mx-auto">
+       {% render 'header-logo' %}
+      </div>
+    </header>
+    <main class="gift-card container">
+      <div class="gift_header">
+        <div class="giftcard_heading my-4 h5">{{ 'products.gift_card.gift_card_page.card' | t }}</div>
+        <div class="giftcard__price">
+          <p>
+            {% if settings.currency_code_enabled %}
+              {{ gift_card.initial_value | money_with_currency }}
+            {% else %}
+              {{ gift_card.initial_value | money }}
+            {% endif %}
+          </p>
+        </div>
+        {% assign gift_card_balance = gift_card.balance | money_with_currency: settings.currency_code_enabled %}
+        {% if gift_card.balance != gift_card.initial_value %}
+          <p class="gift-card__label caption-large">
+            {{ 'products.gift_card.gift_card_page.remaining_html' | t: balance: gift_card_balance }}
+          </p>
+        {% endif %}
+      </div>
+      <div class="gift-card__image-wrapper col-6 mx-auto">
+        <img
+          src="{{ 'gift-card/card.svg' | shopify_asset_url }}"
+          alt=""
+          class="gift-card__image w-100 h-auto"
+          height="{{ 570 | divided_by: 1.5 }}"
+          width="570"
+          loading="lazy"
+        >
+      </div>
+      <div class="gift-card__footer">
+        <div class="gift-card__footer-top">
+          <div class="d-flex justify-content-center my-5">
+            <div id="qr-code" class="gift-card__qr-code" data-identifier="{{ gift_card.qr_identifier }}"></div>
+          </div>
+          <template id="copy-success-template">
+            <span class="text-success">{% render 'icon-success' %}</span>
+            <p>{{ 'products.gift_card.gift_card_page.copied' | t }}!</p>
+          </template>
+          <div class="gift-card__information">
+            <label for="GiftCardNumber">
+              <span class="visually-hidden">{{ 'general.search.title' | t }}</span>
+              <input
+                id="GiftCardNumber"
+                type="text"
+                class="gift-card__number border-0 bg-transparent text-center h4 m-0"
+                value="{{ gift_card.code | format_code }}"
+                aria-label="{{ 'products.gift_card.gift_card_page.gift_card_code' | t }}"
+                readonly
+              >
+            </label>
+
+            <div class="gift-card__copy-code">
+              <button class="btn btn-link gift-card__copy-link" data-text-success="copied">
+                {{ 'products.gift_card.gift_card_page.copy' | t }}
+              </button>
+            </div>
+            {% if gift_card.pass_url %}
+              <a href="{{ gift_card.pass_url }}" class="gift_card__apple-wallet">
+                <img
+                  src="{{ 'gift-card/add-to-apple-wallet.svg' | shopify_asset_url }}"
+                  width="120"
+                  height="40"
+                  alt="{{ 'products.gift_card.gift_card_page.add_to_apple_wallet' | t }}"
+                  loading="lazy"
+                >
+              </a>
+            {% endif %}
+          </div>
+        </div>
+        <div class="gift-card__buttons no-print d-inline-flex flex-column flex-md-row gap-3 justify-content-center">
+          <a
+            href="{{ shop.url }}"
+            class="btn btn-primary cs-btn"
+            target="_blank"
+            rel="noopener"
+            aria-describedby="a11y-new-window-message"
+          >
+            {{ 'products.gift_card.gift_card_page.visit_store' | t }}
+          </a>
+          <button class="btn btn-secondary cs-btn" onclick="window.print();">
+            {{ 'products.gift_card.gift_card_page.print' | t }}
+          </button>
+        </div>
+      </div>
+    </main>
+    <script>
+          document.addEventListener('DOMContentLoaded', function() {
+        new QRCode(document.querySelector('.gift-card__qr-code'), {
+          text: document.querySelector('.gift-card__qr-code').dataset.identifier,
+          width: 120,
+          height: 120,
+          imageAltText: {{ 'products.gift_card.gift_card_page.qr_code' | t | json }}
+        });
+        var template = document.getElementById('copy-success-template');
+        var isMessageDisplayed = false;
+        document.querySelector('.gift-card__copy-link').addEventListener('click', () => {
+          navigator.clipboard.writeText(document.getElementById('GiftCardNumber').value).then(function () {
+            if (!isMessageDisplayed && template) {
+              var successContainer = document.querySelector('.gift-card__copy-success');
+              if (!successContainer) {
+                successContainer = document.createElement('div');
+                successContainer.className = 'gift-card__copy-success d-flex justify-content-center gap-1 align-items-baseline';
+                document.querySelector('.gift-card__copy-code').appendChild(successContainer);
+              }
+              var clonedTemplate = template.content.cloneNode(true);
+              successContainer.appendChild(clonedTemplate);
+
+              isMessageDisplayed = true;
+            }
+          }).catch(function (error) {
+            //console.error("Failed to copy text: ", error);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

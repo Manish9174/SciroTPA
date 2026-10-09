@@ -1,0 +1,123 @@
+<ul id="social_icons" class="d-flex flex-wrap p-0 m-0 text-decoration-none gap-3 {% if class %} {{ class}}{% endif %}" role="list">
+  {%- if settings.social_facebook_link != blank -%}
+    <li class="social_icons-item {% unless socialText  %}rounded-circle{% endunless  %}">
+      <a
+        href="{{ settings.social_facebook_link }}"
+        class="text-decoration-none {% unless socialText  %}d-flex p-2{% endunless  %}"
+        title="{{ 'general.social.icons.facebook' | t }}"
+      >
+        <span class="{%- unless socialText  %} visually-hidden {% endunless  %}social-text">{{ 'general.social.icons.facebook' | t }}</span>
+        {%- render 'social-icon-facebook' -%}
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_instagram_link != blank -%}
+    <li class="social_icons-item {% unless socialText  %}rounded-circle{% endunless  %}">
+      <a
+        href="{{ settings.social_instagram_link }}"
+        class="text-decoration-none {% unless socialText  %}d-flex p-2{% endunless  %}"
+         title="{{ 'general.social.icons.instagram' | t }}"
+      >
+        <span class="{%- unless socialText  %} visually-hidden {% endunless  %}social-text">{{ 'general.social.icons.instagram' | t }}</span>
+        {%- render 'social-icon-instagram' -%}
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_youtube_link != blank -%}
+    <li class="social_icons-item {% unless socialText  %}rounded-circle{% endunless  %}">
+      <a
+        href="{{ settings.social_youtube_link }}"
+        class="text-decoration-none {% unless socialText  %}d-flex p-2{% endunless  %}"
+         title="{{ 'general.social.icons.youtube' | t }}"
+      >
+        <span class="{%- unless socialText  %} visually-hidden {% endunless  %}social-text">{{ 'general.social.icons.youtube' | t }}</span>
+        {%- render 'social-icon-youtube' -%}
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_tiktok_link != blank -%}
+    <li class="social_icons-item {% unless socialText  %}rounded-circle{% endunless  %}">
+      <a
+        href="{{ settings.social_tiktok_link }}"
+        class="text-decoration-none {% unless socialText  %}d-flex p-2{% endunless  %}"
+       title="{{ 'general.social.icons.tiktok' | t }}"
+        >
+        <span class="{%- unless socialText  %} visually-hidden {% endunless  %}social-text">{{ 'general.social.icons.tiktok' | t }}</span>
+        {%- render 'social-icon-tiktok' -%}
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_twitter_link != blank -%}
+    <li class="social_icons-item {% unless socialText  %}rounded-circle{% endunless  %}">
+      <a
+        href="{{ settings.social_twitter_link }}"
+        class="text-decoration-none {% unless socialText  %}d-flex p-2{% endunless  %}"
+       title="{{ 'general.social.icons.twitter' | t }}"
+        >
+        <span class="{%- unless socialText  %} visually-hidden {% endunless  %}social-text">{{ 'general.social.icons.twitter' | t }}</span>
+        {%- render 'social-icon-twitter' -%}
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_snapchat_link != blank -%}
+    <li class="social_icons-item {% unless socialText  %}rounded-circle{% endunless  %}">
+      <a
+        href="{{ settings.social_snapchat_link }}"
+        class="text-decoration-none {% unless socialText  %}d-flex p-2{% endunless  %}"
+       title="{{ 'general.social.icons.snapchat' | t }}"
+        >
+        <span class="{%- unless socialText  %} visually-hidden {% endunless  %}social-text">{{ 'general.social.icons.snapchat' | t }}</span>
+        {%- render 'social-icon-snapchat' -%}
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_pinterest_link != blank -%}
+    <li class="social_icons-item {% unless socialText  %}rounded-circle{% endunless  %}">
+      <a
+        href="{{ settings.social_pinterest_link }}"
+        class="text-decoration-none {% unless socialText  %}d-flex p-2{% endunless  %}"
+         title="{{ 'general.social.icons.pinterest' | t }}"
+      >
+        <span class="{%- unless socialText  %} visually-hidden {% endunless  %}social-text">{{ 'general.social.icons.pinterest' | t }}</span>
+        {%- render 'social-icon-pinterest' -%}
+      </a>
+    </li>
+  {%- endif -%}
+
+  {%- if settings.social_tumblr_link != blank -%}
+    <li class="social_icons-item {% unless socialText  %}rounded-circle{% endunless  %}">
+      <a 
+        href="{{ settings.social_tumblr_link }}" 
+        class="text-decoration-none {% unless socialText  %}d-flex p-2{% endunless  %}"
+         title="{{ 'general.social.icons.tumblr' | t }}"
+        >
+        <span class="{%- unless socialText  %} visually-hidden {% endunless  %}social-text">{{ 'general.social.icons.tumblr' | t }}</span>
+        {%- render 'social-icon-tumblr' -%}
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_whats_app_link != blank -%}
+    <li class="social_icons-item {% unless socialText  %}rounded-circle{% endunless  %}">
+      <a 
+        href="{{ settings.social_tumblr_link }}" 
+        class="text-decoration-none {% unless socialText  %}d-flex p-2{% endunless  %}"
+         title="{{ 'general.social.icons.whatsapp' | t }}"
+        >
+        <span class="{%- unless socialText  %} visually-hidden {% endunless  %}social-text">{{ 'general.social.icons.whatsapp' | t }}</span>
+        {%- render 'social-icon-Whats-App' -%}
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_vimeo_link != blank -%}
+    <li class="social_icons-item {% unless socialText  %}rounded-circle{% endunless  %}">
+      <a 
+        href="{{ settings.social_vimeo_link }}" 
+        class="text-decoration-none {% unless socialText  %}d-flex p-2{% endunless  %}"
+         title="{{ 'general.social.icons.vimeo' | t }}"
+        >
+        <span class="{%- unless socialText  %} visually-hidden {% endunless  %}social-text">{{ 'general.social.icons.vimeo' | t }}</span>
+        {%- render 'social-icon-vimeo' -%}
+      </a>
+    </li>
+  {%- endif -%}
+</ul>

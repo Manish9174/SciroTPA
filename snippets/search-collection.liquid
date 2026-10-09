@@ -1,0 +1,38 @@
+<div class="d-flex flex-column align-items-center justify-content-center gap-4" id="">
+     <div>
+       <p class="m-0 frequent_search" data-pagetype="drawer"> {{ 'general.search.frequent_search' | t }}: </p>
+     </div>
+     <ul class="search_collection list-group flex-row gap-3 flex-wrap justify-content-center list-unstyled">  
+     {% unless settings.search_collection != blank %}
+       {% for collection in collections limit:4 %}     
+        <li> 
+          <a href="{{ routes.collections_url }}/{{ collection.handle }}" class="text-decoration-none btn btn-secondary">
+            {% if collection.all_products_count > 9 %}
+                  {{ collection.all_products_count  }}
+                  {% else %}
+                  {% assign count = collection.all_products_count %}
+                  <span class="text-nowrap">{{ count | prepend:'0' }}</span>
+                  {% endif %}
+                  {% render 'collection_count' %}
+            {{ collection.title | escape }}
+          </a>
+        </li>
+       {%- endfor -%}
+     {% else %}
+    {% for collection in settings.search_collection %}
+          <li>
+             <a href="{{ routes.collections_url }}/{{ collection.handle }}" class="text-decoration-none btn btn-secondary">
+      {% if collection.all_products_count > 9 %}
+                  {{ collection.all_products_count  }}
+                  {% else %}
+                  {% assign count = collection.all_products_count %}
+                  <span class="text-nowrap">{{ count | prepend:'0' }}</span>
+                  {% endif %}
+               {% render 'collection_count' %}
+               {{ collection.title | escape }}
+             </a>
+          </li>
+        {% endfor %}
+          {% endunless %}
+     </ul>
+</div>

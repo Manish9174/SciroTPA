@@ -1,0 +1,66 @@
+{% assign current_variant = product.selected_or_first_available_variant %}
+
+<div class="product_price_info d-flex gap-2 flex-wrap{% if settings.card_text_align == 'center' %} justify-content-center{% elsif settings.card_text_align == 'right' %} justify-content-end{% endif %}">
+  {% if product.price_min != product.price_max %}
+    <span class="from_price">
+      {{ 'products.product.price.from' | t }}
+      {% if settings.currency_code_enabled %}
+        {{ product.price_min | money_with_currency }}
+      {% else %}
+        {{ product.price_min | money }}
+      {% endif %}
+    </span>
+
+    {% if current_variant.compare_at_price > current_variant.price %}
+      <span class="low_price text-decoration-line-through">
+        {% if settings.currency_code_enabled %}
+          {{ current_variant.compare_at_price | money_with_currency }}
+        {% else %}
+          {{ current_variant.compare_at_price | money }}
+        {% endif %}
+      </span>
+    {% endif %}
+  {% else %}
+    {% if current_variant.compare_at_price > current_variant.price %}
+      <span class="sale_price">
+        {% if settings.currency_code_enabled %}
+          {{ current_variant.price | money_with_currency }}
+        {% else %}
+          {{ current_variant.price | money }}
+        {% endif %}
+      </span>
+      <span class="compare_price text-decoration-line-through">
+        {% if settings.currency_code_enabled %}
+          {{ current_variant.compare_at_price | money_with_currency }}
+        {% else %}
+          {{ current_variant.compare_at_price | money }}
+        {% endif %}
+      </span>
+    {% else %}
+      <span class="regular_price">
+        {% if settings.currency_code_enabled %}
+          {{ current_variant.price | money_with_currency }}
+        {% else %}
+          {{ current_variant.price | money }}
+        {% endif %}
+      </span>
+    {% endif %}
+  {% endif %}
+</div>
+
+{% if current_variant.unit_price or current_variant.unit_price_measurement %}
+  <div class="unit-price">
+    <p class="unit_price mb-0">
+      {% if settings.currency_code_enabled %}
+        {{ current_variant.unit_price | money_with_currency }}
+      {% else %}
+        {{ current_variant.unit_price | money }}
+      {% endif %}
+      /
+      {% if current_variant.unit_price_measurement.reference_value != 1 %}
+        {{ current_variant.unit_price_measurement.reference_value }}
+      {% endif %}
+      {{ current_variant.unit_price_measurement.reference_unit }}
+    </p>
+  </div>
+{% endif %}

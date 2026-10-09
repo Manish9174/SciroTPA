@@ -1,0 +1,633 @@
+{% liquid
+  assign card_product = section.settings.compare_product
+  assign alignment = 'align-items-' | append: section.settings.compare_product_alignment
+  assign text_alignment = 'text-' | append: section.settings.compare_product_alignment
+%}
+
+{%- style -%}
+    .comparison-banner-{{ section.id }}{
+        background:  rgba(var(--color-background), {{section.settings.background_opacity | times:0.01}} );
+    }
+    /* horizontal position */
+
+    .compare_before {
+    max-width: 400px;
+    }
+
+    .compare_after {
+    max-width: 400px;
+    }
+
+    .comparison-banner  .title-block{
+    transform:rotate(-2deg) translateY(-50%);
+    }
+    .comparison-banner .compare-container {
+    display: block;
+    place-content: center;
+    position: relative;
+    overflow: hidden;
+    --position: 50%;
+    }
+    .comparison-banner .compare-container .compare-image-container .compare-image-group { display: grid; }
+    .comparison-banner .compare-container .compare-image-container .compare-image-group > .compare-image-before,
+    .comparison-banner .compare-container .compare-image-container .compare-image-group > .compare-image-after {
+    grid-area: 1/-1; overflow: hidden; position: relative; pointer-events: none; -webkit-user-select: none; user-select: none;height: 972px; }
+    .comparison-banner .slider-image { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+
+    .comparison-banner .compare-container.horizontal .compare-image-container .compare-image-group > .compare-image-after { z-index: 1;  -webkit-clip-path: inset(0 0 0 var(--position)); clip-path: inset(0 0 0 var(--position));}
+    @media (max-width: 1399.98px) {
+    .comparison-banner .compare-container .compare-image-container .compare-image-group > .compare-image-before,
+    .comparison-banner .compare-container .compare-image-container .compare-image-group > .compare-image-after { height: 650px; }
+    }
+    @media (max-width: 1199.98px) {
+    .comparison-banner .compare-container .compare-image-container .compare-image-group > .compare-image-before,
+    .comparison-banner .compare-container .compare-image-container .compare-image-group > .compare-image-after { height: 550px; }
+    }
+    @media (max-width: 991.98px) {
+    .comparison-banner .compare-container .compare-image-container .compare-image-group > .compare-image-before,
+    .comparison-banner .compare-container .compare-image-container .compare-image-group > .compare-image-after { height: 450px; }
+    }
+    @media (max-width: 767.98px) {
+    .comparison-banner .compare-container .compare-image-container .compare-image-group > .compare-image-before,
+    .comparison-banner .compare-container .compare-image-container .compare-image-group > .compare-image-after { height: 350px; }
+    }
+    /* @media (max-width: 575.98px) {
+    .comparison-banner .compare-container .compare-image-container .compare-image-group > .compare-image-before,
+    .comparison-banner .compare-container .compare-image-container .compare-image-group > .compare-image-after { height: 350px; }
+    }
+     */
+
+    .comparison-banner .compare-container.horizontal .drag-slider {
+    position: absolute;
+    inset: 0;
+    cursor: grab;
+    opacity: 0;
+    /* for Firefox */
+    width: 100%;
+    height: 100%;
+    }
+    .comparison-banner .compare-container.horizontal .slider-line {
+    position: absolute;
+    inset: 0;
+    width: 1px;
+    height: 100%;
+    background-color: rgb(var(--bs-border-color));
+    left: var(--position);
+    transform: translateX(-50%);
+    border-right: 3px solid var(--bs-border-color);
+    pointer-events: none; z-index: 2;
+    }
+    .comparison-banner .compare-container.horizontal .slider-button { z-index: 2;
+    --slide-btn-size: 4.3125rem;
+    position: absolute;
+    background-color: rgb(var(--color-secondary-button-bg));
+    color: rgb(var(--color-secondary-button-text));
+    padding: .5rem;
+    display: grid;
+    place-items: center;
+    top: 50%;
+    left: var(--position);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    border:var(--border-width) solid rgb(var(--color-secondary-button-border));
+    font-size: var(--bs-font-h3-size);
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    }
+    .comparison-banner .compare-container.horizontal .slider-button svg path{
+      fill:rgb(var(--color-secondary-button-text));
+    }
+
+    /* verticle position */
+
+    .comparison-banner .product-block{margin-top:120px}
+    .comparison-banner .image_block{  z-index:0;}
+    .comparison-banner .product-block{ grid-template-columns: minmax(160px, auto) 2fr;}
+    .compare-product-feature-img{position:relative;}
+    .compare-product-feature-img img{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+    }
+    .comparison-banner .product_description{
+    Overflow:hidden;
+    max-height: 3.3rem;
+    line-height: var(--bs-body-line-height);
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    text-overflow: ellipsis;
+    display: block;
+    }
+    @media (max-width:1540px){
+    .comparison-banner .product-block{margin-top:20px}
+    }
+    @media (max-width:1200px){
+    .comparison-banner .product-block{margin-top:60px}
+    }
+    @media (min-width:992px){
+    .comparison-banner .flex-row-reverse  .image_block{ border-left: var(--border-width) solid  rgb(var(--bs-border-color)); border-bottom:0px;}
+    .comparison-banner .image_block{
+    /* border-right: var(--border-width) solid rgb(var(--bs-border-color)); */
+    border-left: 0; border-bottom:0px;}
+    }
+    @media (max-width:768px){
+    .comparison-banner .product-block{ grid-template-columns: minmax(120px, auto) 2fr;}
+    .comparison-banner .product_description{max-height: 1.8rem;}
+    }
+
+    @media (max-width: 576px) {
+    .comparison-banner .title-block{
+    transform: rotate(0deg) translateY(0%);
+    width: max-content;
+    left: 0;
+    top: -72px !important;
+    right: 0;
+    margin: 0 auto;
+    }
+    .comparison-banner .product-block{ grid-template-columns: minmax(100px, auto) 2fr;}
+    .comparison-banner .product-block { margin-top: 100px;}
+    .comparison-banner .compare-container.horizontal .slider-button { width: 50px; height: 50px; }
+    }
+    @media (max-width: 480px) {
+    .comparison-banner  .product_description{display:none;}
+    }
+    .comparison-banner  .product-block  .title-block span{
+    text-shadow: none;
+    box-shadow: none;
+    -webkit-text-stroke: 0;
+    stroke: none;
+    font-family: var(--font-body-family);
+    }
+    .comparison-banner .banner_product{ background: rgb(var(--color-secondary-button-bg));}
+    .comparison-banner .banner_product .heading_block > a{color:rgb(var(--color-secondary-button-text));}
+    .comparison-banner .title-block{background:rgb(var(--color-background));color:rgb(var(--color-foreground));}
+      @media (max-width: 575px) {
+    .comparison-banner .container {
+          width: 90%;
+    }
+      }
+    .drag-slider:focus-visible ~ .slider-button {
+      /* box-shadow: 0 0 0 .25rem rgba(var(--bs-border-color), .5); */
+       outline-offset: 2px;
+      outline: 2px dotted -webkit-focus-ring-color !important;
+    }
+
+    @media (min-width: 1600px) {
+      .comparison-banner-container { padding-left: 77px; padding-right: 77px;}
+    }
+     .after-product { z-index: 99; right:4%; bottom:5%; width: 150px; }
+     @media (min-width: 1200px) {
+      .after-product { width: 250px; right:8%; bottom:10%; }
+     }
+      .compare-container .card-body .product_price_info { justify-content: {{ section.settings.compare_product_alignment }} !important;}
+  .comparison-banner .compare-container.horizontal
+  .compare-image-container .compare-image-group > .compare-image-before {
+    clip-path: inset(0 calc(100% - var(--position)) 0 0);
+  }
+  .comparison-banner .after-product { pointer-events: auto; }
+  .comparison-banner .after-product .card-main .card-secondary-image { opacity: 0; transition: all 0.3s linear; }
+  .comparison-banner .after-product .card-main:hover .card-secondary-image { opacity: 1; }
+    .comparison-banner .after-product  .card__inner_wrapper{
+    border: var(--bs-style-border) solid var(--bs-border-color);
+    border-radius: var(--bs-radius);
+    overflow: hidden;
+    } 
+{%- endstyle -%}
+
+{% render 'spacing' %}
+{%- capture text_position -%}
+  {% if section.settings.text_position1 == 'top' %}
+    top-0  ms-3 ms-md-5 mt-3 mt-md-5
+   {% elsif section.settings.text_position1 == 'center' %}
+    ps-3 ps-md-4
+  {% elsif section.settings.text_position1 == 'bottom' %}
+    bottom-0  ps-3 ps-md-4 mb-3 mb-md-4
+  {% endif %}
+{%- endcapture -%}
+
+{%- capture text_position_center -%}
+  {% if section.settings.text_position1 == 'center' %}
+    style=" top: 50%;  transform: translateY(-50%); "
+
+  {% endif %}
+{%- endcapture -%}
+
+{%- capture text_position_after -%}
+
+    {% if section.settings.text_position2 == 'top' %}
+      top-0  pe-3 pe-md-5 mt-3 mt-md-5
+    {% elsif section.settings.text_position2 == 'center' %}
+      pe-3 pe-md-4
+    {% elsif section.settings.text_position2 == 'bottom' %}
+      bottom-0  pe-3 pe-md-5 mb-3 mb-md-5
+    {% endif %}
+{%- endcapture -%}
+
+{%- capture text_position_after_center -%}
+  {% if section.settings.text_position2 == 'center' %}
+    style=" top: 50%;  transform: translateY(-50%); "
+  {% endif %}
+{%- endcapture -%}
+
+{% assign page_width_in_px = settings.page_width | times: 16 %}
+{%- capture sizes -%}
+(min-width: {{ page_width_in_px }}px) {{ page_width_in_px | minus: 100 | divided_by: 1 }}px,
+(min-width: 750px) {% if 1 > 1 %}calc((100vw - 10rem) / 2){% else %}calc(100vw - 10rem){% endif %},
+100vw
+{%- endcapture -%}
+{%- capture widths -%}
+   540, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946
+{%- endcapture -%}
+
+<div class="comparison-banner comparison-banner-{{ section.id }} gradient"  {% if settings.animation != 'none' %} data-aos="{{ settings.animation}}"{% endif %}>
+  <div class="{% if section.settings.full_width %}container-fluid px-0{% else %}container comparison-banner-container{% endif %} comparison-container  position-relative section-{{ section.id }}-padding">
+    <div class="color-{{ section.settings.color_scheme }} gradient ">
+      {% if section.settings.shapes == 'shaper-top' or section.settings.shapes == 'shaper-both' %}
+        {% render 'title-container', class: 'mb-sm-5 mb-4 pt-md-5 pt-4' %}
+      {% else %}
+        {% render 'title-container', class: 'mb-sm-5 mb-4' %}
+      {% endif %}
+      <div class="row{% if section.settings.shapes !='none' %} border-0 rounded-0{% endif %} overflow-hidden m-0">
+        <div class="col-12 p-0 d-flex image_block">
+          <div class="img-container w-100 overflow-hidden align-self-stretch">
+            <compare-banner>
+              <div class="compare-container horizontal">
+                <div class="compare-image-container">
+                  <div class="compare-image-group position-relative">
+                    <div class="compare-image-before">
+                      {%- if section.settings.image != blank %}
+                        {{
+                          section.settings.image
+                          | image_url: width: 2560
+                          | image_tag: class: 'image-before slider-image', sizes: sizes, widths: widths
+                        }}
+                        <div
+                          class="w-100  d-flex justify-content-start position-absolute top-0  ms-3 ms-md-5 mt-3 mt-md-5"
+                          {{ text_position_center }}
+                        >
+                          <div class=" compare_before  text-wrap py-1 px-3 before-after   rounded-1 ">
+                            <span class="compare_before h3"> {{ section.settings.before }} </span>
+                          </div>
+                        </div>
+                      {%- else -%}
+                        {{
+                          'lifestyle-2'
+                          | placeholder_svg_tag: 'placeholder-svg image-before slider-image opacity-50'
+                        }}
+                        <div
+                          class="w-100  d-flex justify-content-start position-absolute top-0  ms-3 ms-md-5 mt-3 mt-md-5 "
+                          {{ text_position_center }}
+                        >
+                          <div class="compare_before  text-wrap py-1 px-3 before-after rounded-1">
+                            <span class="compare_before h3">{{ section.settings.before }}</span>
+                          </div>
+                        </div>
+                      {%- endif -%}
+                    </div>
+                    <div class="compare-image-after">
+                      {%- if section.settings.image2 != blank %}
+                        {{
+                          section.settings.image2
+                          | image_url: width: 2560
+                          | image_tag: class: 'image-after slider-image', sizes: sizes, widths: widths
+                        }}
+                        <div
+                          class="w-100  d-flex justify-content-end position-absolute top-0  pe-3 pe-md-5 mt-3 mt-md-5"
+                          {{ text_position_after_center }}
+                        >
+                          <div class="  compare_after  text-wrap py-1 px-3   before-after rounded-1 ">
+                            <span class="compare_after h3">{{ section.settings.after }} </span>
+                          </div>
+                        </div>
+                      {%- else -%}
+                        {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg image-after slider-image' }}
+                        <div
+                          class="w-100  d-flex justify-content-end position-absolute top-0  pe-3 pe-md-5 mt-3 mt-md-5"
+                          {{ text_position_after_center }}
+                        >
+                          <div class="compare_after text-wrap py-1 px-3 before-after">
+                            <span class="compare_after h3">{{ section.settings.after }} </span>
+                          </div>
+                        </div>
+                      {%- endif -%}
+                      <div class="after-product d-none d-lg-block position-absolute">
+                        <div class="card-main card">
+                          <div class="card__inner overflow-hidden position-relative ratio ratio-1x1">
+                            <div class="card__inner_wrapper ">
+                              {%- if card_product.featured_media -%}
+                                <a href="{{ card_product.url }}" class="card--image">
+                                  {{
+                                    card_product.featured_media
+                                    | image_url: width: 1280
+                                    | image_tag:
+                                      loading: 'lazy',
+                                      width: card_product.featured_media.width,
+                                      height: card_product.featured_media.height,
+                                      sizes: '(min-width: 1200px) 600px, (min-width: 992px) calc((100vw - 130px) / 3), (min-width: 768px) calc((100vw - 120px) / 2), calc((100vw - 35px) / 2)',
+                                      widths: '540, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946',
+                                      class: 'motion-reduce featured-media',
+                                      alt: card_product.featured_media.alt
+                                    | escape
+                                  }}
+                                  {%- if card_product.media[1] != null  -%}
+                                    <span class="card-secondary-image overflow-hidden">
+                                      {{
+                                        card_product.media[1]
+                                        | image_url: width: 1280
+                                        | image_tag:
+                                          alt: card_product.media[1].alt,
+                                          aria_hidden: 'true',
+                                          loading: 'lazy',
+                                          width: card_product.media[1].width,
+                                          height: card_product.media[1].height,
+                                          sizes: '(min-width: 1200px) 600px, (min-width: 992px) calc((100vw - 130px) / 3), (min-width: 768px) calc((100vw - 120px) / 2), calc((100vw - 35px) / 2)',
+                                          widths: '540, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946',
+                                          class: 'motion-reduce'
+                                        | escape
+                                      }}
+                                    </span>
+                                  {%- endif -%}
+                                </a>
+                              {% else %}
+                                {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                              {%- endif -%}
+                            </div>
+                          </div>
+                          <div class="card-body p-0 py-3 px-2">
+                            <div class="card-body-information d-flex flex-column {{ alignment }} {{ text_alignment }}">
+                              <h6
+                                class="card-title h6 mb-2 text-wrap"
+                                id="title-{{ section.id }}-{{ card_product.id }}"
+                              >
+                                {% if card_product != blank %}
+                                  <a
+                                    href="{{ card_product.url }}"
+                                    class="text-wrap text-decoration-none"
+                                    id="CardLink-{{ section.id }}-{{ card_product.id }}"
+                                    aria-labelledby="CardLink-{{ section.id }}-{{ card_product.id }}"
+                                  >
+                                    {{ card_product.title | escape }}
+                                  </a>
+                                {% else %}
+                                  <span class="text-wrap">{{ 'onboarding.product_title' | t }}</span>
+                                {% endif %}
+                              </h6>
+
+                              {% if card_product != blank %}
+                                {% render 'price',
+                                  product: card_product,
+                                  price_class: '',
+                                  show_compare_at_price: true
+                                %}
+                              {% else %}
+                                <div class="price">
+                                  <span class="price-item price-item--regular">{{ 0.00 | money }}</span>
+                                </div>
+                              {% endif %}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="50"
+                  aria-label="Percentage of before photo shown"
+                  class="drag-slider"
+                  tabindex="0"
+                >
+                <div class="slider-line" aria-hidden="true"></div>
+                <div class="slider-button d-flex align-items-center justify-content-center gap-2" aria-hidden="true">
+                  {% render 'arrow-left' %}
+                  {% render 'arrow-right' %}
+                </div>
+              </div>
+            </compare-banner>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<script>
+  // COMPARISION BANNER
+
+if (!customElements.get('compare-banner')) {
+  customElements.define('compare-banner', class CompareBanner extends HTMLElement {
+    constructor() {
+      super();
+      this.resizeObserver = null;
+      this.slider = null;
+      this.container = null;
+    }
+
+    connectedCallback() {
+      this.initSlider();
+      this.setupResizeObserver();
+    }
+
+    disconnectedCallback() {
+      this.cleanup();
+    }
+
+    initSlider() {
+      this.container = this.querySelector('.compare-container');
+      this.slider = this.querySelector('.drag-slider');
+
+      if (this.container && this.slider) {
+        this.updateSliderMax();
+
+        // Set initial position to center
+        this.centerSlider();
+
+        this.slider.addEventListener('input', (e) => {
+          this.container.style.setProperty('--position', `${e.target.value}px`);
+        });
+      } else {
+        console.error('Container or slider not found');
+      }
+    }
+
+    centerSlider() {
+      if (this.container && this.slider) {
+        const centerPosition = this.container.clientWidth / 2;
+        this.slider.value = centerPosition;
+        this.container.style.setProperty('--position', `${centerPosition}px`);
+      }
+    }
+
+    updateSliderMax() {
+      if (this.container && this.slider) {
+        this.slider.max = this.container.clientWidth;
+        const currentValue = parseInt(this.slider.value) || this.container.clientWidth / 2;
+        const percentage = currentValue / (parseInt(this.slider.max) || 1);
+        this.slider.value = this.container.clientWidth * percentage;
+        this.container.style.setProperty('--position', `${this.slider.value}px`);
+      }
+    }
+
+    setupResizeObserver() {
+      if (this.resizeObserver) {
+        this.resizeObserver.disconnect();
+      }
+
+      this.resizeObserver = new ResizeObserver((entries) => {
+        for (let entry of entries) {
+          if (entry.target === this.container || entry.target === this) {
+            this.updateSliderMax();
+          }
+        }
+      });
+
+      if (this.container) {
+        this.resizeObserver.observe(this);
+        this.resizeObserver.observe(this.container);
+      }
+    }
+
+    cleanup() {
+      if (this.resizeObserver) {
+        this.resizeObserver.disconnect();
+      }
+      if (this.slider) {
+        this.slider.removeEventListener('input', this.handleSliderInput);
+      }
+    }
+  });
+}
+if (Shopify.designMode) {
+  document.addEventListener('shopify:section:load', (event) => {
+    const compareBanners = event.target.querySelectorAll('compare-banner');
+    compareBanners.forEach(banner => {
+      if (banner.connectedCallback) {
+        // Force re-center when section reloads in editor
+        const slider = banner.querySelector('.drag-slider');
+        if (slider) {
+          slider.value = slider.max / 2;
+        }
+        banner.connectedCallback();
+      }
+    });
+  });
+}
+
+</script>
+
+
+
+
+
+{% schema %}
+{
+  "name": "t:sections.comparison-banner.name",
+  "tag": "section",
+  "class": "section section-comparison-banner",
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.overlay"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "t:sections.all.full_width.label",
+      "default": false
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.comparison-banner.settings.before_header.content"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:sections.all.image.label",
+      "info": "t:sections.comparison-banner.settings.image.info"
+    },
+    {
+      "type": "text",
+      "id": "before",
+      "label": "t:sections.comparison-banner.settings.before.label",
+      "default": "Before"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.comparison-banner.settings.after_header.content"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "t:sections.all.image.label",
+      "info": "t:sections.comparison-banner.settings.image2.info"
+    },
+    {
+      "type": "text",
+      "id": "after",
+      "label": "t:sections.comparison-banner.settings.after.label",
+      "default": "After"
+    },
+    {
+      "type": "product",
+      "id": "compare_product",
+      "label": "t:sections.all.product.label"
+    },
+    {
+      "type": "select",
+      "id": "compare_product_alignment",
+      "label": "t:sections.all.content_alignment.label",
+      "options": [
+        { "value": "start", "label": "t:sections.all.content_alignment.options__1.label" },
+        { "value": "center", "label": "t:sections.all.content_alignment.options__2.label" },
+        { "value": "end", "label": "t:sections.all.content_alignment.options__3.label" }
+      ],
+      "default": "center",
+      "visible_if": "{{section.settings.compare_product != blank }}"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.spacing.spacing_heading"
+    },
+    {
+      "type": "range",
+      "id": "top_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "bot_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 140
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.comparison-banner.name"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,19 @@
+<div class="line-decor position-relative">
+  <div class="container">
+    <div class="d-flex flex-nowrap align-items-center"
+      style="{% if decorator == "line" or decorator == "none" %}height: 1px; background: linear-gradient(180deg, var(--bs-border-color) 0 0);  {% endif %} {% if decorator_canvas == "line" %}height: 1px; background: linear-gradient(180deg, var(--bs-border-color) 0 0);  {% endif %}">
+      {% if decorator == "default" %}
+        <span class="line-left flex-grow-1"></span>
+          {% render 'header-divider' %}
+        <span class="line-right flex-grow-1"></span>
+
+      {% endif %}
+      {% if decorator_canvas == "default" %}
+          <span class="line-left flex-grow-1"></span>
+          {% render 'header-divider' %}
+          <span class="line-right flex-grow-1"></span>
+      {% endif %}
+
+    </div>
+  </div>
+</div>

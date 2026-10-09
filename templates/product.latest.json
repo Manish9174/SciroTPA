@@ -1,0 +1,382 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "heading_T3mymN": {
+          "type": "heading",
+          "settings": {
+            "heading_size": "h3"
+          }
+        },
+        "product_price": {
+          "type": "product_price",
+          "settings": {}
+        },
+        "swatches": {
+          "type": "swatches",
+          "settings": {
+            "swatch_type": "pills",
+            "show_swatches": true
+          }
+        },
+        "product_buynow": {
+          "type": "product_buynow",
+          "settings": {
+            "dynamic_checkout": true,
+            "gift_recipient": true
+          }
+        },
+        "description_UmTLzf": {
+          "type": "description",
+          "settings": {
+            "description_style": "default"
+          }
+        },
+        "custom_liquid_UjHrxT": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": ""
+          }
+        },
+        "accordion_npngrJ": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Nutritional Facts",
+            "content": "<p>100% Hydration <br/>Daily use </p>",
+            "page": "",
+            "default_open": false
+          }
+        },
+        "accordion_kHGdkd": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Benefits",
+            "content": "<p>100% Hydration <br/>Daily use </p>",
+            "page": "",
+            "default_open": false
+          }
+        },
+        "accordion_beGipg": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Ingredients list",
+            "content": "<p>100% Hydration <br/>Daily use </p>",
+            "page": "",
+            "default_open": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_T3mymN",
+        "product_price",
+        "swatches",
+        "product_buynow",
+        "description_UmTLzf",
+        "custom_liquid_UjHrxT",
+        "accordion_npngrJ",
+        "accordion_kHGdkd",
+        "accordion_beGipg"
+      ],
+      "settings": {
+        "full_width": false,
+        "color_scheme": "scheme-1",
+        "product_size": "medium",
+        "desktop_position": "left",
+        "video_looping": true,
+        "gallery_layout": "thumbnail_bottom",
+        "mobile_gallery_layout": "hide_thumbnail",
+        "enable_lightbox": false,
+        "pagination_style": "regular",
+        "border": "solid",
+        "media_border_thickness": 2,
+        "media_radius": 0,
+        "top_space": 60,
+        "bot_space": 60
+      }
+    },
+    "feature_showcase_rXxtnp": {
+      "type": "feature-showcase",
+      "blocks": {
+        "text_yJCYra": {
+          "type": "text",
+          "settings": {
+            "content": "Content showcase text"
+          }
+        },
+        "text_4rrAzG": {
+          "type": "text",
+          "settings": {
+            "content": "Content showcase text"
+          }
+        },
+        "text_yWAdFy": {
+          "type": "text",
+          "settings": {
+            "content": "Content showcase text"
+          }
+        },
+        "text_eBfgQn": {
+          "type": "text",
+          "settings": {
+            "content": "Content showcase text"
+          }
+        }
+      },
+      "block_order": [
+        "text_yJCYra",
+        "text_4rrAzG",
+        "text_yWAdFy",
+        "text_eBfgQn"
+      ],
+      "name": "t:sections.feature_showcase.presets",
+      "settings": {
+        "full_width": false,
+        "color_scheme": "scheme-2",
+        "title": "Feature showcase",
+        "heading_size": "h1",
+        "description": "Use this text to share the information which you like!.",
+        "column_alignment": "center",
+        "autoplay": false,
+        "duration": 2,
+        "pause_autoplay": false,
+        "top_space": 16,
+        "bot_space": 20
+      }
+    },
+    "image_with_text_bjQDTG": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_3kbDJP": {
+          "type": "heading",
+          "settings": {
+            "heading": "Image with text",
+            "heading_size": "h2"
+          }
+        },
+        "text_FUB9iM": {
+          "type": "text",
+          "settings": {
+            "text": "Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store."
+          }
+        }
+      },
+      "block_order": [
+        "heading_3kbDJP",
+        "text_FUB9iM"
+      ],
+      "name": "t:sections.image-with-text.name",
+      "settings": {
+        "full_width": false,
+        "color_scheme": "",
+        "image": "shopify://shop_images/homban1f.jpg",
+        "image_placement": "left",
+        "image_width": "medium",
+        "aspect_ratio": "adapt",
+        "column_alignment": "center",
+        "mobile_column_alignment": "center",
+        "vertical_alignment": "middle",
+        "top_space": 16,
+        "bot_space": 8
+      }
+    },
+    "testimonial_fmDAdi": {
+      "type": "testimonial",
+      "blocks": {
+        "column_L7Vnfh": {
+          "type": "column",
+          "settings": {
+            "title": "Heading",
+            "text": "Add customer reviews and testimonials to showcase your store's happy customers",
+            "enable_profile": true,
+            "author_radius": 0,
+            "name": "Author name",
+            "designation": "Add client's role",
+            "rating_value": 3,
+            "product": ""
+          }
+        },
+        "column_VhA7GH": {
+          "type": "column",
+          "settings": {
+            "title": "Heading",
+            "text": "Add customer reviews and testimonials to showcase your store's happy customers",
+            "enable_profile": true,
+            "author_radius": 0,
+            "name": "Author name",
+            "designation": "Add client's role",
+            "rating_value": 3,
+            "product": ""
+          }
+        },
+        "column_Y4c8kz": {
+          "type": "column",
+          "settings": {
+            "title": "Heading",
+            "text": "Add customer reviews and testimonials to showcase your store's happy customers",
+            "enable_profile": true,
+            "author_radius": 0,
+            "name": "Author name",
+            "designation": "Add client's role",
+            "rating_value": 3,
+            "product": ""
+          }
+        },
+        "column_Hj6pWQ": {
+          "type": "column",
+          "settings": {
+            "title": "Heading",
+            "text": "Add customer reviews and testimonials to showcase your store's happy customers",
+            "enable_profile": true,
+            "author_radius": 0,
+            "name": "Author name",
+            "designation": "Add client's role",
+            "rating_value": 3,
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_L7Vnfh",
+        "column_VhA7GH",
+        "column_Y4c8kz",
+        "column_Hj6pWQ"
+      ],
+      "name": "t:sections.testimonial.presets.name",
+      "settings": {
+        "full_width": false,
+        "color_scheme": "",
+        "title": "Scitific Evidence",
+        "heading_size": "h1",
+        "description": "Use this text to share the information which you like!.",
+        "column_alignment": "center",
+        "color_scheme_block": "",
+        "block_alignment": "start",
+        "border-width": 1,
+        "radius": 5,
+        "product_position": "bottom",
+        "desktop": "3",
+        "enable_slider": false,
+        "pagination": "arrow",
+        "pagination_style": "artistic",
+        "autoplay_delay": 0,
+        "space": 20,
+        "top_space": 140,
+        "bot_space": 140
+      }
+    },
+    "related_product_d6tyGJ": {
+      "type": "related-product",
+      "disabled": true,
+      "settings": {
+        "full_width": true,
+        "color_scheme": "scheme-3",
+        "title": "Related products",
+        "heading_size": "h1",
+        "description": "",
+        "column_alignment": "center",
+        "layout_style": "angled",
+        "products_to_show": 6,
+        "desktop_grid_view": "3",
+        "card_aspect_ratio": "portrait",
+        "secondary_img": true,
+        "show_vendor": false,
+        "show_inventory": false,
+        "show_product_type": false,
+        "enable_quickview": true,
+        "show_swatches": false,
+        "pagination": "arrow",
+        "pagination_style": "artistic",
+        "auto_play": false,
+        "autoplay_delay": 1,
+        "space": 20,
+        "curve": "both",
+        "curve_opacity": 50,
+        "top_space": 40,
+        "bot_space": 40
+      }
+    },
+    "icons_with_text_JgJ4PV": {
+      "type": "icons-with-text",
+      "blocks": {
+        "icon_eTDxYn": {
+          "type": "Icon",
+          "settings": {
+            "svg_icons": "",
+            "title": "Icon heading",
+            "text": "Add short description for this block.",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary"
+          }
+        },
+        "icon_iF6AyK": {
+          "type": "Icon",
+          "settings": {
+            "svg_icons": "",
+            "title": "Icon heading",
+            "text": "Add short description for this block.",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary"
+          }
+        },
+        "icon_QGpN9R": {
+          "type": "Icon",
+          "settings": {
+            "svg_icons": "",
+            "title": "Icon heading",
+            "text": "Add short description for this block.",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "icon_eTDxYn",
+        "icon_iF6AyK",
+        "icon_QGpN9R"
+      ],
+      "name": "t:sections.icons-with-text.presets.name",
+      "settings": {
+        "full_width": true,
+        "color_scheme": "",
+        "title": "",
+        "heading_size": "h1",
+        "description": "",
+        "column_alignment": "center",
+        "image_hide": true,
+        "block_styles": "grid__items",
+        "vertical_alignment": "center",
+        "block_column_alignment": "center",
+        "mobile_column_alignment": "center",
+        "desktop": "4",
+        "enable_slider": true,
+        "pagination": "none",
+        "pagination_style": "artistic",
+        "autoplay_delay": 2,
+        "space": 20,
+        "top_space": 16,
+        "bot_space": 16
+      }
+    }
+  },
+  "order": [
+    "main",
+    "feature_showcase_rXxtnp",
+    "image_with_text_bjQDTG",
+    "testimonial_fmDAdi",
+    "related_product_d6tyGJ",
+    "icons_with_text_JgJ4PV"
+  ]
+}

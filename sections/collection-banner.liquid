@@ -1,0 +1,99 @@
+{% render 'spacing' %}
+
+{% style %}
+  .collection-item .card-body .card-title{ font-size: clamp(1.5rem, 1.175rem + 1.625vw, 3.125rem); }
+  .collection-item .card_img{
+    width:100px; 
+    height:100px;
+    border: 1px solid rgba(var(--color-foreground), .5);
+  }
+  .description > * {
+    margin-bottom: 0;
+}
+{% endstyle %}
+  <div class="section-{{ section.id }}-padding">
+    <div class="color-{{ section.settings.color_scheme }}{% if section.settings.full_width %} container-fluid{% else %} container{% endif %} py-5">
+    <div class="collection-item text-center col-12 col-md-8{% if section.settings.full_width %} col-xl-6{% else %} col-xl-7{% endif %} mx-auto">
+      {% if section.settings.show_banner_image and collection.image %}
+        <div class="card_img mx-auto">       
+            {% if collection.image %}
+              {{
+                collection.image
+                | image_url: width: 1500
+                | image_tag:
+                  loading: 'lazy',
+                  width: collection.image.width,
+                  height: collection.image.height,
+                  class: 'w-100 h-100',
+                  alt: collection.image.alt
+                | escape
+              }}
+            {% endif %}
+          </div>
+      {% endif %}
+      <div class="card-body">
+        <h2 class="card-title text-break mt-md-3 {% unless section.settings.show_banner_image and collection.image %} text-center{% endunless %}">
+          {{ collection.title | escape }}
+        </h2>
+        {% if section.settings.show_banner_description and collection.description != blank %}
+          <div class="description">{{ collection.description }}</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.collection_banner.name",
+  "tag": "section",
+  "class": "section-collection-banner",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "t:sections.all.full_width.label"
+    },
+     {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_banner_image",
+      "label": "t:sections.collection_banner.settings.show_banner_image.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_banner_description",
+      "label": "t:sections.collection_banner.settings.show_banner_description.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.spacing.spacing_heading"
+    },
+    {
+      "type": "range",
+      "id": "top_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.top_space",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "bot_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.bot_space",
+      "default": 0
+    },
+  ]
+}
+{% endschema %}

@@ -1,0 +1,92 @@
+<div
+  class="modal fade"
+  id="confirmModal"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="confirmModalLabel"
+  aria-hidden="true" role="dialog"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content color-{{ section.settings.color_scheme }} gradient">
+      <div class="modal-body text-center p-sm-4 p-3">
+        <h3 class="{{ section.settings.heading_size }}">{{ section.settings.heading }}</h3>
+        <p class="mb-0">{{ section.settings.description }}</p>
+        <div class="model_button mt-3 d-flex flex-column gap-3 flex-wrap">
+          <div class="model_button_cancel">
+        <button type="button" class="btn btn-secondary" id="cancelButton">{% if section.settings.decline_btn != blank %}{{ section.settings.decline_btn }} {% else %} {{ 'products.facets.decline_btn' | t }} {% endif %}</button>
+        </div>
+        <div class="model_button_success">
+        <button type="button" class="btn btn-primary" id="confirmButton"> {% if section.settings.accept_btn != blank %} {{ section.settings.accept_btn }} {% else %} {{ 'products.facets.accept_btn' | t }} {% endif %}</button>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+"name": "t:sections.age_verification.name",
+"tag": "aside",
+"class": "age-verification",
+"limit": 1,
+"enabled_on": {"groups": ["custom.overlay"]},
+"settings": [
+{
+"type": "color_scheme",
+"id": "color_scheme",
+"label": "t:sections.all.colors.label",
+"default": "scheme-3"
+},
+{
+"type": "text",
+"id": "heading",
+"label": "t:sections.all.heading.label",
+"default":"t:sections.age_verification.presets.name"
+
+},
+{
+"type": "select",
+"id": "heading_size",
+"options": [
+{
+"value": "h3",
+"label": "t:sections.all.heading_size.options__1.label"
+},
+{
+"value": "h2",
+"label": "t:sections.all.heading_size.options__2.label"
+},
+{
+"value": "h1",
+"label": "t:sections.all.heading_size.options__3.label"
+}
+],
+"default": "h2",
+"label": "t:sections.all.heading_size.label"
+},
+{
+"type": "inline_richtext",
+"id": "description",
+"label": "t:sections.all.description.label",
+"default":"t:sections.age_verification.settings.describe"
+},
+{
+"type": "header",
+"content": "t:sections.age_verification.settings.reponse_option"
+},
+{
+"type": "text",
+"id": "accept_btn",
+"label": "t:sections.age_verification.settings.accept_btn.label",
+"default":"t:sections.age_verification.settings.accept_btn.default"
+},
+{
+"type": "text",
+"id": "decline_btn",
+"label": "t:sections.age_verification.settings.decline_btn.label",
+"default":"t:sections.age_verification.settings.decline_btn.default"
+}
+]
+} 
+{% endschema %}

@@ -1,0 +1,34 @@
+{% case rating_value %}
+  {% when 0.5 %}
+    {% render 'icon-half-star' %}
+  {% when 1 %}
+    {% render 'icon-rating' %}
+  {% when 1.5 %}
+    {% render 'icon-rating' %} {% render 'icon-half-star' %}
+  {% when 2 %}
+    {% render 'icon-rating' %}{% render 'icon-rating' %}
+  {% when 2.5 %}
+    {% render 'icon-rating' %}{% render 'icon-rating' %}  {% render 'icon-half-star' %}
+  {% when 3 %}
+  {% for n in (1..3) %}
+    {% render 'icon-rating' %}
+    {% endfor %}
+  {% when 3.5 %}
+    {% for n in (1..3) %}
+    {% render 'icon-rating' %}
+    {% endfor %} {% render 'icon-half-star' %}
+  {% when 4 %}
+    {% for n in (1..4) %}
+    {% render 'icon-rating' %}
+    {% endfor %} 
+  {% when 4.5 %}
+   {% for n in (1..4) %}
+    {% render 'icon-rating' %}
+    {% endfor %} {% render 'icon-half-star' %}
+  {% when 5 %}
+   {% for n in (1..5) %}
+    {% render 'icon-rating' %}
+    {% endfor %}
+  {% else %}
+    
+{% endcase %}

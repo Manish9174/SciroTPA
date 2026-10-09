@@ -1,0 +1,33 @@
+{% assign slick_common_cls = "position-absolute top-50 d-none d-sm-flex align-items-center justify-content-center rounded" %}
+{% assign slick_prev_cls = "start-0 ms-3" %}
+{% assign slick_next_cls = "end-0 me-3" %}
+
+<div class="slick-navigation {{ placement_selector }}">
+  <div class="slick-prev {{ slick_common_cls }} {{ slick_prev_cls }}" type="button">{% render 'icon-left' %}</div>
+  <div class="slick-next {{ slick_common_cls }} {{ slick_next_cls }}" type="button">{% render 'icon-right' %}</div>   
+</div>
+
+{%- style -%}
+  .slick-navigation {
+    --slick_nav_width: 2rem;
+    --slick_nav_height: 2rem;
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-50% + calc(var(--slick_nav_height) / -2)));
+  }
+  .slick-navigation :is(.slick-prev,.slick-next){
+    width:var(--slick_nav_width); 
+    height:var(--slick_nav_height); 
+    background:rgb(var(--color-background));
+  }
+  .slick-navigation .slick-prev:hover svg, .slick-navigation .slick-next:hover svg{
+    opacity:0.5;
+  }
+  
+{%- endstyle -%}

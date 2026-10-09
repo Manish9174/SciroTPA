@@ -1,0 +1,1153 @@
+{% render 'spacing' %}
+{% liquid
+  assign aspect_ratio = ''
+  case section.settings.aspect_ratio
+    when 'square'
+      assign aspect_ratio = 'ratio-1x1'
+    when 'portrait'
+      assign aspect_ratio = 'ratio-3x4'
+    when 'landscape'
+      assign aspect_ratio = 'ratio-4x3'
+    when 'wide'
+      assign aspect_ratio = 'ratio-16x9'
+    when 'adapt'
+      assign aspect_ratio = 'ratio-auto'
+    else
+      assign aspect_ratio = 'ratio-1x1'
+  endcase
+%}
+
+{% stylesheet %}
+
+  .quick-order-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      border: 1px solid rgba(var(--color-border));
+      border-radius: 30px;
+  }
+  .quick-order-card {
+      border-bottom: 1px solid rgba(var(--color-border));
+      padding-bottom: 11px;
+  }
+
+    .quick-order-card__image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .product_card .quick-order-card__media{
+      width: 100px;
+      height: 100px;
+    }
+
+    .quick-order-card__content {
+      display: flex;
+      flex-direction: column;
+      gap: .8rem;
+    }
+
+    .quick-order-card__title a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .quick-order-card__select {
+        padding: .5em 2.2em .5em 1em;
+        background-image: linear-gradient(45deg, transparent 50%, gray 50%), linear-gradient(135deg, gray 50%, transparent 50%), radial-gradient(#ddd 0%, transparent 0%);
+        background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px), calc(100% - .5em) .5em;
+        background-size: 5px 5px, 5px 5px, 1.5em 1.5em;
+        background-repeat: no-repeat;
+        -webkit-appearance: none;
+    }
+    .quick-order-card__price {
+      white-space: nowrap;
+    }
+
+
+    .price-compare {
+      margin-left: .5rem;
+      text-decoration: line-through;
+      opacity: .6;
+    }
+
+    .quick-order-card__qty-input {
+      width: 80px;
+      text-align: center;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+    }
+
+    @media screen and (max-width: 749px) {
+      .quick-order-card {
+        grid-template-columns: 1fr;
+      }
+
+      .quick-order-card__media {
+        text-align: center;
+      }
+
+      .quick-order-card__price,
+      .quick-order-card__quantity {
+        width: 100%;
+      }
+    }
+
+
+    /* custom css */
+      .quick-order__checkbox[disabled]{cursor:not-allowed; opacity:0.5}
+    .quick-order-card .quantity{ width: 150px; }
+    @media (max-width: 575.98px) {
+      .product_card .quick-order-card__media{ width: 100px; height: 100px; }
+      .product_card .quick-order-card__content{ width: calc(100% - 100px); }
+    }
+    @media (max-width: 420px){
+      .quick-order-card .product_card {
+        flex-wrap: wrap;
+      }
+    }
+
+    @media (min-width: 992px){
+      .quick-order :is(.image_group, .quick-order){
+        position: sticky;
+        top: 0;
+        height: fit-content;
+      }
+    }
+   .product_card .quick-order-card__media:has(a:focus-visible) {
+      outline: 2px dashed rgba(var(--color-border));
+  }
+{% endstylesheet %}
+
+<div class="color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  <div
+    class="quick-order {% if section.settings.full_width %} container-fluid {% else %} container gx-5 gx-sm-4 {% endif %}"
+    data-section-id="{{ section.id }}"
+  >
+    {% render 'title-container' %}
+
+    {% assign quick_order_collection = section.settings.collection %}
+    <form
+      class="quick-order__form"
+      data-quick-order-form
+      data-quick-order-submit-label="{{ section.settings.submit_label | escape }}"
+      data-quick-order-submit-loading-label="{{ 'sections.quick_order_list.submit_loading_label' | t }}"
+      data-quick-order-empty-message="{{ 'sections.quick_order_list.empty_message' | t }}"
+      data-quick-order-success-message="{{ 'sections.quick_order_list.success_message' | t }}"
+      data-quick-order-generic-error-message="{{ 'sections.quick_order_list.generic_error_message' | t }}"
+      data-cart-type="{{ settings.cart_type }}"
+      data-product="{{ 'sections.quick_order_list.product' | t }}"
+      data-products="{{ 'sections.quick_order_list.products' | t }}"
+      data-selected="{{ 'sections.quick_order_list.selected' | t }}"
+      data-qty="{{ 'sections.quick_order_list.qty' | t }}"
+    >
+      <div class="row row-gap-4">
+        <div
+          class="image_group col-12 col-lg-6 col-xl-5"
+          {% if section.settings.aspect_ratio == 'adapt' %}
+            style="--aspect-ratio:{% if section.settings.image.aspect_ratio %}{{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100  }}{% else %}100{% endif %}%;"
+          {% endif %}
+        >
+          <div class="ratio {{ aspect_ratio }} card_images">
+            {% if section.settings.image %}
+              {{
+                section.settings.image
+                | image_url: width: section.settings.image.width
+                | image_tag: class: 'img-fluid'
+              }}
+            {% else %}
+              {{ 'image' | placeholder_svg_tag: 'img-fluid w-100 h-100 placeholder-svg' }}
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="product_collection col-12 col-lg-6 col-xl-7">
+          <div
+            class="quick-order-list {% if settings.border_style > 0 %} p-3 p-sm-4{% endif %} card_images"
+            role="list"
+            aria-label="Quick order products"
+          >
+            <h5 class="quick-order__summary m-0 border-bottom m-0 pb-2" data-quick-order-summary aria-live="polite">
+              {{ 'products.product.quick_order_summary' | t }}
+            </h5>
+            {% assign max_items = section.settings.max_products | default: 5 %}
+
+            {% if section.settings.collection != blank %}
+              {% for product in quick_order_collection.products limit: max_items %}
+                {% assign default_variant = product.selected_or_first_available_variant %}
+
+                {% if default_variant %}
+                  <div
+                    class="quick-order-card row mx-0"
+                    role="listitem"
+                    data-quick-order-row
+                    data-quick-order-row-available="{{ default_variant.available }}"
+                  >
+                    <!-- Product Image -->
+                    <div class="product_card d-flex flex-sm-nowrap gap-3 col p-0">
+                      <div class="d-flex gap-2">
+                        <input
+                          type="checkbox"
+                          id="quick-order-checkbox-{{ section.id }}-{{ product.id }}"
+                          class="mt-1 ms-2 quick-order__checkbox"
+                          data-quick-order-checkbox
+                          aria-label="Select {{ product.title | escape }}"
+                          {% unless default_variant.available %}
+                            disabled
+                          {% endunless %}
+                        >
+                        <div class="quick-order-card__media card_product_detail">
+                          <a
+                            href="{{ product.url }}"
+                            class="quick-order-card__image-link"
+                            aria-label="View {{ product.title | escape }}"
+                          >
+                            {% if product.featured_image %}
+                              {{
+                                product.featured_image
+                                | image_url: width: 150
+                                | image_tag: loading: 'lazy', class: 'quick-order-card__image', alt: product.title
+                              }}
+                            {% else %}
+                              {{ 'product-2' | placeholder_svg_tag: 'placeholder-svg' }}
+                            {% endif %}
+                          </a>
+                        </div>
+                      </div>
+
+                      <!-- Product Details -->
+                      <div class="quick-order-card__content">
+                        <h3 class="quick-order-card__title h6 m-0">
+                          <a href="{{ product.url }}">
+                            {{ product.title }}
+                          </a>
+                        </h3>
+
+                        {% if product.variants.size > 1 %}
+                          <div class="quick-order-card__variant">
+                            <label
+                              for="QuickOrderVariant-{{ section.id }}-{{ product.id }}"
+                              class="visually-hidden"
+                            >
+                            </label>
+
+                            <select
+                              id="QuickOrderVariant-{{ section.id }}-{{ product.id }}"
+                              class="form-select-lg rounded-pill quick-order-card__select"
+                              data-quick-order-variant-select
+                            >
+                              {% for variant in product.variants %}
+                                <option
+                                  value="{{ variant.id }}"
+                                  data-price="{% if settings.currency_code_enabled %}{{ variant.price | money_with_currency }}{% else %}{{ variant.price | money }}{% endif %}"
+                                  data-compare-price="{% if settings.currency_code_enabled %}{{ variant.compare_at_price | money_with_currency }}{% else %}{{ variant.compare_at_price | money }}{% endif %}"
+                                  data-available="{{ variant.available }}"
+                                  {% if variant.id == default_variant.id %}
+                                    selected
+                                  {% endif %}
+                                  {% unless variant.available %}
+                                    disabled
+                                  {% endunless %}   
+                                >
+                                  {{ variant.title }}
+                                </option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                        {% endif %}
+                        {% assign current_variant = product.selected_or_first_available_variant %}
+                        <div
+                        class="quick-order-card__price text-center d-flex align-items-center"
+                        data-quick-order-price
+                      >
+                       {% if current_variant.compare_at_price > current_variant.price %}
+                          <span class="price-sale">
+                            {% if settings.currency_code_enabled %}
+                              {{ default_variant.price | money_with_currency }}
+                            {% else %}
+                              {{ default_variant.price | money }}
+                            {% endif %}
+                          </span>
+
+                          <span class="price-compare">
+                            {% if settings.currency_code_enabled %}
+                              {{ default_variant.compare_at_price | money_with_currency }}
+                            {% else %}
+                              {{ default_variant.compare_at_price | money }}
+                            {% endif %}
+                          </span>
+                        {% else %}
+                          <span class="price">
+                            {% if settings.currency_code_enabled %}
+                              {{ default_variant.price | money_with_currency }}
+                            {% else %}
+                              {{ default_variant.price | money }}
+                            {% endif %}
+                          </span>
+                        {% endif %}
+                      </div>
+
+                        <div class="quantity col d-flex d-xl-none align-items-center mb-2 col-2 p-0">
+                          <div class="quantity-control d-flex align-items-center  form-control p-1">
+                            <button
+                              type="button"
+                              class="decrement btn p-3 fs-5 border-0 quanity_descrement"
+                              data-line="{{ forloop.index }}"
+                              aria-label="{{ 'accessibility.decrement' | t }}"
+                               {% unless default_variant.available %}
+                                disabled
+                              {% endunless %}
+                            ></button>
+                            <input
+                              min="1"
+                              value="1"
+                              type="number"
+                              class="cart-item-quantity w-100 text-center border-0 bg-transparent quick-order__qty-input"
+                              data-quick-order-quantity
+                              data-quick-order-variant-id="{{ default_variant.id }}"
+                              aria-label="Quantity for {{ product.title | escape }}"
+                              {% if default_variant.inventory_management and default_variant.inventory_policy == 'deny' and default_variant.inventory_quantity != 0 %}
+                                  max="{{ default_variant.inventory_quantity }}"
+                                {% endif %}
+                              {% unless default_variant.available %}
+                                disabled
+                              {% endunless %}
+                            >
+                            <button
+                              type="button"
+                              class="increment btn p-3 fs-5 border-0 quanity_increment"
+                              data-line="{{ forloop.index }}"
+                              aria-label="{{ 'accessibility.increment' | t }}"
+                               {% unless default_variant.available %}
+                                disabled
+                              {% endunless %}
+                            ></button>
+                          </div>
+                        </div>
+                        <p
+                        class="quick-order-card__error d-none mt-2 d-flex align-items-center gap-2"
+                        data-quick-order-row-error
+                      ></p>
+                      </div>
+                    </div>
+
+                    <!-- Quantity -->
+                    <div class="quantity col d-none d-xl-flex align-items-center mb-2 col-2 p-0">
+                      <div class="quantity-control d-flex align-items-center  form-control p-1">
+                        <button
+                          type="button"
+                          class="decrement btn p-3 fs-5 border-0 quanity_descrement"
+                          data-line="{{ forloop.index }}"
+                          aria-label="{{ 'accessibility.decrement' | t }}"
+                           {% unless default_variant.available %}
+                                disabled
+                              {% endunless %}
+                        ></button>
+                        <input
+                          min="1"
+                          value="1"
+                          type="number"
+                          class="cart-item-quantity w-100 text-center border-0 bg-transparent quick-order__qty-input"
+                          data-quick-order-quantity
+                          data-quick-order-variant-id="{{ default_variant.id }}"
+                          aria-label="Quantity for {{ product.title | escape }}"
+                          {% if default_variant.inventory_management and default_variant.inventory_policy == 'deny' and default_variant.inventory_quantity != 0 %}
+                                  max="{{ default_variant.inventory_quantity }}"
+                                {% endif %}
+                          {% unless default_variant.available %}
+                            disabled
+                          {% endunless %}
+                        >
+                        <button
+                          type="button"
+                          class="increment btn p-3 fs-5 border-0 quanity_increment"
+                          data-line="{{ forloop.index }}"
+                          aria-label="{{ 'accessibility.increment' | t }}"
+                           {% unless default_variant.available %}
+                                disabled
+                              {% endunless %}
+                        ></button>
+                      </div>
+                    </div>
+                    <p
+                        class="quick-order-card__error d-none mt-2 d-flex align-items-center gap-2"
+                        data-quick-order-row-error
+                      ></p>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% else %}
+              {% for i in (1..max_items) %}
+                <div class="quick-order-card row mx-0">
+                  <!-- Product Image -->
+                  <div class="product_card d-flex flex-sm-nowrap gap-3 col p-0">
+                    <div class="d-flex gap-2">
+                      <input
+                        type="checkbox"
+                        id="quick-order-checkbox-{{ section.id }}-{{ product.id }}"
+                        class="mt-1 quick-order__checkbox"
+                        data-quick-order-checkbox
+                        aria-label="Select {{ product.title | escape }}"
+                        {% unless default_variant.available %}
+                          disabled
+                        {% endunless %}
+                      >
+                      <div class="quick-order-card__media card_product_detail">
+                        <a
+                          href="{{ product.url }}"
+                          class="quick-order-card__image-link"
+                          aria-label="View {{ product.title | escape }}"
+                        >
+                          {{ 'product-2' | placeholder_svg_tag: 'placeholder-svg' }}
+                        </a>
+                      </div>
+                    </div>
+
+                    <!-- Product Details -->
+                    <div class="quick-order-card__content">
+                      <h3 class="card-title h6">
+                        <a role="link" aria-disabled="true" class="text-decoration-none">
+                          {{ 'onboarding.product_title' | t }}
+                        </a>
+                      </h3>
+
+                      {% comment %}
+                        <p class="quick-order-card__availability m-0" data-quick-order-availability>
+                          {% if default_variant.available %}
+                            In stock
+                          {% else %}
+                            Out of stock
+                          {% endif %}
+                        </p>
+                      {% endcomment %}
+
+                      <div class="quick-order-card__price text-center d-flex align-items-center" data-quick-order-price>
+                        <div class="placeholder-price">{{ 0.00 | money }}</div>
+                      </div>
+
+                      <div class="quantity col d-flex d-xl-none align-items-center mb-2 col-2 p-0">
+                        <div class="quantity-control d-flex align-items-center  form-control p-1">
+                          <button
+                            type="button"
+                            class="decrement btn p-3 fs-5 border-0 quanity_descrement"
+                            data-line="{{ forloop.index }}"
+                            aria-label="{{ 'accessibility.decrement' | t }}"
+                             {% unless default_variant.available %}
+                                disabled
+                              {% endunless %}
+                          ></button>
+                          <input
+                            min="1"
+                            value="1"
+                            type="number"
+                            class="cart-item-quantity w-100 text-center border-0 bg-transparent quick-order__qty-input"
+                            data-quick-order-quantity
+                            data-quick-order-variant-id="{{ default_variant.id }}"
+                            aria-label="Quantity for {{ product.title | escape }}"
+                            {% if default_variant.inventory_management and default_variant.inventory_policy == 'deny' and default_variant.inventory_quantity != 0 %}
+                                  max="{{ default_variant.inventory_quantity }}"
+                                {% endif %}
+                            {% unless default_variant.available %}
+                              disabled
+                            {% endunless %}
+                          >
+                          <button
+                            type="button"
+                            class="increment btn p-3 fs-5 border-0 quanity_increment"
+                            data-line="{{ forloop.index }}"
+                            aria-label="{{ 'accessibility.increment' | t }}"
+                             {% unless default_variant.available %}
+                                disabled
+                              {% endunless %}
+                          ></button>
+                        </div>
+                      </div>
+                      <p
+                        class="quick-order-card__error d-none mt-2 d-flex align-items-center gap-2"
+                        data-quick-order-row-error
+                      ></p>
+                    </div>
+                  </div>
+
+                  <!-- Quantity -->
+                  <div class="quantity col d-none d-xl-flex align-items-center mb-2 col-2 p-0">
+                    <div class="quantity-control d-flex align-items-center  form-control p-1">
+                      <button
+                        type="button"
+                        class="decrement btn p-3 fs-5 border-0 quanity_descrement"
+                        data-line="{{ forloop.index }}"
+                        aria-label="{{ 'accessibility.decrement' | t }}"
+                         {% unless default_variant.available %}
+                                disabled
+                              {% endunless %}
+                      ></button>
+                      <input
+                        min="1"
+                        value="1"
+                        type="number"
+                        class="cart-item-quantity w-100 text-center border-0 bg-transparent quick-order__qty-input"
+                        data-quick-order-quantity
+                        data-quick-order-variant-id="{{ default_variant.id }}"
+                        aria-label="Quantity for {{ product.title | escape }}"
+                        {% if default_variant.inventory_management and default_variant.inventory_policy == 'deny' and default_variant.inventory_quantity != 0 %}
+                                  max="{{ default_variant.inventory_quantity }}"
+                                {% endif %}
+                        {% unless default_variant.available %}
+                          disabled
+                        {% endunless %}
+                      >
+                      <button
+                        type="button"
+                        class="increment btn p-3 fs-5 border-0 quanity_increment"
+                        data-line="{{ forloop.index }}"
+                        aria-label="{{ 'accessibility.increment' | t }}"
+                         {% unless default_variant.available %}
+                                disabled
+                              {% endunless %}
+                      ></button>
+                    </div>
+                  </div>
+                  <p
+                        class="quick-order-card__error d-none mt-2 d-flex align-items-center gap-2"
+                        data-quick-order-row-error
+                      ></p>
+                </div>
+              {% endfor %}
+            {% endif %}
+
+            <div class="quick-order__actions">
+              <button type="submit" class="quick-order__submit btn btn-primary w-100" data-quick-order-submit>
+                {{ 'products.compare.button' | t }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="quick-order__apps">
+      {% for block in section.blocks %}
+        {% if block.type == '@app' %}
+          {% render block %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% javascript %}
+  (function () {
+    'use strict';
+
+    // ─── Helpers ────────────────────────────────────────────────────────────────
+
+    /** Returns the currently visible quantity input for a row (desktop or mobile). */
+    function getVisibleQtyInput(row) {
+      const inputs = row.querySelectorAll('[data-quick-order-quantity]');
+      for (const input of inputs) {
+        if (input.offsetParent !== null) return input;
+      }
+      return inputs[0] || null;
+    }
+
+    /** Syncs all qty inputs in a row to the same value. */
+    function syncQtyInputs(row, value) {
+      row.querySelectorAll('[data-quick-order-quantity]').forEach((input) => {
+        input.value = value;
+      });
+    }
+
+    /** Updates availability state of a row (checkbox + all qty inputs). */
+    function setRowAvailability(row, available) {
+      row.dataset.quickOrderRowAvailable = String(available);
+
+      const checkbox = row.querySelector('[data-quick-order-checkbox]');
+      row.querySelectorAll('[data-quick-order-quantity]').forEach((input) => {
+        input.disabled = !available;
+        if (!available) input.value = '1';
+      });
+
+      if (checkbox) {
+        checkbox.disabled = !available;
+        if (!available) checkbox.checked = false;
+      }
+    }
+
+    function setSubmitState(form) {
+      const btn = form.querySelector('[data-quick-order-submit]');
+      if (!btn) return;
+      const hasChecked = !!form.querySelector('[data-quick-order-checkbox]:checked');
+      btn.disabled = !hasChecked;
+      btn.style.cursor = hasChecked ? '' : 'not-allowed';
+      btn.style.opacity = hasChecked ? '' : '0.5';
+    }
+
+    /** Rebuilds the "N items selected (qty)" summary line. */
+    function updateSummary(form) {
+      const summary = form.querySelector('[data-quick-order-summary]');
+      if (!summary) return;
+
+      let totalProducts = 0;
+      let totalQty = 0;
+
+      form.querySelectorAll('[data-quick-order-row]').forEach((row) => {
+        const checkbox = row.querySelector('[data-quick-order-checkbox]');
+        const input = getVisibleQtyInput(row);
+        if (!checkbox?.checked || !input) return;
+        totalProducts++;
+        totalQty += parseInt(input.value, 10) || 0;
+      });
+
+      const label =
+        totalProducts === 1
+          ? form.dataset.product
+          : form.dataset.products;
+
+      const next = `${totalProducts} ${label} ${form.dataset.selected} (${totalQty} ${form.dataset.qty})`;
+      if (summary.textContent !== next) summary.textContent = next;
+
+      setSubmitState(form);
+    }
+
+    // ─── Quantity buttons ────────────────────────────────────────────────────────
+
+    function initQtyButtons(form) {
+      form.querySelectorAll('.quantity-control').forEach((wrapper) => {
+        const input = wrapper.querySelector('[data-quick-order-quantity]');
+        const incBtn = wrapper.querySelector('.quanity_increment');
+        const decBtn = wrapper.querySelector('.quanity_descrement');
+        if (!input) return;
+
+        function step(delta) {
+          if (input.disabled) return;
+          let val = parseInt(input.value, 10) || 1;
+          const max = parseInt(input.max, 10);
+          if (delta > 0 && !isNaN(max) && val >= max) {
+          const row = input.closest('[data-quick-order-row]');
+          if (row) {
+            showRowError(row, `Only ${max} item${max > 1 ? 's are' : ' is'} available.`);
+          }
+          return;
+        }
+          if (delta < 0 && val <= 1) return;
+          val += delta;
+
+          const row = input.closest('[data-quick-order-row]');
+          row ? syncQtyInputs(row, val) : (input.value = val);
+          input.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+
+        // Click
+        incBtn?.addEventListener('click', (e) => {
+          e.preventDefault();
+          step(1);
+        });
+        decBtn?.addEventListener('click', (e) => {
+          e.preventDefault();
+          step(-1);
+        });
+
+        // Keyboard (Enter / Space) — accessibility
+        [incBtn, decBtn].forEach((btn) => {
+          if (!btn) return;
+          btn.setAttribute('role', 'button');
+          btn.setAttribute('tabindex', '0');
+          btn.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              step(btn.classList.contains('quanity_increment') ? 1 : -1);
+            }
+          });
+        });
+      });
+    }
+
+    // ─── Variant select ──────────────────────────────────────────────────────────
+
+    function initVariantSelects(form) {
+      form.querySelectorAll('[data-quick-order-row]').forEach((row) => {
+        const select = row.querySelector('[data-quick-order-variant-select]');
+        if (!select) return;
+
+        select.addEventListener('change', () => {
+          const opt = select.options[select.selectedIndex];
+          const variantId = opt.value;
+          const available = opt.dataset.available === 'true';
+
+          // Update variant ID on every qty input in this row
+          row.querySelectorAll('[data-quick-order-quantity]').forEach((input) => {
+            input.dataset.quickOrderVariantId = variantId;
+          });
+
+          // Update price display
+          const priceEl = row.querySelector('[data-quick-order-price]');
+
+          if (priceEl) {
+            const sale = priceEl.querySelector('.price-sale, .price');
+            const compare = priceEl.querySelector('.price-compare');
+
+            if (sale) {
+              sale.textContent = opt.dataset.price;
+            }
+
+            if (compare) {
+              if (opt.dataset.comparePrice) {
+                compare.textContent = opt.dataset.comparePrice;
+                compare.style.display = '';
+              } else {
+                compare.style.display = 'none';
+              }
+            }
+          }
+
+          setRowAvailability(row, available);
+          updateSummary(form);
+        });
+      });
+    }
+
+
+    function clearRowError(row) {
+        const el = row.querySelector('[data-quick-order-row-error]');
+        if (!el) return;
+
+        el.classList.add('d-none');
+        el.innerHTML = '';
+      }
+
+      function showRowError(row, message) {
+        const el = row.querySelector('[data-quick-order-row-error]');
+        if (!el) return;
+
+        el.innerHTML = `
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="#dc2626" aria-hidden="true">
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12ZM10.0586 6.05547C10.0268 5.48227 10.483 5 11.0571 5H12.9429C13.517 5 13.9732 5.48227 13.9414 6.05547L13.5525 13.0555C13.523 13.5854 13.0847 14 12.554 14H11.446C10.9153 14 10.477 13.5854 10.4475 13.0555L10.0586 6.05547ZM14 17C14 18.1046 13.1046 19 12 19C10.8954 19 10 18.1046 10 17C10 15.8954 10.8954 15 12 15C13.1046 15 14 15.8954 14 17Z"/>
+          </svg>
+          <span>${message}</span>
+        `;
+
+        el.classList.remove('d-none');
+
+        setTimeout(() => {
+          clearRowError(row);
+        }, 3000);
+      }
+
+    // ─── Form submit ─────────────────────────────────────────────────────────────
+
+    function initSubmit(form) {
+      const submitBtn = form.querySelector('[data-quick-order-submit]');
+      const statusEl = form.querySelector('[data-quick-order-status]');
+      const submitLabel = form.dataset.quickOrderSubmitLabel || submitBtn?.textContent || 'Add to cart';
+      const errorMsg = form.dataset.quickOrderGenericErrorMessage || 'Something went wrong.';
+
+      form.querySelectorAll('[data-quick-order-row]').forEach(clearRowError);
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const items = [];
+        const addedRows = [];
+
+        form.querySelectorAll('[data-quick-order-row]').forEach((row) => {
+          const checkbox = row.querySelector('[data-quick-order-checkbox]');
+          const input = getVisibleQtyInput(row);
+          if (!checkbox?.checked || !input || input.disabled) return;
+
+          const variantId = Number(input.dataset.quickOrderVariantId);
+          const quantity = parseInt(input.value, 10) || 1;
+          if (!variantId) return;
+
+          items.push({ id: variantId, quantity });
+          addedRows.push(row);
+        });
+
+        try {
+          const res = await fetch('/cart/add.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({ items }),
+          });
+
+          if (!res.ok) {
+            // Ignore Shopify quantity limit error
+            try {
+              const d = await res.json();
+              const message = d.description || d.message || errorMsg;
+
+              if (message.toLowerCase().includes('maximum quantity')) {
+                const match = message.match(/id\s+(\d+)/i);
+
+                if (match) {
+                  const variantId = match[1];
+
+                  const row = [...form.querySelectorAll('[data-quick-order-row]')]
+                    .find(r =>
+                      r.querySelector(
+                        `[data-quick-order-quantity][data-quick-order-variant-id="${variantId}"]`
+                      )
+                    );
+
+                  if (row) {
+                    showRowError(row, message);
+                    return;
+                  }
+                }
+              }
+
+              showStatus(form, message);
+            } catch (_) {
+              showStatus(form, errorMsg);
+            }
+
+            return;
+          }
+
+          // Reset rows
+          addedRows.forEach((row) => {
+            syncQtyInputs(row, 1);
+            const cb = row.querySelector('[data-quick-order-checkbox]');
+            if (cb) cb.checked = false;
+            row.classList.remove('quick-order__row--added');
+            void row.offsetWidth;
+            row.classList.add('quick-order__row--added');
+          });
+
+          updateSummary(form);
+
+          // ── Update cart count badge in header ──────────────────────────
+          try {
+            const cartRes = await fetch('/cart.js', { cache: 'no-store' });
+            const cartData = await cartRes.json();
+            const count = cartData.item_count;
+
+            // Covers the most common badge selectors across themes
+            document
+              .querySelectorAll(
+                [
+                  '.cart-count',
+                  '.cart-item-count',
+                  '.cart__count',
+                  '[data-cart-count]',
+                  '[data-cart-item-count]',
+                  '.open-cart-drawer a > span:last-child',
+                  '#cart-count',
+                  '.header__cart-count',
+                ].join(',')
+              )
+              .forEach((el) => {
+                el.textContent = count;
+                // Some themes hide the badge when 0 and show it when >0
+                if (count > 0) {
+                  el.removeAttribute('hidden');
+                  el.classList.remove('d-none', 'hidden', 'is-hidden');
+                }
+              });
+
+            // Bubble up for any theme-level cart:refresh listeners
+            document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart: cartData } }));
+          } catch (_) {}
+          // ────────────────────────────────────────────────────────────────
+
+          document.dispatchEvent(new CustomEvent('quick-order:items-added', { detail: { items } }));
+          document.dispatchEvent(new CustomEvent('cart:refresh'));
+
+          const cartType = form.dataset.cartType;
+
+            if (cartType === 'page') {
+              window.location.href = '/cart';
+              return;
+            }
+          // Open drawer or redirect
+          const cartDrawer = document.getElementById('cartOffCanvas');
+          if (cartDrawer && window.bootstrap?.Offcanvas) {
+            (bootstrap.Offcanvas.getInstance(cartDrawer) || new bootstrap.Offcanvas(cartDrawer)).show();
+          }
+        } catch (_) {
+          showStatus(form, errorMsg);
+        } finally {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = submitLabel;
+          }
+        }
+      });
+    }
+
+    // ─── Status helpers ───────────────────────────────────────────────────────────
+
+   let statusTimeout;
+
+      function showStatus(form, message, isError = true) {
+        let el = form.querySelector('[data-quick-order-status]');
+
+        if (!el) {
+          el = document.createElement('p');
+          el.dataset.quickOrderStatus = '';
+          el.className = 'quick-order__status mt-2 text-center d-flex align-items-center justify-content-center gap-2';
+          form.querySelector('.quick-order__actions')?.after(el);
+        }
+
+        clearTimeout(statusTimeout);
+
+        if (isError) {
+          el.innerHTML = `
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="#dc3545" aria-hidden="true" style="flex:0 0 auto;">
+              <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12ZM10.0586 6.05547C10.0268 5.48227 10.483 5 11.0571 5H12.9429C13.517 5 13.9732 5.48227 13.9414 6.05547L13.5525 13.0555C13.523 13.5854 13.0847 14 12.554 14H11.446C10.9153 14 10.477 13.5854 10.4475 13.0555L10.0586 6.05547ZM14 17C14 18.1046 13.1046 19 12 19C10.8954 19 10 18.1046 10 17C10 15.8954 10.8954 15 12 15C13.1046 15 14 15.8954 14 17Z"
+                fill="#dc3545">
+              </path>
+            </svg>
+            <span>${message}</span>
+          `;
+        } else {
+          el.textContent = message;
+        }
+
+        el.removeAttribute('hidden');
+        el.classList.remove('d-none');
+
+        statusTimeout = setTimeout(() => {
+          el.classList.add('d-none');
+          el.innerHTML = '';
+        }, 3000);
+      }
+
+    function hideStatus(form) {
+      const el = form.querySelector('[data-quick-order-status]');
+      if (el) {
+        el.textContent = '';
+        el.classList.add('d-none');
+      }
+    }
+
+    // ─── Boot ─────────────────────────────────────────────────────────────────────
+
+    function bootForm(form) {
+      // Prevent double-initialization
+      if (form.dataset.quickOrderBooted === 'true') return;
+      form.dataset.quickOrderBooted = 'true';
+
+      // Checkbox → summary
+      form.querySelectorAll('[data-quick-order-checkbox]').forEach((cb) => {
+        cb.addEventListener('change', () => updateSummary(form));
+      });
+
+      // Qty input → summary (debounced)
+      let tid;
+      form.querySelectorAll('[data-quick-order-quantity]').forEach((input) => {
+        input.addEventListener('input', () => {
+          const row = input.closest('[data-quick-order-row]');
+          const max = parseInt(input.max, 10);
+          let value = parseInt(input.value, 10) || 1;
+
+          if (!isNaN(max) && value > max) {
+            value = max;
+            syncQtyInputs(row, value);
+
+            showRowError(
+              row,
+              `Only ${max} item${max > 1 ? 's are' : ' is'} available.`
+            );
+          } else {
+            syncQtyInputs(row, value);
+            clearRowError(row);
+          }
+
+          clearTimeout(tid);
+          tid = setTimeout(() => updateSummary(form), 150);
+        });
+      });
+
+      initQtyButtons(form);
+      initVariantSelects(form);
+      initSubmit(form);
+      updateSummary(form);
+    }
+
+    function bootAll() {
+      document.querySelectorAll('[data-quick-order-form]').forEach(bootForm);
+    }
+
+    // Initial boot
+    bootAll();
+
+    // Shopify theme customizer events
+    if (window.Shopify?.designMode) {
+      document.addEventListener('shopify:section:load', (e) => {
+        // Section was reloaded — clear the boot flag so it re-initializes cleanly
+        const form = e.target?.querySelector('[data-quick-order-form]');
+        if (form) {
+          delete form.dataset.quickOrderBooted;
+          setTimeout(() => bootForm(form), 150);
+        }
+      });
+      document.addEventListener('shopify:section:reorder', () => {
+        setTimeout(bootAll, 150);
+      });
+      document.addEventListener('shopify:section:select', (e) => {
+        const form = e.target?.querySelector('[data-quick-order-form]');
+        if (form) setTimeout(() => updateSummary(form), 150);
+      });
+    }
+
+    // Fallback for late DOM
+    document.addEventListener('DOMContentLoaded', bootAll);
+  })();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:settings_schema.quick_order_list.name",
+  "class": "section Quick-order-list",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "t:sections.all.full_width.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-3"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "default": "Quick order list",
+      "label": "t:sections.all.heading.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "default": "Use This Text To Share The Information Which You Like!.",
+      "label": "t:sections.all.description.label"
+    },
+    {
+      "type": "select",
+      "id": "column_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.all.content_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.all.content_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.all.content_alignment.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "t:sections.all.content_alignment.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.featured-collection.settings.product_heading"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:sections.all.image.label",
+      "info": "1400 x 900px recommended"
+    },
+    {
+      "type": "select",
+      "id": "aspect_ratio",
+      "options": [
+        {
+          "value": "square",
+          "label": "t:settings_schema.card.settings.card_aspect_ratio.options__1.label"
+        },
+        {
+          "value": "portrait",
+          "label": "t:settings_schema.card.settings.card_aspect_ratio.options__2.label"
+        },
+        {
+          "value": "landscape",
+          "label": "t:settings_schema.card.settings.card_aspect_ratio.options__3.label"
+        },
+        {
+          "value": "adapt",
+          "label": "t:settings_schema.card.settings.card_aspect_ratio.options__4.label"
+        }
+      ],
+      "default": "square",
+      "label": "t:settings_schema.card.settings.card_aspect_ratio.label"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "t:settings_schema.quick_order_list.settings.collection"
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "label": "t:settings_schema.quick_order_list.settings.products_to_show",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.spacing.spacing_heading"
+    },
+    {
+      "type": "range",
+      "id": "top_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.top_space",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "bot_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.bot_space",
+      "default": 140
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:settings_schema.quick_order_list.name"
+    }
+  ]
+}
+{% endschema %}

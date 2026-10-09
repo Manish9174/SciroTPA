@@ -1,0 +1,11 @@
+
+{% for block in section.blocks %}
+  {% render block %}
+{% endfor %}
+
+
+{% schema %}
+  {"name":"t:sections.apps.name","blocks":[{"type":"@app"}],"presets":[{"name":"t:sections.apps.presets.apps.name"}]}
+{% endschema %}
+
+ 

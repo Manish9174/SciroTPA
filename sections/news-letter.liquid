@@ -1,0 +1,243 @@
+{% render 'spacing' %}
+{% liquid
+  assign has_heading = section.settings.heading
+  assign has_description = section.settings.description
+%}
+
+{% style %}
+       {% if section.settings.image !=blank %}
+   .news-letter-{{ section.id }} {
+        padding-top: {{ section.settings.top_inner_space | times: 0.5 | round: 0 }}px;
+        padding-bottom: {{ section.settings.bottom_inner_space | times: 0.5 | round: 0 }}px;
+      }
+      @media screen and (min-width: 768px) {
+        .news-letter-{{ section.id }} {
+          padding-top: {{ section.settings.top_inner_space }}px;
+          padding-bottom: {{ section.settings.bottom_inner_space }}px;
+        }
+      }
+
+      {% endif %}
+
+    .news-letter.section-{{ section.id }} span svg {width: 18px;  height: 18px;position:relative;}
+    @media (max-width: 767.98px) {
+      .section-{{ section.id }} .newsletter_form form .form_input button{  position: relative !important;}
+      .section-{{ section.id }} .newsletter_form form .form_input{ width:100% !important; }
+      .news-letter.section-{{ section.id }}  span svg {  width: 15px;  height: 15px;position:relative;}
+    }
+
+     @media (min-width: 768px) {
+      .section-{{ section.id }} .newsletter_form form .form_input>.form-control:focus>button{right:-2px !important;}
+     }
+  .section-{{ section.id }} .newsletter_form form .form_input button{  width: max(30%, 230px); top:2px; right:2px; bottom:2px;  }
+
+  {% if section.settings.image != blank %}
+  .news-letter.section-{{ section.id }} .newsletter_image:after{content: ""; position: absolute;  background: rgb(var(--color-background));top: 0;left:0;  z-index: 0; width: 100%; height: 100%; opacity: {{ section.settings.image_overlay_opacity | divided_by: 100.0 }}; }
+  {% endif %}
+  .news-letter.section-{{ section.id }} .checkbox-container > label >input { margin-top: 0.1rem;}
+{% endstyle %}
+
+{% liquid
+  assign column_alignment = section.settings.column_alignment
+  assign image = section.settings.image
+%}
+{% capture d_flex %} d-flex flex-column gap-lg-4 gap-3 {% endcapture %}
+
+<div
+  class="news-letter section-{{ section.id }} section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} gradient"
+  {% if settings.animation != 'none' %}
+    data-aos="{{ settings.animation}}"
+  {% endif %}
+>
+  <div class="{% if section.settings.full_width %}container-fluid{% else %}container gx-5 gx-sm-4{% endif %}  position-relative">
+    <div class="d-flex align-items-center justify-content-{{ column_alignment }} news-letter-{{ section.id }} ">
+      {% if image != blank %}
+        <div class="newsletter_image position-absolute h-100 w-100 start-0 end-0 top-0 bottom-0 overflow-hidden">
+          {{
+            section.settings.image
+            | image_url: width: 1640
+            | image_tag: class: 'h-100 w-100 d-block top-0 bottom-0 position-absolute object-fit-cover',
+             alt: section.settings.image.alt | escape
+          }}
+        </div>
+      {% endif %}
+
+      <div class="newsletter_field  position-relative z-2 w-100 ">
+        {% render 'title-container' %}
+        <div class="{{ d_flex }} justify-content-{{ column_alignment }}">
+          <div class="newsletter_form{% if column_alignment == "start" %} me-md-auto mx-md-0 {% elsif column_alignment == "end" %} ms-auto {% else %} mx-auto {% endif %}">{% render 'news-letter' %}</div>
+          {% if section.settings.footer_description != blank %}
+            <div class="checkbox-container d-flex justify-content-{{ column_alignment }} text-{{ column_alignment }}">
+              <p class="mb-0">{{ section.settings.footer_description }}</p>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.newsletter.name",
+  "tag": "section",
+  "class": "section-newsletter",
+  "disabled_on": {
+    "groups": ["header", "custom.overlay"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "t:sections.all.full_width.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.newsletter.settings.content_heading"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "default": "t:sections.footer.settings.newsletter.newsletter_heading.default",
+      "label": "t:sections.all.heading.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "t:sections.all.description.label",
+      "default": "t:sections.newsletter.settings.newsletter_text"
+    },
+    {
+      "type": "text",
+      "id": "footer_description",
+      "label": "t:sections.all.footer_description.label",
+      "default": "t:sections.all.footer_description.default"
+    },
+    {
+      "type": "select",
+      "id": "column_alignment",
+      "options": [
+        {
+          "value": "start",
+          "label": "t:sections.all.content_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.all.content_alignment.options__2.label"
+        },
+        {
+          "value": "end",
+          "label": "t:sections.all.content_alignment.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "t:sections.all.content_alignment.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.image_settings.label"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:sections.all.image.label",
+      "info": "1920 x 860px recommended"
+    },
+
+    {
+      "type": "range",
+      "id": "image_overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "%",
+      "label": "t:sections.newsletter.settings.opacity.label",
+      "default": 60,
+      "info": "t:sections.newsletter.settings.opacity.info",
+      "visible_if": "{{section.settings.image !=blank}}"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.layout_inner_space.label",
+      "visible_if": "{{section.settings.image !=blank}}"
+    },
+    {
+      "type": "range",
+      "id": "top_inner_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.top_space",
+      "default": 120,
+      "visible_if": "{{section.settings.image !=blank}}"
+    },
+    {
+      "type": "range",
+      "id": "bottom_inner_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.bot_space",
+      "default": 120,
+      "visible_if": "{{section.settings.image !=blank}}"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.spacing.spacing_heading"
+    },
+    {
+      "type": "range",
+      "id": "top_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.top_space",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "bot_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.bot_space",
+      "default": 140
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.newsletter.name"
+    }
+  ]
+}
+{% endschema %}

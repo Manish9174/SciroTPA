@@ -1,0 +1,113 @@
+{% for block in section.blocks %}
+  {% case block.type %}
+  {% when 'heading' %}
+  <div class="product-title">
+  <h2 class="mb-0">{{ 'onboarding.product_title' | t }}</h2>
+  </div>
+  {% when 'product_price' %}
+  <div class="mt-3 price_block" id="price-{{ section.id }}">
+  <span class="price">{{ 1900 | money }}</span>
+  </div>
+  {%- when 'text' -%}
+  <div class="mt-3 mb-2 product-text" > {{ 'onboarding.description' | t }} </div>
+  {% when 'swatches' %}
+  <div class="mt-3 variants">
+  {% if block.settings.swatch_type == 'pills' %}   
+  <variant-select-{{ section.id }}or>
+  <label class="form-label w-100 h4 mb-3">{{ 'onboarding.varients' | t }} :</label>
+  <ul class=" p-0 d-flex flex-wrap gap-3 variant-options" >
+  <li class="variant-option-item selected option-item btn d-inline-block">
+  {{ 'onboarding.options_1' | t }}
+  </li>
+  <li class="variant-option-item option-item btn">
+  {{ 'onboarding.options_2' | t }}
+  </li>
+  <li class="variant-option-item option-item btn">
+  {{ 'onboarding.options_3' | t }}
+  </li>
+  <li class="variant-option-item option-item btn">
+  {{ 'onboarding.options_4' | t }}
+  </li>
+  </ul>
+  </variant-select-{{ section.id }}or>
+  {% endif %}   
+  {% if block.settings.swatch_type == 'dropdown' %}
+  <variant-select-{{ section.id }}or>
+  <label class="form-label w-100 h4"> {{ 'onboarding.varients' | t }} </label> 
+  <div class="mb-2 variants">
+  <select class="form-select-lg" >
+  <option> {{ 'onboarding.options_1' | t }}</option>
+  <option> {{ 'onboarding.options_2' | t }} </option>
+  <option> {{ 'onboarding.options_3' | t }} </option>
+  <option> {{ 'onboarding.options_4' | t }} </option>
+  </select>
+  </div>
+  </variant-select-{{ section.id }}or>
+  {% endif %}      
+  </div>
+  <div class="product__quantity-cart d-grid gap-0 mt-4">
+  <div class="quantity-selector position-relative d-flex align-items-center">
+  <button type="button" id="decrement-{{ section.id }}" aria-label="{{ 'accessibility.decrement' | t }}" class="quantity-btn position-absolute top-0 bottom-0 start-0 bg-transparent btn border-0 fs-4 py-0 px-4">
+  {% render 'icon-minus' %}
+  </button>
+  <input type="number" id="quantity-{{ section.id }}" name="quantity" value="1" min="1" class="form-control text-center form_ outline-0 py-3  w-100" readonly>
+  <button type="button" id="increment-{{ section.id }}" aria-label="{{ 'accessibility.increment' | t }}" class="quantity-btn position-absolute top-0 bottom-0 end-0 bg-transparent btn border-0 fs-4 py-0 px-4">
+  {% render 'icon-plus' %}
+  </button>
+  </div>
+  
+ <select class="variant-select" id="variant-select-{{ section.id }}" name="id" hidden >
+            {% assign pick_up_availabilities1 = product.selected_or_first_available_variant.store_availabilities
+            | where: 'pick_up_enabled', true
+            %} 
+                {% assign current_variant = product.selected_or_first_available_variant %}
+
+                    <option
+                    value="{{ current_variant.id }}"
+                    {% if pick_up_availabilities1.size > 0 and current_variant.available %}
+                    data-pickup="{{ closest_location.location.name }},{{ closest_location.location.address.address1 }}, {{ closest_location.location.address.city }},{{ closest_location.location.address.province }}, {{ closest_location.location.address.zip }},{{ closest_location.location.address.country }}"
+                    {% else %}
+                    data-pickup="Pickup not available"
+                    {% endif %}
+                    data-taxable="{{ current_variant.taxable | json }}"
+                    data-taxesincluded="{{ closest_taxable }}"
+                    data-sku="{{ current_variant.sku }}"
+                    data-price="{{ current_variant.price | money }} "
+                    data-cmpprice=" {{ current_variant.compare_at_price | money }}"
+                    data-stock="{{ current_variant.available }}"
+                    data-stockcount="{{ current_variant.inventory_quantity }}"
+                    data-unitprice="{{ current_variant.compare_at_price }}"
+                    data-options="{{ current_variant.options | join: ',' }}"
+                    data-availablecheck="{% if current_variant.available == false and current_variant.inventory_policy == 'deny' %}false{% else %}true{% endif %}"
+                    data-unitmeasureprice="{{ current_variant.unit_price | money }} {% if current_variant.unit_price_measurement.reference_value != 1 and current_variant.unit_price  %} /
+                    {{ current_variant.unit_price_measurement.reference_value }}
+                    {% endif %}  {{ current_variant.unit_price_measurement.reference_unit }}"
+
+
+                    {% if current_variant.inventory_management %}
+                    data-inventorycheck="true"
+                    {% else %}
+                    data-inventorycheck="false"
+                    {% endif %}
+
+                    {% if current_variant.inventory_policy == 'continue' %}
+                    data-continue-selling="true"
+                    {% else %}
+                    data-continue-selling="false"
+                    {% endif %}
+
+                    {% if current_variant.available == false and variant.inventory_policy == 'deny' %}
+                    disabled
+                    {% endif %}
+                    >
+                    {{ current_variant.title }}
+                    {% if current_variant.available == false and variant.inventory_policy == 'deny' %}
+                    ({{ 'products.product.inventory_out_of_stock' | t }})
+                    {% endif %}
+                    </option>
+            
+ </select>
+  </div>
+    <button type="submit" class="add-to-cart-button mt-3 mt-lg-3 mb-lg-2  btn btn-secondary opacity-50 w-100">{{ 'products.product.sold_out' | t }}</button>
+  {% endcase %}
+  {% endfor %}

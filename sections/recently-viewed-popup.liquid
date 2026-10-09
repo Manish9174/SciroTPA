@@ -1,0 +1,672 @@
+{% liquid
+  assign swiper_class = 'recently-view-product-' | append: section.id
+%}
+
+<style>
+      .recentview_popup {
+        position: fixed;
+        z-index: 1024;
+        width: 100%;
+        max-width: 450px;
+      }
+      .recentview_popup .card_container{
+        background: rgba(var(--color-background));
+        border: var(--bs-style-border) solid var(--bs-border-color);
+        border-radius: var(--bs-radius);
+      }
+
+
+      .recentview_popup[data-position="bottom-right"] {
+        bottom: 20px;
+        right: 20px;
+      }
+
+      .recentview_popup[data-position="bottom-left"] {
+        bottom: 20px;
+        left: 20px;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+
+      {% comment %} .recently-viewed-product img {
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: cover;
+        border-radius: 6px;
+        margin-bottom: 0.5rem;
+      } {% endcomment %}
+
+
+      .recently-viewed-products-grid {
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .grid-cols-2 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @media (max-width: 576px) {
+        .recentview_popup {
+          left: 10px !important;
+          right: 10px !important;
+          bottom: 10px !important;
+          top: auto !important;
+          max-width: none;
+          width: auto;
+        }
+      }
+
+
+    {% comment %} custom css {% endcomment %}
+
+    .recentview_popup .card_product { display: flex; gap: 1rem; align-items: center; }
+    .recentview_popup .card_product .card_image{
+      width: 100px;
+      height: auto;
+    }
+    .recentview_popup .card-header .btn-close{
+      width: 20px;
+      height: 20px;
+    }
+    .recentview_popup :is(.swiper-prev svg.icon_one, .swiper-next svg.icon_one) {
+        width: 60px;
+    }
+    .recentview_popup .my-carousel__actions :is(.swiper-prev.bg-arrow-style, .swiper-next.bg-arrow-style){
+      width: 35px !important;
+      height: 35px !important;
+    }
+     .recentview_popup .my-carousel__actions :is(.swiper-prev.bg-arrow-style svg, .swiper-next.bg-arrow-style svg){
+      width: 20px;
+      height:20px;
+     }
+     @media (max-width: 480px){
+      .recentview_popup .card_product .card_image {
+          width: 80px;
+          height: auto;
+      }
+    }
+    .card_body {
+      width: calc(100% - 80px);
+    }
+    .form-check-inputinput[type=checkbox]:checked:before {
+      content: "\2713";
+      color: rgba(var(--color-background));
+      display: flex;
+      justify-content: center;
+      text-shadow: 0px 0px 3px black;
+      align-items: center;
+      font-size: 10px;
+      font-weight: 700;
+      padding-top: 2px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto;
+  }
+  h6.recently-viewed-product-title {
+    font-size: var(--bs-font-md);
+}
+.recently-viewed-products .swiper-pagination{ padding: 5px !important; }
+.recently-viewed-products .swiper-pagination .swiper-pagination-bullet{ 
+    width: 8px !important;
+    height: 8px !important; 
+}
+.recently-viewed-products .swiper-pagination .swiper-pagination-bullet-active{ 
+    width: 40px !important;
+    height: 8px !important; 
+}
+</style>
+
+<div
+  class="recently-viewed-popup-section"
+  data-recently-viewed-popup
+  data-pagination="{{ section.settings.pagination }}"
+  data-pagination-style="{{ section.settings.pagination_style }}"
+  data-enabled="true"
+  data-delay="{{ section.settings.delay_seconds }}"
+  data-position="{{ section.settings.popup_position }}"
+  style="display: none;"
+>
+  <div class="recentview_popup recently-view-product-{{ section.id }}">
+    <div class="card_container d-flex flex-column shadow-lg">
+      <div class="card-header border-0 pt-3 pb-0 d-flex justify-content-between align-items-center">
+        <h6 class="mb-0">{{ 'recently_viewed.recently_viewed' | t }}</h6>
+        <button type="button" class="btn-close btn-sm" data-close-popup aria-label="Close"></button>
+      </div>
+      <div class="card-body pt-2">
+        <div class="recently-viewed-products" data-products-container>
+          <div class="text-center py-3">
+            <div class="spinner-border spinner-border-sm text-secondary" role="status">
+              <span class="visually-hidden"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer border-0">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="d-flex gap-2 align-items-center">
+            <label class="form-check-label small">
+              <input type="checkbox" class="m-0" id="disableRecentpopup">
+              {{ 'recently_viewed.dont_show' | t }}
+            </label>
+          </div>
+          <a href="{{ routes.all_products_collection_url }}" class="btn btn-sm btn-dark" data-view-all {% if template contains 'collection' and collection.handle == 'all' %}disabled {% endif %}>
+            {{- 'recently_viewed.view_all' | t -}}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  window.wdtCurrentProduct = {
+  id: {{ product.id | json }},
+  title: {{ product.title | json }},
+  image: {{ product.featured_media.preview_image | image_url: width: 600 | json }},
+  url: {{ product.url | json }},
+  price: {{ product.price | money_with_currency | json }}
+};
+</script>
+<script>
+window.recentlyViewedStrings = {
+  heading: {{ 'recently_viewed.recently_viewed' | t | json }},
+  dontShowAgain: {{ 'recently_viewed.dont_show' | t | json }},
+  close: {{ 'accessibility.close' | t | json }},
+  allProductsUrl: {{ routes.all_products_collection_url | json }},
+  viewAll: {{ 'recently_viewed.view_all' | t | json }}
+};
+</script>
+
+<script>
+window.recentViewPaginationTemplates = {
+  dots: `
+    <div class="pagination mt-3">
+      {% render 'pagination-styles', swiper-class: swiper_class %}
+    </div>
+  `,
+  arrows: `
+    <div class="d-flex justify-content-center gap-4 my-carousel__actions mx-auto py-1 position-relative mt-3">
+      <div class="swiper-prev swiper-prev-{{ section.id }} main-prev d-inline-flex bottom-0 z-3 m-0">
+        {% render 'arrow-left' %}
+      </div>
+
+      <div class="swiper-next swiper-next-{{ section.id }} main-next d-inline-flex bottom-0 z-3 m-0">
+        {% render 'arrow-right' %}
+      </div>
+    </div>
+  `
+};
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+     
+      const section = document.querySelector('[data-recently-viewed-popup]');
+      if (!section) return;
+
+      const enabled = section.dataset.enabled === 'true';
+      if (!enabled) return;
+
+      const delaySeconds = parseInt(section.dataset.delay) || 2;
+
+      class RecentlyViewedSimple {
+        constructor() {
+          this.storageKey = 'wdt_recently_viewed_simple';
+          this.closeKey = 'recentview_simple_closed';
+          this.products = [];
+          this.popup = null;
+          this.swiper = null;
+        }
+
+        init() {
+          if (localStorage.getItem(this.closeKey) === 'true') {
+            return;
+          }
+
+          this.loadProducts();
+          this.trackCurrentProduct();
+          if (!this.products || this.products.length === 0) {
+            return;
+          }
+          this.createPopup();
+
+          setTimeout(() => {
+            if (this.products.length > 0) {
+              this.showPopup();
+            }
+          }, delaySeconds * 1000);
+        }
+
+        loadProducts() {
+          try {
+            const stored = localStorage.getItem(this.storageKey);
+            if (stored) {
+              this.products = JSON.parse(stored);
+            }
+          } catch (e) {
+            this.products = [];
+          }
+        }
+
+        saveProducts() {
+          try {
+            localStorage.setItem(this.storageKey, JSON.stringify(this.products));
+          } catch (e) {}
+        }
+
+        trackCurrentProduct() {
+          if (!window.location.pathname.includes('/products/')) return;
+
+          const product = this.getCurrentProduct();
+          if (!product) return;
+
+          this.products = this.products.filter((p) => p.id !== product.id);
+          this.products.unshift(product);
+
+          if (this.products.length > 8) {
+            this.products = this.products.slice(0, 8);
+          }
+
+          this.saveProducts();
+        }
+
+        getCurrentProduct() {
+          if (!window.wdtCurrentProduct) return null;
+
+          return {
+            id: window.wdtCurrentProduct.id,
+            title: window.wdtCurrentProduct.title,
+            image: window.wdtCurrentProduct.image,
+            url: window.location.origin + window.wdtCurrentProduct.url,
+            price: window.wdtCurrentProduct.price,
+          };
+        }
+
+        getPaginationHTML() {
+          const section = document.querySelector('[data-recently-viewed-popup]');
+          if (!section) return '';
+
+          // Don't render pagination/navigation for a single product
+          if (this.products.length <= 1) {
+            return '';
+          }
+
+          const paginationType = section.dataset.pagination;
+          const paginationStyle = section.dataset.paginationStyle;
+
+          if (paginationType === 'dots') {
+            return window.recentViewPaginationTemplates.dots;
+          }
+
+          if (paginationType === 'arrow') {
+            let html = window.recentViewPaginationTemplates.arrows;
+
+            if (paginationStyle !== 'artistic') {
+              html = html.replaceAll(
+                'swiper-prev-{{ section.id }} main-prev d-inline-flex bottom-0 z-3 m-0',
+                'swiper-prev-{{ section.id }} main-prev d-inline-flex bottom-0 z-3 m-0 bg-arrow-style'
+              );
+
+              html = html.replaceAll(
+                'swiper-next-{{ section.id }} main-next d-inline-flex bottom-0 z-3 m-0',
+                'swiper-next-{{ section.id }} main-next d-inline-flex bottom-0 z-3 m-0 bg-arrow-style'
+              );
+            }
+
+            return html;
+          }
+
+          return '';
+        }
+
+        createPopup() {
+          const popupDiv = document.createElement('div');
+
+          popupDiv.className = 'recentview_popup';
+          const section = document.querySelector('[data-recently-viewed-popup]');
+          const position = section?.dataset.position || 'bottom-right';
+
+          popupDiv.setAttribute('data-position', position);
+
+          popupDiv.innerHTML = `
+    <div class="recently-view-product-{{ section.id }} card_container d-flex flex-column shadow-lg p-3 gap-3">
+      <div class="card-header border-0 d-flex justify-content-between align-items-center">
+        <h6 class="mb-0">${window.recentlyViewedStrings.heading}</h6>
+
+        <button
+          type="button"
+          class="btn-close btn-sm"
+          data-close-popup
+          aria-label="Close">
+        </button>
+      </div>
+
+
+        <div class="recently-viewed-products" data-products-container></div>
+
+
+      <div class="card-footer border-0 pt-0">
+        <div class="d-flex justify-content-between align-items-center">
+
+          <label class="form-check-label">
+        <input
+          type="checkbox"
+          class="m-0"
+          id="disableRecentpopup"
+          ${localStorage.getItem(this.closeKey) === 'true' ? 'checked' : ''}
+        >
+
+        ${window.recentlyViewedStrings.dontShowAgain}
+      </label>
+
+          <a
+            href="${window.recentlyViewedStrings.allProductsUrl}"
+            class="border-0 bg-transparent p-1 text-decoration-underline btn h-auto rounded-0"
+            data-view-all>
+            {{- 'recently_viewed.view_all' | t -}}
+          </a>
+
+        </div>
+      </div>
+    </div>
+  `;
+
+          document.body.appendChild(popupDiv);
+
+          this.popup = popupDiv;
+
+          this.bindEvents();
+
+          this.renderProducts();
+        }
+
+        bindEvents() {
+          const closeBtn = this.popup.querySelector('[data-close-popup]');
+
+          closeBtn?.addEventListener('click', () => {
+            this.hidePopup();
+          });
+
+          this.popup.addEventListener('change', (event) => {
+            if (event.target.id !== 'disableRecentpopup') return;
+
+            const checked = event.target.checked;
+
+            if (checked) {
+              localStorage.setItem(this.closeKey, 'true');
+              setTimeout(() => this.hidePopup(), 1000);
+            } else {
+              localStorage.removeItem(this.closeKey);
+            }
+          });
+        }
+
+        renderProducts() {
+          const container = this.popup.querySelector('[data-products-container]');
+          if (!container) return;
+
+          if (this.products.length === 0) {
+            container.innerHTML = `
+              <p class="text-center text-muted my-3 small">
+                ${window.recentlyViewedStrings.noProducts}
+              </p>
+            `;
+            return;
+          }
+
+          container.innerHTML = `
+          <div class="swiper recentview_swiper">
+            <div class="swiper-wrapper">
+              ${this.products
+                .map(
+                  (product) => `
+                <div class="swiper-slide">
+                  <div class="card_product">
+                  <div class="card_image card_product_detail">
+                    <a href="${product.url}" class="recently-viewed-product">
+                      <img
+                        src="${product.image}"
+                        alt="${this.escapeHtml(product.title)}"
+                        loading="lazy"
+                      >
+                    </a>
+                    </div>
+                    <div class="card_body">
+                      <h6 class="recently-viewed-product-title">
+                        <a href="${product.url}" class="recently-viewed-product text-decoration-none">
+                           ${this.escapeHtml(product.title)}
+                        </a>
+                      </h6>
+
+                      <div class="recently-viewed-product-price">
+                        ${product.price || ''}
+                      </div>
+                    </div>
+                  </div>
+                 
+                </div>
+              `
+                )
+                .join('')}
+            </div>
+
+          ${this.getPaginationHTML()}
+          </div>
+        `;
+
+          setTimeout(() => {
+            if (this.swiper) {
+              this.swiper.destroy(true, true);
+            }
+
+            this.swiper = new Swiper('.recentview_swiper', {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            loop: this.products.length > 1,
+
+            keyboard: {
+              enabled: true,
+              onlyInViewport: false,
+            },
+
+            navigation: this.products.length > 1 ? {
+              nextEl: '.swiper-next',
+              prevEl: '.swiper-prev',
+            } : false,
+
+            pagination: this.products.length > 1 ? {
+              el: '.swiper-pagination',
+              clickable: true,
+            } : false,
+          });
+
+          const bullets = container.querySelectorAll('.swiper-pagination-bullet');
+          bullets.forEach((bullet, index) => {
+            bullet.addEventListener('keydown', (e) => {
+              const key = e.key;
+
+              if (!['ArrowLeft', 'ArrowRight', 'Left', 'Right', 'Home', 'End'].includes(key)) {
+                return;
+              }
+
+              e.preventDefault();
+              e.stopPropagation();
+
+              if (!this.swiper) return;
+
+              let nextIndex = index;
+
+              switch (key) {
+                case 'ArrowRight':
+                case 'Right':
+                  nextIndex = Math.min(index + 1, bullets.length - 1);
+                  break;
+
+                case 'ArrowLeft':
+                case 'Left':
+                  nextIndex = Math.max(index - 1, 0);
+                  break;
+
+                case 'Home':
+                  nextIndex = 0;
+                  break;
+
+                case 'End':
+                  nextIndex = bullets.length - 1;
+                  break;
+              }
+
+              bullets[nextIndex].focus();
+
+              if (this.swiper.params.loop) {
+                this.swiper.slideToLoop(nextIndex);
+              } else {
+                this.swiper.slideTo(nextIndex);
+              }
+            });
+          });
+          }, 100);
+        }
+
+        showPopup() {
+          if (!this.popup) return;
+
+          if (localStorage.getItem(this.closeKey) === 'true') {
+            return;
+          }
+
+          this.popup.style.display = 'block';
+        }
+
+        hidePopup() {
+          if (!this.popup) return;
+
+          this.popup.style.display = 'none';
+        }
+
+        escapeHtml(str) {
+          if (!str) return '';
+          return String(str).replace(/[&<>"']/g, function (match) {
+            const escape = {
+              '&': '&amp;',
+              '<': '&lt;',
+              '>': '&gt;',
+              '"': '&quot;',
+              "'": '&#39;',
+            };
+            return escape[match];
+          });
+        }
+      }
+
+      window.recentlyViewed = new RecentlyViewedSimple();
+      window.recentlyViewed.init();
+
+     document.addEventListener('shopify:section:load', function(event) {
+        const section = event.target.querySelector('[data-recently-viewed-popup]');
+        if (!section) return;
+
+        document.querySelectorAll('.recentview_popup').forEach(el => el.remove());
+
+        if (window.recentlyViewed?.swiper) {
+          window.recentlyViewed.swiper.destroy(true, true);
+        }
+
+        window.recentlyViewed = new RecentlyViewedSimple();
+        window.recentlyViewed.init();
+
+        console.log('Position:', section.dataset.position);
+        console.log('Pagination:', section.dataset.pagination);
+        console.log('Style:', section.dataset.paginationStyle);
+      });
+    });
+</script>
+
+{% schema %}
+{
+  "name": "t:settings_schema.recently_viewed_popup.name",
+  "settings": [
+    {
+      "type": "range",
+      "id": "delay_seconds",
+      "label": "t:settings_schema.recently_viewed_popup.settings.delay_seconds",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 2,
+      "unit": "sec"
+    },
+    {
+      "type": "select",
+      "id": "popup_position",
+      "label": "t:settings_schema.recently_viewed_popup.settings.popup_position",
+      "options": [
+        { "value": "bottom-right", "label": "t:settings_schema.recently_viewed_popup.settings.options.option_1.label" },
+        { "value": "bottom-left", "label": "t:settings_schema.recently_viewed_popup.settings.options.option_2.label" }
+      ],
+      "default": "bottom-right"
+    },
+    {
+      "type": "select",
+      "id": "pagination",
+      "label": "t:sections.all.pagination.label",
+      "default": "arrow",
+      "options": [
+        {
+          "label": "t:sections.all.pagination.option_1.label",
+          "value": "dots"
+        },
+        {
+          "label": "t:sections.all.pagination.option_2.label",
+          "value": "arrow"
+        },
+        {
+          "label": "t:sections.all.pagination.option_3.label",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "pagination_style",
+      "label": "t:sections.all.pagination_style.label",
+      "default": "artistic",
+      "options": [
+        {
+          "label": "t:sections.all.pagination_style.option_1.label",
+          "value": "artistic"
+        },
+        {
+          "label": "t:sections.all.pagination_style.option_2.label",
+          "value": "bold"
+        },
+        {
+          "label": "t:sections.all.pagination_style.option_3.label",
+          "value": "regular"
+        }
+      ],
+      "visible_if": "{{ section.settings.pagination != 'none' }}"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:settings_schema.recently_viewed_popup.name"
+    }
+  ]
+}
+{% endschema %}

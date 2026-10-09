@@ -1,0 +1,43 @@
+{% style %}
+  .activate-account{
+    padding-top:140px;
+    padding-bottom:140px;
+  }
+  
+  @media screen and (max-width:1400px){
+  .activate-account{
+    padding-top:105px;
+    padding-bottom:105px;
+  }
+  }
+  @media screen and (max-width:768px){
+    .activate-account{
+      padding-top:70px;
+      padding-bottom:70px;
+    }
+  }
+{% endstyle %}
+
+<div class="activate-account container text-break">
+  <div class="mx-auto col-12 col-lg-9 col-xxl-6">
+    <h1 class="text-center mb-4">{{ 'general.password_page.activate_account' | t }}</h1>
+{% form 'activate_customer_password' %}
+  {{ form.errors | default_errors }}
+
+  <div class="password mb-4">
+    <label for="password" class="mb-3 h4">{{ 'general.password_page.login_form_password_label' | t }}</label>
+    <input type="password" name="customer[password]" class="form-control" id="password">
+  </div>
+
+  <div class="password_confirm mb-4">
+    <label for="password_confirmation" class="mb-3 h4">{{ 'general.password_page.reset_confirm_password' | t }}</label>
+    <input type="password" name="customer[password_confirmation]" class="form-control" id="password_confirmation">
+  </div>
+
+  <div class="submit text-center d-flex gap-4 justify-content-center flex-wrap">
+    <input type="submit" class="btn btn-primary" value="Activate account">
+    <input type="submit" name="decline" class="btn btn-secondary" value="Decline invitation">
+  </div>
+{% endform %}
+  </div>
+</div>

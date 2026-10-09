@@ -1,0 +1,78 @@
+{% assign form_style = section.settings.form_style %}
+<div
+  id="contact-form-container"
+  {% if settings.animation != 'none' %}
+    data-aos="{{ settings.animation}}"
+  {% endif %}
+>
+  {% form 'contact' %}
+    {{ form.errors | default_errors }}
+    {%- if form.posted_successfully? -%}
+      <p class="align-items-baseline justify-content-center d-flex gap-1 mb-5">
+        <span class="text-success lh-0">{% render 'icon-success' %}</span>{{ 'contact.success' | t }}
+      </p>
+    {%- endif -%}
+    <div class="row row-cols-1  {% if form_style == 'form_with_img' or form_style == 'form_with_map'  %} row-cols-xl-2 {% else %} row-cols-sm-2  {% endif %}">
+      <div class="mb-4 mb-sm-5">
+        <h4 class="mb-0">
+          <label class="mb-3" for="first-name">{{ 'contact.name' | t }} *</label>
+        </h4>
+        <input
+          type="text"
+          class="form-control "
+          name="contact[first_name]"
+          id="first-name"
+          placeholder="{{ 'contact.placeholder_name' | t }}"
+          required
+          aria-required="true"
+        >
+      </div>
+      <div class="mb-4 mb-sm-5">
+        <h4 class="mb-0">
+          <label class="mb-3" for="email">{{ 'contact.mail' | t }} *</label>
+        </h4>
+        <input
+          type="email"
+          class="form-control "
+          name="contact[email]"
+          id="email"
+          placeholder="{{ 'contact.email' | t }}"
+          pattern="^([a-zA-Z0-9_\-\+\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,9})$"
+          required
+          aria-required="true"
+        >
+      </div>
+    </div>
+    <div class="mb-4 mb-sm-5">
+      <h4 class="mb-0">
+        <label class="mb-3" for="phone">{{ 'contact.phone' | t }} *</label>
+      </h4>
+      <input
+        type="tel"
+        class="form-control "
+        name="contact[phone]"
+        id="phone"
+        placeholder="{{ 'contact.placeholder_phone' | t }}"
+        required
+        aria-required="true"
+      >
+    </div>
+    <div class="mb-4 mb-sm-5">
+      <h4 class="mb-0">
+        <label class="mb-3" for="message">{{ 'contact.messages' | t }} *</label>
+      </h4>
+      <textarea
+        class="form-control contact-message"
+        name="contact[body]"
+        id="message"
+        rows="5"
+        placeholder="{{ 'contact.info' | t }}"
+        required
+        aria-required="true"
+      ></textarea>
+    </div>
+    <div class="d-flex justify-content-{{ section.settings.column_alignment }}">
+      <button type="submit" class="btn btn-primary rounded-pill ">{{ 'contact.send' | t }}</button>
+    </div>
+  {% endform %}
+</div>

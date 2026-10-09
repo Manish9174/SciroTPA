@@ -1,0 +1,614 @@
+{% render 'spacing' %}
+
+{% style %}
+    .testimonial.section-{{ section.id }} .card > *{ background:rgb(var(--color-background)) }
+    .testimonial.section-{{ section.id }} .card{ border-radius:{{ section.settings.radius }}px; overflow: hidden;}
+    .testimonial.section-{{ section.id }} .card{ border:{{ section.settings.border-width }}px solid rgba(var(--color-border));}
+    .testimonial.section-{{ section.id }} .product-image{ border:{{ section.settings.border-width }}px solid rgba(var(--color-border)); border-radius:{{ section.settings.radius | divided_by: 2 }}px; overflow: hidden;height: 100%;width: 100%; }
+    .testimonial.section-{{ section.id }} .swiper .swiper-slide{ width:100%;margin-right:30px; }
+    .testimonial.section-{{ section.id }} .card .card-body, .testimonial.section-{{ section.id }} .card .card-footer{ padding:1.3rem !important; }
+    .testimonial.section-{{ section.id }} .profile,.testimonial .product-title ,.testimonial .profile-content {  word-break: break-word; word-wrap: break-word;word-break: break-all;}
+    .testimonial.section-{{ section.id }} .cursor-pointer { cursor: pointer !important;}
+    .testimonial.section-{{ section.id }} .card-footer.border-top {border-top: {{ section.settings.border-width }}px var(--bs-border-style) rgba(var(--color-border)) !important;}
+    .testimonial.section-{{ section.id }} .card-footer.border-bottom {border-bottom: {{ section.settings.border-width }}px var(--bs-border-style) rgba(var(--color-border)) !important;}
+  @media (min-width: 768px) and (max-width: 1400px){
+    .testimonial.section-{{ section.id }} .card .card-body, .testimonial.section-{{ section.id }} .card .card-footer{ padding:1rem !important;}
+  }
+  @media (max-width: 767px) {
+    .testimonial.section-{{ section.id }} .card .card-body, .testimonial.section-{{ section.id }} .card .card-footer{ padding:1rem !important;}
+  }
+  @media (max-width: 575.98px) {
+    .testimonial.section-{{ section.id }} .card .card-body, .testimonial.section-{{ section.id }} .card .card-footer{ padding:0.6rem !important;}
+  }
+  {%- for block in section.blocks -%}
+   {% if block.settings.text == blank  and block.settings.title == blank and block.settings.enable_profile == false and block.settings.name == blank and block.settings.designation == blank and block.settings.rating_value == 0 %}
+  .testimonial.section-{{ section.id }} .card-footer.border-top{border-top:0 !important;}
+   {% endif %}
+    .testimonial.section-{{ section.id }} .card.block-{{ block.id }} .author-img {border-radius:{{block.settings.author_radius}}%;}
+  {% endfor %}
+ .testimonial.section-{{ section.id }} .card-footer .product .testimonial_image{max-width:100px; max-height:100px; width:100px; height:100px;}
+ .testimonial.section-{{ section.id }} .card-footer:last-child{border-radius:0;}
+ .testimonial.section-{{ section.id }} .profile-content .author_name{ font-family: var(--bs-body-font-family);}
+{% endstyle %}
+{% liquid
+  assign block_align = section.settings.block_alignment
+  assign product_position = section.settings.product_position
+  assign show_desktop_slider = false
+  if section.settings.enable_slider
+    assign show_desktop_slider = true
+    assign auto_play = section.settings.autoplay_delay
+    assign centered_mode = false
+    assign loop_slide = false
+    assign dots = section.settings.swiper_pagination
+    assign space = section.settings.space | default: 0
+  endif
+
+  assign slider_desktop = section.settings.desktop
+  assign slider_laptop = section.settings.desktop | minus: 1
+  if slider_desktop == '1'
+    assign slider_laptop = 1
+    assign slider_tablet = 1
+  elsif slider_desktop == '2'
+    assign slider_laptop = 2
+    assign slider_tablet = 2
+  elsif slider_desktop == '3'
+    assign slider_laptop = 2
+    assign slider_tablet = 2
+  elsif slider_desktop == '4'
+    assign slider_laptop = 3
+    assign slider_tablet = 2
+  elsif slider_desktop == '5'
+    assign slider_laptop = 3
+    assign slider_tablet = 2
+  elsif slider_desktop == '6'
+    assign slider_laptop = 3
+    assign slider_tablet = 3
+  endif
+  assign slider_mobile = section.settings.columns_mobile | default: 1
+%}
+
+{% render 'swiper-initialization', space: space, slider_desktop: slider_desktop %}
+{% capture d_flex %} d-flex flex-column {% endcapture %}
+{% capture gap %} gap-lg-4 gap-3{% endcapture %}
+
+{%- capture column_options -%}
+  row-cols-{{ slider_mobile }} row-cols-md-{{  slider_tablet }} row-cols-lg-{{ slider_laptop }} row-cols-xl-{{ slider_desktop }}
+{%- endcapture -%}
+
+{%- capture slider_options -%}
+ mobile-{{ slider_mobile }} tablet-{{  slider_tablet }} laptop-{{ slider_laptop }} desktop-{{ slider_desktop }}
+{%- endcapture -%}
+
+  <div class="color-{{ section.settings.color_scheme }} isolate gradient">
+    <div class="{% if section.settings.full_width %}container-fluid{% else %}container gx-20{% endif %} ">
+      <div class="testimonial section-{{ section.id }} section-{{ section.id }}-padding">
+        {% render 'title-container' %}
+    {% if show_desktop_slider %}
+      <section-swiper-slide>
+        <div
+          data-slider-options='
+            {
+                "desktop": "{{ slider_desktop }}",
+                "laptop": "{{ slider_laptop }}",
+                "tablet": "{{ slider_tablet }}",
+                "mobile": "{{ slider_mobile }}",
+                "loop": "{{ loop_slide }}",
+                "mode": "{{ centered_mode }}",
+                "auto_play": "{{ auto_play }}",
+                "dots": "{{ dots }}",
+               "space": "{{ space }}"
+            }
+          '
+        >
+    {% endif %}
+      <div
+        {% if show_desktop_slider %}
+          class="swiper swiper-container-testimonial-{{ section.id }} position-relative" data-swiper-slider
+        {% else %}
+          class="row {{ column_options }} g-3 position-relative"
+        {% endif %}
+        {% if settings.animation != 'none' %} data-aos="{{ settings.animation}}"{% endif %}
+         >
+          {% if show_desktop_slider %}<div class="swiper-wrapper">{% endif %}
+              {%- for block in section.blocks -%}
+              {% unless block.settings.text == blank
+              and block.settings.title == blank
+              and block.settings.enable_profile == false
+              and block.settings.name == blank
+              and block.settings.designation == blank
+              and block.settings.rating_value == 0
+              and block.settings.enable_product == false
+              %}
+              <div class="{% if show_desktop_slider %}swiper-slide {{ slider_options }} {% else %}col{% endif %}"
+          {{ block.shopify_attributes }}>
+              <div
+              class="block-{{ block.id }} card h-auto overflow-hidden color-{{ section.settings.color_scheme_block }} isolate gradient"
+              {{ block.shopify_attributes }}
+              >
+              {% unless block.settings.text == blank
+              and block.settings.title == blank
+              and block.settings.enable_profile == false
+              and block.settings.name == blank
+              and block.settings.designation == blank
+              and block.settings.rating_value == 0
+              %}
+              <div class="card-body {{ d_flex }} {{ gap }} text-{{ block_align }} {% if section.settings.product_position == 'top' %} order-2 {% endif %}">
+              {% if block.settings.title != blank %}
+              <h3 class="card-title mb-0 h4">{{ block.settings.title }}</h3>
+              {% endif %}
+              {% if block.settings.text != blank %}
+              <p class="card-text m-0">{{ block.settings.text }}</p>
+              {% endif %}
+              {% unless block.settings.enable_profile == false
+              and block.settings.name == blank
+              and block.settings.designation == blank
+              and block.settings.rating_value == 0
+              %}
+              <div class="d-flex flex-nowrap align-items-start {{ gap }} justify-content-{{ block_align }} text-{{ block_align }}">
+              {% if block.settings.enable_profile %}
+              <div class="col-2 px-0">
+              <div class="author-img overflow-hidden ratio ratio-1x1">
+              {% if block.settings.enable_profile and block.settings.profile != blank %}
+              {{ block.settings.profile | image_url: width: 200 | image_tag: class: 'img-fluid' }}
+              {% else %}
+              {%- assign placeholder_image_index = forloop.index0 | modulo: 3 | plus: 1 -%}
+              {%- assign placeholder_image = 'collection-' | append: placeholder_image_index -%}
+              {%- if placeholder_image -%}
+              {{ placeholder_image | placeholder_svg_tag: 'placeholder_svg' }}
+              {% endif %}
+              {% endif %}
+              </div>
+              </div>
+              {% endif %}
+              <div class="profile-content text-break px-0">
+              <div class="px-0 profile d-flex flex-row align-items-end gap-2 flex-wrap  justify-content-{{ block_align }}">
+              {% if block.settings.name != blank %}
+              <h4 class="m-0 h6 author_name">{{ block.settings.name }}</h4>
+              {% endif %}
+              {% if block.settings.designation != blank %}
+              <p class="m-0">{{ block.settings.designation }}</p>
+              {% endif %}
+              </div>
+              {% if block.settings.rating_value != 0 %}
+              <div class="star-rating">
+              {% assign rating_value = block.settings.rating_value %}
+              {% render 'star-rating', rating_value: rating_value %}
+              </div>
+              {% endif %}
+              </div>
+              </div>
+              {% endunless %}
+              </div>
+              {% endunless %}
+              <!-- product -->
+
+              {% assign product = block.settings.product %}
+              {% if product != blank %}
+              <div class="card-footer {% if section.settings.product_position == 'top' %} order-1 border-bottom {% else %} border-top {% endif %}">
+              <div class="product align-items-center d-flex gap-4  justify-content-{{ block_align }} text-center-{{ block_align }} p-2">
+              <div class="testimonial_image px-0 mx-0">
+              <div class="product-image card_product_detail">
+              <a href="{{ product.url }}">
+              {% if product.media.size > 0 %}
+              {{ product.featured_media | image_url: width: 200 | image_tag: class: 'w-100 h-100' }}
+              {% else %}
+              {%- capture products -%}
+              {%- cycle 'product-1', 'product-2','product-3', 'product-4' -%}
+              {%- endcapture -%}
+              {{ products | placeholder_svg_tag: 'placeholder_svg' }}
+              {% endif %}
+              </a>
+              </div>
+              </div>
+              <div class="product-title text-{{ block_align }} text-break">
+              <h5 class="h6">
+              <a class="text-decoration-none cursor-pointer" href="{{ product.url }}">
+              {{- product.title -}}
+              </a>
+              </h5>
+              <p class="m-0">{{ product.price | money }}</p>
+              </div>
+              </div>
+              </div>
+              {% else %}
+              <div class="card-footer {% if section.settings.product_position == 'top' %} order-1 border-bottom {% else %} border-top {% endif %}">
+              <div class="product align-items-center d-flex gap-4 justify-content-{{ block_align }} text-center-{{ block_align }} p-2">
+              <div class="col-3 px-0 mx-0 ">
+              <div class="product-image card_product_detail">
+              {%- capture products -%}
+              {%- cycle 'product-1', 'product-2','product-3', 'product-4' -%}
+              {%- endcapture -%}
+              {{ products | placeholder_svg_tag: 'placeholder_svg' }}
+              </div>
+              </div>
+              <div class="product-title text-{{ block_align }} text-break">
+              <h5 class="h6">
+              <a role="link" aria-disabled="true" class="text-decoration-none cursor-pointer">
+              {{ 'onboarding.product_title' | t }}
+              </a>
+              </h5>
+              <div class="placeholder-price">{{ 0.00 | money }}</div>
+              </div>
+              </div>
+              </div>
+              {% endif %}
+              </div>
+              </div>
+              {% endunless %}
+              {%- endfor -%}
+          {% if show_desktop_slider %}</div>{% endif %}
+           {% if show_desktop_slider -%}
+         {% assign swiper_class = 'swiper-container-testimonial-' | append: section.id %}
+        {% if section.settings.pagination == 'dots' %}
+          <div class="pagination mt-4">
+          {% render 'pagination-styles', swiper-class: swiper_class %}
+          </div>
+        {% elsif section.settings.pagination == 'arrow' %}
+          <div class="d-flex justify-content-center gap-5 my-carousel__actions mx-auto  py-1 position-relative mt-4">
+            <div class="swiper-prev swiper-prev-{{ section.id }} main-prev d-inline-flex bottom-0 z-3 m-0 {% if section.settings.pagination == 'arrow' and section.settings.pagination_style != 'artistic' %} bg-arrow-style {% endif %}">
+              {% render 'arrow-left' %}
+            </div>
+            <div class="swiper-next swiper-next-{{ section.id }} main-next z-3 m-0  d-inline-flex bottom-0 {% if section.settings.pagination == 'arrow' and section.settings.pagination_style != 'artistic' %} bg-arrow-style {% endif %}">
+              {% render 'arrow-right' %}
+            </div>
+          </div>
+        {% endif %}
+      {% endif %}
+    </div>
+  {% if show_desktop_slider %}
+  </div>
+   </section-swiper-slide>
+  {% endif %}
+      </div>
+    </div>
+
+
+{% schema %}
+{
+  "name": "t:sections.testimonial.name",
+  "tag": "section",
+  "class": "section-testimonial",
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.overlay"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "t:sections.all.full_width.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "default": "t:sections.testimonial.settings.title.default",
+      "label": "t:sections.all.heading.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "default": "t:sections.all.content_description.default",
+      "label": "t:sections.all.description.label"
+    },
+    {
+      "type": "select",
+      "id": "column_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.all.content_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.all.content_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.all.content_alignment.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "t:sections.all.content_alignment.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.block_settings.content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme_block",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "block_alignment",
+      "options": [
+        {
+          "value": "start",
+          "label": "t:sections.testimonial.settings.block_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.testimonial.settings.block_alignment.options__2.label"
+        },
+        {
+          "value": "end",
+          "label": "t:sections.all.content_alignment.options__3.label"
+        }
+      ],
+      "default": "start",
+      "label": "t:sections.testimonial.settings.block_alignment.label"
+    },
+    {
+      "type": "range",
+      "id": "border-width",
+      "min": 0,
+      "max": 5,
+      "label": "t:settings_schema.card.settings.border.label",
+      "default": 1,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "radius",
+      "min": 0,
+      "max": 30,
+      "step": 5,
+      "label": "t:settings_schema.card.settings.card_radius.label",
+      "default": 5,
+      "unit": "px"
+    },
+        {
+      "type": "select",
+      "id": "product_position",
+      "options": [
+        {
+          "value": "top",
+          "label": "t:sections.testimonial.settings.product_position.options__1.label"
+        },
+        {
+          "value": "bottom",
+          "label": "t:sections.testimonial.settings.product_position.options__2.label"
+        }
+      ],
+      "default": "bottom",
+      "label": "t:sections.testimonial.settings.product_position.label"
+    },
+    {
+      "type": "select",
+      "id": "desktop",
+      "options": [
+        {
+          "value": "2",
+          "label": "t:sections.all.column_option.desktop.options__2.label"
+        },
+        {
+          "value": "3",
+          "label": "t:sections.all.column_option.desktop.options__3.label"
+        }
+      ],
+      "default": "3",
+      "label": "t:sections.all.column_option.desktop.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.swiper.heading"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_slider",
+      "label": "t:sections.all.swiper.swiper_slider_enable"
+    },
+    {
+      "type": "select",
+      "id": "pagination",
+      "label": "t:sections.all.pagination.label",
+      "default": "arrow",
+      "options": [
+        {
+          "label": "t:sections.all.pagination.option_1.label",
+          "value": "dots"
+        },
+        {
+          "label": "t:sections.all.pagination.option_2.label",
+          "value": "arrow"
+        },
+        {
+          "label": "t:sections.all.pagination.option_3.label",
+          "value": "none"
+        }
+      ],
+      "visible_if": "{{ section.settings.enable_slider == true }}"
+    },
+    {
+      "type": "select",
+      "id": "pagination_style",
+      "label": "t:sections.all.pagination_style.label",
+      "default": "artistic",
+      "options": [
+        {
+          "label": "t:sections.all.pagination_style.option_1.label",
+          "value": "artistic"
+        },
+        {
+          "label": "t:sections.all.pagination_style.option_2.label",
+          "value": "bold"
+        },
+        {
+          "label": "t:sections.all.pagination_style.option_3.label",
+          "value": "regular"
+        }
+      ],
+      "visible_if": "{{ section.settings.enable_slider == true and section.settings.pagination != 'none' }}"
+    },
+    {
+      "type": "range",
+      "id": "autoplay_delay",
+      "min": 0,
+      "max": 7,
+      "step": 1,
+      "unit": "s",
+      "default": 0,
+      "label": "t:sections.all.swiper.autoplay",
+      "info":  "t:sections.all.swiper.info",
+      "visible_if": "{{ section.settings.enable_slider == true }}"
+    },
+    {
+      "type": "range",
+      "id": "space",
+      "min": 5,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "t:sections.all.swiper.space",
+      "default": 20,
+      "visible_if": "{{ section.settings.enable_slider == true }}"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.spacing.spacing_heading"
+    },
+    {
+      "type": "range",
+      "id": "top_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "bot_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 140
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "t:sections.testimonial.blocks.name",
+      "limit": 10,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "t:sections.all.heading.label",
+          "default": "t:sections.testimonial.blocks.settings.title.default"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "label": "t:sections.all.description.label",
+          "default": "t:sections.testimonial.blocks.settings.text.default"
+        },
+        {
+        "type": "header",
+        "content": "t:sections.testimonial.blocks.settings.author_details.content"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_profile",
+          "default": true,
+          "label": "t:sections.testimonial.blocks.settings.enable_profile.label"
+        },
+        {
+          "type": "image_picker",
+          "id": "profile",
+          "label": "t:sections.testimonial.blocks.settings.profile_image.label",
+          "info": "150 x 150px required",
+          "visible_if": "{{ block.settings.enable_profile == true }}"
+        },
+        {
+          "type": "range",
+          "id": "author_radius",
+          "min": 0,
+          "max": 50,
+          "step": 5,
+          "label": "t:sections.testimonial.blocks.settings.author_radius.label",
+          "default": 0,
+          "unit": "%",
+          "visible_if": "{{ block.settings.enable_profile == true }}"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "t:sections.testimonial.blocks.settings.name.label",
+          "default": "t:sections.testimonial.blocks.settings.name.default"
+        },
+        {
+          "type": "text",
+          "id": "designation",
+          "label": "t:sections.testimonial.blocks.settings.designation.label",
+          "default": "t:sections.testimonial.blocks.settings.designation.default"
+        },
+        {
+          "type": "range",
+          "id": "rating_value",
+          "min": 0,
+          "max": 5,
+          "step": 0.5,
+          "label": "t:sections.testimonial.blocks.settings.rating_value.label",
+          "default": 3
+        },
+        {
+          "type": "header",
+          "content": "t:sections.testimonial.blocks.settings.testimonial_product"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "t:sections.testimonial.blocks.settings.product.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.testimonial.presets.name",
+      "blocks": [
+        {
+          "type": "column"
+        },
+        {
+          "type": "column"
+        },
+        {
+          "type": "column"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

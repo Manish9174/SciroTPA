@@ -1,0 +1,364 @@
+{% render 'spacing' %}
+{% liquid
+  assign btn_style = ''
+  case section.settings.btn_style
+    when 'primary'
+      assign btn_style = 'btn-primary'
+    when 'secondary'
+      assign btn_style = 'btn-secondary'
+    when 'primary-outline'
+      assign btn_style = 'btn-outline-primary'
+    when 'secondary-outline'
+      assign btn_style = 'btn-outline-secondary'
+    when 'link'
+      assign btn_style = 'btn-link p-0 m-auto'
+    else
+      assign btn_style = 'btn-primary'
+  endcase
+%}
+{%- style -%}
+  .deal_timer-{{ section.id }} {
+      padding-top: {{ section.settings.top_inner_space | times: 0.5 | round: 0 }}px;
+      padding-bottom: {{ section.settings.bottom_inner_space | times: 0.5 | round: 0 }}px;
+    }
+    @media screen and (min-width: 768px) {
+      .deal_timer-{{ section.id }} {
+        padding-top: {{ section.settings.top_inner_space }}px;
+        padding-bottom: {{ section.settings.bottom_inner_space }}px;
+      }
+    }
+    {% if section.settings.background-img %}
+    .deal_timer-{{ section.id }}{
+      position:relative;
+      /* background:transparent; */
+    }
+    .deal_timer-{{ section.id }}::before {
+      content: '';
+      display: block;
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      /* opacity: {{ section.settings.image_overlay_opacity | divided_by: 100.0 }}; */
+      background-image: url({{ section.settings.background-img | image_url: width:1920 }});
+      background-repeat: no-repeat;
+      background-position: center;
+      z-index:0;
+  }
+   .deal_timer-{{ section.id }}::after{
+      content:'';
+      position:absolute;
+      width:100%;
+      height:100%;
+      inset: 0;
+      background-color: rgba(var(--color-background), {{section.settings.image_overlay_opacity | divided_by: 100.0}});
+   }
+        {% endif %}
+
+    .deal_timer-{{ section.id }} .title-container {
+      margin-bottom: 0!important;
+    }
+    @media (min-width: 769px) {
+      .time-unit { min-width: 4rem;}
+
+  }
+  @media (min-width:992px){
+    .deal_timer-{{ section.id }} .title-container {
+      margin-bottom: 0 !important;
+    }
+  }
+    .product-deal-count{overflow:hidden;}
+    .time-unit { min-width: 3rem;}
+    span.time-label {
+    font-size: var(--bs-font-md);
+    font-weight: 600;
+}
+.deals-counter .time-unit {
+    position: relative;
+}
+@media (min-width:480px){
+.deals-counter .time-unit:not(:first-child)::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 30px;
+    background: rgba(var(--color-foreground), .4);
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+}
+@media (max-width:350px){
+  .product-deal-count ul {
+    flex-direction: column;
+    row-gap: 2rem;
+}
+}
+
+@media (min-width: 576px) and (max-width: 991.98px) {
+  .deal_timer-{{ section.id }}  .title-container {
+        max-width: 86%;
+    }
+}
+
+{%- endstyle -%}
+
+<div class="section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} gradient">
+  <div class=" {% if section.settings.full_width %}container-fluid px-0{% else %}container{% endif %} position-relative z-3 ">
+    <div class="deal_timer-{{ section.id }}">
+      <div class="row align-items-center justify-content-center row-gap-5 m-0 px-sm-5 position-relative z-1">
+        {% render 'title-container', class: 'col-12 col-lg-6 position-relative ms-lg-0 ', btn_style: btn_style %}
+        <div class="deals-counter px-0 col-12 col-lg-6 position-relative" {% if settings.animation != 'none' %} data-aos="{{ settings.animation}}" {% endif %}>
+          {% assign deal_time = section.settings.deal_end_date %}
+          <div class="product-deal-count" data-end-time="{{ deal_time }}">
+            <ul class="list-unstyled d-flex mb-0">
+              <li class="time-unit vstack text-center">
+                <span class="number h2 mb-0 days">00</span>
+                <span class="time-label text-uppercase">{{ 'sections.deal-banner.days' | t }}</span>
+              </li>
+              <li class="time-unit vstack text-center">
+                <span class="number h2 mb-0 hours">00</span>
+                <span class="time-label text-uppercase">{{ 'sections.deal-banner.hours' | t }}</span>
+              </li>
+              <li class="time-unit vstack text-center">
+                <span class="number h2 mb-0 minutes">00</span>
+                <span class="time-label text-uppercase">{{ 'sections.deal-banner.minutes' | t }}</span>
+              </li>
+              <li class="time-unit vstack text-center">
+                <span class="number h2 mb-0 seconds">00</span>
+                <span class="time-label text-uppercase">{{ 'sections.deal-banner.seconds' | t }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    function makeTimer() {
+      document.querySelectorAll('.product-deal-count').forEach(function (element) {
+        var rawEndTime = element.getAttribute('data-end-time');
+        var validFormat = /^\d{2} [A-Z]{3,} \d{4}$/i;
+        if (!validFormat.test(rawEndTime)) {
+          return;
+        }
+        var endTime = new Date(rawEndTime);
+        var endTimestamp = Math.floor(endTime.getTime() / 1000);
+        var nowTimestamp = Math.floor(Date.now() / 1000);
+        var timeLeft = endTimestamp - nowTimestamp;
+        if (timeLeft > 0) {
+          var days = Math.floor(timeLeft / 86400);
+          var hours = Math.floor((timeLeft % 86400) / 3600);
+          var minutes = Math.floor((timeLeft % 3600) / 60);
+          var seconds = timeLeft % 60;
+
+          element.querySelector('.days').textContent = days < 10 ? '0' + days : days;
+          element.querySelector('.hours').textContent = hours < 10 ? '0' + hours : hours;
+          element.querySelector('.minutes').textContent = minutes < 10 ? '0' + minutes : minutes;
+          element.querySelector('.seconds').textContent = seconds < 10 ? '0' + seconds : seconds;
+        } else {
+          var dealLabel = element.querySelector('.deal-label');
+          var dealClock = element.querySelector('.deal-clock');
+          if (dealLabel) dealLabel.style.display = 'none';
+          if (dealClock) dealClock.style.display = 'none';
+
+          element.querySelector('.days').textContent = '00';
+          element.querySelector('.hours').textContent = '00';
+          element.querySelector('.minutes').textContent = '00';
+          element.querySelector('.seconds').textContent = '00';
+        }
+      });
+    }
+    makeTimer();
+    setInterval(makeTimer, 1000);
+    document.addEventListener('shopify:section:load', function (event) {
+      makeTimer();
+    });
+  });
+</script>
+{% schema %}
+{
+  "name": "t:sections.deal-banner.name",
+  "tag": "section",
+  "class": "section section-deal-timer",
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.overlay"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "t:sections.all.full_width.label",
+      "default": false
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "default": "t:sections.deal-banner.settings.title.default",
+      "label": "t:sections.all.heading.label"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "default": "t:sections.deal-banner.settings.description.default",
+      "label": "t:sections.all.description.label"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "default": "t:sections.all.button.label",
+      "label": "t:sections.all.button.label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:sections.all.button_link.label",
+      "visible_if": "{{ section.settings.button_label != blank }}"
+    },
+    {
+      "type": "select",
+      "id": "btn_style",
+      "label": "t:sections.all.button_style.label",
+      "options": [
+        {
+          "label": "t:sections.all.button_style.options.primary.label",
+          "value": "primary"
+        },
+        {
+          "label": "t:sections.all.button_style.options.secondary.label",
+          "value": "secondary"
+        },
+        {
+          "label": "t:sections.all.button_style.options.primary-outline.label",
+          "value": "primary-outline"
+        },
+        {
+          "label": "t:sections.all.button_style.options.secondary-outline.label",
+          "value": "secondary-outline"
+        },
+        {
+          "label": "t:sections.all.button_style.options.link.label",
+          "value": "link"
+        }
+      ],
+      "default": "primary",
+      "visible_if": "{{ section.settings.button_label != blank }}"
+    },
+    {
+      "type": "select",
+      "id": "column_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.all.content_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.all.content_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.all.content_alignment.options__3.label"
+        }
+      ],
+      "default": "left",
+      "label": "t:sections.all.content_alignment.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.deal-banner.settings.count_timer"
+    },
+    {
+      "type": "text",
+      "id": "deal_end_date",
+      "label": "t:sections.deal-banner.settings.select_date.label",
+      "info": "t:sections.deal-banner.settings.deal_end_date.info"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.deal-banner.settings.layout_background"
+    },
+    {
+      "type": "image_picker",
+      "id": "background-img",
+      "label": "t:sections.deal-banner.settings.background-image.label",
+      "info": "1920 x 860px recommended"
+    },
+    {
+      "type": "range",
+      "id": "image_overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "%",
+      "label": "t:sections.deal-banner.settings.opacity.label",
+      "default": 60,
+      "info": "t:sections.deal-banner.settings.opacity.info",
+      "visible_if": "{{ section.settings.background-img != blank }}"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.layout_inner_space.label"
+    },
+    {
+      "type": "range",
+      "id": "top_inner_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.deal-banner.settings.top_inner_space.label",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "bottom_inner_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.deal-banner.settings.bottom_inner_space.label",
+      "default": 120
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.spacing.spacing_heading"
+    },
+    {
+      "type": "range",
+      "id": "top_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.top_space",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "bot_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.bot_space",
+      "default": 60
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.deal-banner.name",
+      "settings": {
+
+      }
+    }
+  ]
+}
+{% endschema %}

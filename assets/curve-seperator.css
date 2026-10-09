@@ -1,0 +1,27 @@
+
+  .seperator:has(> .curve-on-top)::before, .seperator:has(> .curve-on-bottom)::after,
+  .seperator:has(> .curve-on-both)::before, .seperator:has(> .curve-on-both)::after { 
+    display: block !important;
+    position: relative; 
+    content: ""; 
+    right: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 15vw; 
+    background: var(--bs-body-bg);
+  }
+    .seperator:has(svg.wdt-separator.wdt-separator__stroke.wdt-separator__down):after {
+    bottom: -2px;
+    }
+    .seperator:has(svg.wdt-separator.wdt-separator__stroke.wdt-separator__top):before {
+    top: -2px;
+    }
+
+  /* Svg Wave */
+
+  .wdt-separator { z-index: 9; pointer-events: none; width: 100%; height: 15vw; fill: var(--gradient-background); display: block; position: absolute; width: calc(100% + 10px); left: -5px; }
+  .wdt-separator__top { top: 2px; /* -webkit-transform: translateY(-100%); transform: translateY(-100%); */}
+  .wdt-separator__down { bottom: 1px; /* -webkit-transform: translateY(100%); transform: translateY(100%); */  rotate: 180deg; filter:  }
+
+  .wdt-separator__top:is( .curve-on-invert-top, .curve-on-invert-both ) { top: -1px; /* -webkit-transform: translateY(-100%); transform: translateY(-100%); */ }
+  .wdt-separator__down:is( .curve-on-invert-bottom, .curve-on-invert-both ) { bottom: -1px; /* -webkit-transform: translateY(100%); transform: translateY(100%); */  rotate: 0deg; }

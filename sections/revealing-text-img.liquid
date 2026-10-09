@@ -1,0 +1,633 @@
+{% liquid
+  assign has_curve = section.settings.curve
+  assign has_heading = section.settings.heading
+  assign has_heading_size = section.settings.heading_size
+  assign top_mobile_space = section.settings.top_space | times: 0.5 | round: 0
+  assign bottom_mobile_space = section.settings.bot_space | times: 0.5 | round: 0
+  assign top_desktop_space = section.settings.top_space
+  assign bottom_desktop_space = section.settings.bot_space
+%}
+{%- style -%}
+    /* ---------------------->swapping the class for padding  inner and outer visiblity---start */
+         /* condition for without curve and with curves on both  side (spaces-mobile) */
+        {% if has_curve == 'none' %} .revealing-text.section-{{ section.id }}-padding  {% elsif has_curve == 'both'  %} .revealing-text-img-{{ section.id }} {% endif %}
+          {
+            padding-top: {{ section.settings.top_space | times: 0.5 | round: 0 }}px;
+            padding-bottom: {{ bottom_mobile_space }}px;
+         }
+          /* condition for top and bottom  side curves (spaces-mobile) */
+        {% if has_curve == 'top' %}  .revealing-text-img-{{ section.id }} {% elsif has_curve == 'bottom' %}  .revealing-text.section-{{ section.id }}-padding {% endif %}
+         {
+           padding-top: {{ top_mobile_space }}px;
+         }
+          {% if has_curve == 'top' %}   .revealing-text.section-{{ section.id }}-padding {% elsif has_curve == 'bottom' %}   .revealing-text-img-{{ section.id }} {% endif %}
+       {
+          padding-bottom: {{ bottom_mobile_space}}px;
+        }
+
+         @media screen and (min-width: 768px) {
+                /* condition for without curve and with curves on both  side (spaces-desktop) */
+        {% if has_curve == 'none' %}  .revealing-text.section-{{ section.id }}-padding {% elsif has_curve == 'both' %} .revealing-text-img-{{ section.id }} {% endif %}
+          {
+          padding-top:{{ top_desktop_space}}px;
+          padding-bottom: {{ bottom_desktop_space }}px;
+          }
+                /* condition for top and bottom  side curves (spaces-desktop) */
+        {% if has_curve == 'top' %}  .revealing-text-img-{{ section.id }} {% elsif has_curve == 'bottom' %}  .revealing-text.section-{{ section.id }}-padding {% endif %}
+         {
+           padding-top:{{ top_desktop_space}}px;
+         }
+          {% if has_curve == 'top' %} .revealing-text.section-{{ section.id }}-padding {% elsif has_curve == 'bottom' %}   .revealing-text-img-{{ section.id }} {% endif %}
+       {
+          padding-bottom: {{ bottom_desktop_space }}px;
+        }
+      }
+  /* ---------------------->swapping the class for padding  inner and outer visiblity---end */
+  {% if section.settings.top_space == 0 and has_curve != 'none'  %}
+    .section-{{ section.id }}{
+      padding-top:1px;
+    }
+      {% endif %}
+    {% if section.settings.bot_space == 0 and has_curve != 'none'  %}
+      .section-{{ section.id }}{
+      padding-bottom:1px;
+    }
+    {% endif %}
+
+    .reveal-text {
+      max-width: min(64vw, 100%);
+      margin-left: auto;
+      margin-right: auto;
+    }
+    @media (max-width: 767.98px) {
+      .reveal-text {
+        max-width: 85%;
+      }
+      .reveal-text .reveal-heading{
+       font-size:var(--h2);
+      }
+    }
+    .revealing-text-img-{{ section.id }} :is(.sticky-img) {
+      min-width: 3rem;
+    }
+    .revealing-text-img-{{ section.id }} :is(.sticky-img):first-child {
+      margin-top: 0!important;
+    }
+    .revealing-text-img .reveal_img_block{
+      /* {% if section.settings.blend_mode == "difference" %}
+      mix-blend-mode: difference;
+      {% else %}
+      mix-blend-mode: normal;
+      {% endif %} */
+      {% if section.settings.heading !=blank  %}
+      transform:translateY(-10%);
+      {% endif %}
+    }
+    .revealing-text-img-{{ section.id }} .revealing-img_right :is(.sticky-img):first-child {
+      margin-top:8vh;
+    }
+    .revealing-text-img-{{ section.id }} :is(.placeholder_svg),
+    .revealing-text-img-{{ section.id }} :is(.sign_img) {
+      max-width: min(50vw, 30rem);
+      max-height:400px;
+    }
+    .revealing-text-img :is(.placeholder_svg){
+      width: 470px  ;
+      height: 230px ;
+      margin-bottom: 1rem ;
+    }
+    .reveal-text .reveal-heading {
+      position: relative;
+      display: inline;
+      -webkit-text-fill-color: rgb(var(--color-foreground),0.15);
+      -webkit-background-clip: text;
+      background-clip: text;
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      color: var(--bs-heading-color);
+      -webkit-background-image: linear-gradient(45deg, currentColor, currentColor);
+      background-image: linear-gradient(45deg, currentColor, currentColor);
+    }
+    .revealed .reveal-heading {  animation: bgsize 3s linear .25s;
+    }
+     /* .revealed-up .reveal-heading {  animation: bgsize 3s linear .25s 2; animation-direction:reverse;
+    } */
+    @keyframes bgsize {
+       0% { background-size: 0% 100%; }
+      20% { background-size: 20% 100%; }
+      40% { background-size: 40% 100%; }
+      60% { background-size: 60% 100%; }
+      80% { background-size: 80% 100%; }
+      100% { background-size: 100% 100%; }
+  }
+  .revealing-text-img .text-wrapper{ top:15%; }
+  .revealing-text-img .wdt-separator.wdt-separator__top{z-index:0 !important;}
+  .revealing-img_right .sticky-img{margin-top:30px;}
+  .revealing-text-img .seperator:has(svg.wdt-separator.wdt-separator__stroke.wdt-separator__down):after{bottom:0;}
+  .revealing-text-img .seperator:has(svg.wdt-separator.wdt-separator__stroke.wdt-separator__top):before{top:0;}
+
+{%- endstyle -%}
+
+<div class="section-{{ section.id }} revealing-text-img revealing-text-img-{{ section.id }}" {% if settings.animation != 'none' %}data-aos="{{ settings.animation}}"{% endif %}>
+  <div class="revealing-text section-{{ section.id }}-padding  color-{{ section.settings.color_scheme }} gradient {% unless has_curve == 'none' %} curvy seperator{% endunless %} position-relative">
+    {% render 'curve-marquee', curve_class: has_curve %}
+    {% unless has_curve == 'none' %}
+      {% render 'curve-seperator', curve_class: has_curve %}
+    {% endunless %}
+    <div class="container-fluid" 
+      {% if settings.animation != 'none' %}
+        data-aos="{{ settings.animation}}"
+      {% endif %}>
+      <div class="text-wrapper position-sticky">
+        <div class="reveal-text mx-auto text-center">
+          {% if has_heading != blank %}
+            <h2 class="reveal-heading {{ has_heading_size }} pb-3 text-break">
+              {{ has_heading }}
+            </h2>
+          {% endif %}
+        </div>
+        {% if section.settings.author_image != blank or section.settings.author_name != blank %}
+          <div class="d-flex align-items-center justify-content-center flex-column">
+            {% if section.settings.enable_img %}
+              {% if section.settings.author_image != blank %}
+                {%- assign width = section.settings.author_image.width -%}
+                {%- assign author_image_height = width | divided_by: section.settings.author_image.aspect_ratio -%}
+                <div class="mb-3 mt-5 sign_img">
+                  {{
+                    section.settings.author_image
+                    | image_url: width: width, height: author_image_height
+                    | image_tag: loading: 'lazy', class: 'img-fluid',
+                     alt: section.settings.author_image.alt | escape
+                  }}
+                </div>
+              {% else %}
+                {{ 'image' | placeholder_svg_tag: 'placeholder_svg mb-3 mt-5' }}
+              {% endif %}
+            {% endif %}
+            <div class="text-center d-flex align-items-baseline flex-wrap justify-content-center mt-3 gap-2">
+              {% if section.settings.author_name != blank %}
+                <h3 class="mb-0 me-1 text-break" {{ section.shopify_attributes }}>
+                  {{ section.settings.author_name }}
+                </h3>
+              {% endif %}
+              {% if section.settings.author_profession != blank %}
+                <span>
+                  <p class="mb-0 opacity-75">
+                    {{ section.settings.author_profession }}
+                  </p>
+                </span>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+      <div class="reveal_img_block position-relative row g-2 g-lg-4 justify-content-between h-100">
+        {% assign min_vh = 31.25 %}
+        {% assign max_vh = 62.5 %}
+        {% assign range = max_vh | minus: min_vh %}
+        <div class="col-5 col-sm-4 revealing-img_left">
+          <div class="row flex-column g-0 g-lg-3">
+            {%- assign placeholder_image_index = 1 -%}
+            {%- assign placeholder_image = 'product-' | append: placeholder_image_index -%}
+            {%- assign class_combinations = 'col-5 offset-2 col-lg-3 offset-lg-5,col-6 col-lg-4 ms-0,col-6 offset-3 col-lg-4 offset-lg-5,col-7 me-auto offset-md-2 col-lg-4 offset-lg-3,col-2 ms-auto'
+              | split: ','
+            -%}
+            {%- assign class_index = 0 -%}
+            <!-- Initialize class_index to track class combinations -->
+
+            {%- for block in section.blocks -%}
+              {%- assign index = forloop.index0 -%}
+              {%- assign is_even = index | modulo: 2 -%}
+              {%- assign placeholder_image_index = forloop.index0 | modulo: 4 | plus: 1 -%}
+              {%- assign placeholder_image = 'product-' | append: placeholder_image_index -%}
+
+              {% if is_even == 1 %}
+                {% assign random_timestamp = 'now' | date: '%s' %}
+                {% assign random_value = random_timestamp | slice: -2, 2 | plus: index %}
+                {% assign mod_value = random_value | modulo: range %}
+                {% assign random_margin = mod_value | plus: min_vh %}
+
+                {%- assign current_classes = class_combinations[class_index] -%}
+
+                <div
+                  class="{{ current_classes }} sticky-img {% if section.settings.rotate_img %} rotate-scroll-{{ section.id }} {% endif %}"
+                  style="margin-top: {{ random_margin }}%;" {{ block.shopify_attributes }}
+                >
+                  {% if block.settings.image != blank %}
+                    {%- assign reveal_image_width = 400 -%}
+                    {%- assign reveal_image_height = reveal_image_width
+                      | divided_by: section.settings.reveal_image.aspect_ratio
+                    -%}
+                    {{
+                      block.settings.image
+                      | image_url: width: reveal_image_width, height: reveal_image_height
+                      | image_tag: loading: 'lazy', class: 'img-fluid'
+                    }}
+                  {% else %}
+                    {{ placeholder_image | placeholder_svg_tag: 'placeholder-svg w-100 h-auto' }}
+                  {% endif %}
+                </div>
+                {%- assign class_index = class_index | plus: 1 -%}
+                {%- if class_index >= class_combinations.size -%}
+                  {%- assign class_index = 0 -%}
+                {%- endif -%}
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        <div class="col-5 col-sm-4 revealing-img_right">
+          <div class="row flex-column g-0 g-lg-3">
+            {%- assign class_combinations_right = 'col-6 col-lg-4 ms-auto,col-6 ms-3 col-lg-4 ms-lg-4,col-6 offset-6 col-lg-4 offset-lg-7,col-5 col-lg-3 ms-0,col-5 col-lg-4 ms-4'
+              | split: ','
+            -%}
+            {%- assign placeholder_image_index = 1 -%}
+            {%- assign placeholder_image = 'product-' | append: placeholder_image_index -%}
+            {%- assign class_index_right = 0 -%}
+
+            {%- for block in section.blocks -%}
+              {%- assign index = forloop.index0 -%}
+              {%- assign is_even = index | modulo: 2 -%}
+              {%- assign placeholder_image_index = forloop.index0 | modulo: 4 | plus: 1 -%}
+              {%- assign placeholder_image = 'product-' | append: placeholder_image_index -%}
+
+              {% if is_even == 0 %}
+                {% assign random_timestamp = 'now' | date: '%s' %}
+                {% assign random_value = random_timestamp | slice: -2, 2 | plus: index %}
+                {% assign mod_value = random_value | modulo: range %}
+                {% assign random_margin = mod_value | plus: min_vh %}
+
+                {%- assign current_classes_right = class_combinations_right[class_index_right] -%}
+                <div
+                  class="{{ current_classes_right }} sticky-img {% if section.settings.rotate_img %} rotate-scroll-{{ section.id }} {% endif %} {{random_timestamp}}"
+                  style="margin-top: {{ random_margin }}%; " {{ block.shopify_attributes }}
+                >
+                  {%- assign reveal_image_width = 400 -%}
+                  {%- assign reveal_image_height = reveal_image_width
+                    | divided_by: section.settings.reveal_image.aspect_ratio
+                  -%}
+                  {% if block.settings.image != blank %}
+                    {{
+                      block.settings.image
+                      | image_url: width: reveal_image_width, height: reveal_image_height
+                      | image_tag: loading: 'lazy', class: 'img-fluid'
+                    }}
+                  {% else %}
+                    {{ placeholder_image | placeholder_svg_tag: 'placeholder-svg w-100 h-auto' }}
+                  {% endif %}
+                </div>
+                {%- assign class_index_right = class_index_right | plus: 1 -%}
+                {%- if class_index_right >= class_combinations_right.size -%}
+                  {%- assign class_index_right = 0 -%}
+                {%- endif -%}
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function initializeRotateScroll() {
+    var revealingTextImg = document.querySelector('.revealing-text-img-{{ section.id }}');
+    var stickyImgs = revealingTextImg.querySelectorAll('.sticky-img.rotate-scroll-{{ section.id }}');
+    stickyImgs.forEach((img) => {
+      img.style.transform = 'rotate(10deg)';
+    });
+
+    var targetClass = 'reveal-text';
+    var additionalClass = 'revealed';
+
+    var targetClass1 = 'revealing-text-img-{{ section.id }}';
+    var upClass = 'revealed';
+    let lastScrollTop = 0;
+
+    function isElementInView(element) {
+      var windowTop = $(window).scrollTop();
+      var windowBottom = windowTop + $(window).height();
+      var elementTop = element.offset().top;
+      var elementBottom = elementTop + element.outerHeight();
+
+      return elementBottom > windowTop && elementTop < windowBottom;
+    }
+    function isElementInView1(element) {
+      var windowTop = $(window).scrollTop();
+      var windowBottom = windowTop + $(window).height();
+      var elementTop = element.offset().top;
+      var elementBottom = elementTop + element.outerHeight();
+
+      return elementBottom > windowTop && elementTop < windowBottom;
+    }
+
+    window.addEventListener('scroll', () => {
+      $('.' + targetClass).each(function () {
+        if (isElementInView($(this))) {
+          $(this).addClass(additionalClass);
+        }
+      });
+
+      var currentScroll = $(this).scrollTop();
+      var isScrollingUp = currentScroll < lastScrollTop;
+
+      $('.' + targetClass).each(function () {
+        if (isElementInView1($(this))) {
+          if (isScrollingUp) {
+            $(this).addClass(upClass);
+            {% comment %} $(this).removeClass('revealed'); {% endcomment %}
+          } else {
+            {% comment %} $(this).removeClass(upClass); {% endcomment %}
+          }
+        }
+      });
+
+      lastScrollTop = currentScroll;
+
+      var rect = revealingTextImg.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom >= 0) {
+        var scrollPosition = window.scrollY - rect.top;
+        var maxScroll = revealingTextImg.scrollHeight - window.innerHeight;
+        var scrollFraction = scrollPosition / maxScroll;
+
+        stickyImgs.forEach((img) => {
+          var rotationDegree = 10 + scrollFraction * 360;
+          img.style.transform = `rotate(${rotationDegree}deg)`;
+        });
+      }
+    });
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    function initializeRotateScroll() {
+      var revealingTextImg = document.querySelector('.revealing-text-img-{{ section.id }}');
+      var stickyImgs = revealingTextImg.querySelectorAll('.sticky-img.rotate-scroll-{{ section.id }}');
+      stickyImgs.forEach((img) => {
+        img.style.transform = 'rotate(10deg)';
+      });
+
+      var targetClass = 'reveal-text';
+      var additionalClass = 'revealed';
+
+      var targetClass1 = 'revealing-text-img-{{ section.id }}';
+      var upClass = 'revealed';
+      let lastScrollTop = 0;
+
+      function isElementInView(element) {
+        var windowTop = $(window).scrollTop();
+        var windowBottom = windowTop + $(window).height();
+        var elementTop = element.offset().top;
+        var elementBottom = elementTop + element.outerHeight();
+
+        return elementBottom > windowTop && elementTop < windowBottom;
+      }
+      function isElementInView1(element) {
+        var windowTop = $(window).scrollTop();
+        var windowBottom = windowTop + $(window).height();
+        var elementTop = element.offset().top;
+        var elementBottom = elementTop + element.outerHeight();
+
+        return elementBottom > windowTop && elementTop < windowBottom;
+      }
+
+      window.addEventListener('scroll', () => {
+        $('.' + targetClass).each(function () {
+          if (isElementInView($(this))) {
+            $(this).addClass(additionalClass);
+          }
+        });
+
+        var currentScroll = $(this).scrollTop();
+        var isScrollingUp = currentScroll < lastScrollTop;
+
+        $('.' + targetClass).each(function () {
+          if (isElementInView1($(this))) {
+            if (isScrollingUp) {
+              $(this).addClass(upClass);
+              {% comment %} $(this).removeClass('revealed'); {% endcomment %}
+            } else {
+              {% comment %} $(this).removeClass(upClass); {% endcomment %}
+            }
+          }
+        });
+
+        lastScrollTop = currentScroll;
+
+        var rect = revealingTextImg.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom >= 0) {
+          var scrollPosition = window.scrollY - rect.top;
+          var maxScroll = revealingTextImg.scrollHeight - window.innerHeight;
+          var scrollFraction = scrollPosition / maxScroll;
+
+          stickyImgs.forEach((img) => {
+            var rotationDegree = 10 + scrollFraction * 360;
+            img.style.transform = `rotate(${rotationDegree}deg)`;
+          });
+        }
+      });
+    }
+    initializeRotateScroll();
+  });
+  if (Shopify.designMode) {
+    document.addEventListener('shopify:section:load', initializeRotateScroll);
+    document.addEventListener('shopify:section:reorder', initializeRotateScroll);
+    document.addEventListener('shopify:section:select', initializeRotateScroll);
+  }
+</script> 
+
+{% schema %}
+{
+  "name": "t:sections.reveal-text.name",
+  "tag": "section",
+  "class": "section revealing-text position-relative",
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.overlay"]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-2"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "t:sections.reveal-text.settings.heading.default",
+      "label": "t:sections.all.heading.label",
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+
+    {
+      "type": "header",
+      "content": "t:sections.reveal-text.settings.signature_heading"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_img",
+      "label": "t:sections.reveal-text.settings.enable_img.label",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "author_image",
+      "label": "t:sections.reveal-text.settings.signature.label",
+      "info": "t:sections.reveal-text.settings.signature.info",
+      "visible_if": "{{ section.settings.enable_img == true }}"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.reveal-text.settings.author_heading"
+    },
+    {
+      "type": "text",
+      "id": "author_name",
+      "label": "t:sections.reveal-text.settings.creator.label",
+      "default": "Creator name"
+    },
+    {
+      "type": "text",
+      "id": "author_profession",
+      "label": "t:sections.reveal-text.settings.profession.label",
+      "default": "Profession"
+    },
+
+    {
+      "type": "header",
+      "content": "t:sections.reveal-text.settings.animation_heading"
+    },
+    {
+      "type": "checkbox",
+      "id": "rotate_img",
+      "label": "t:sections.reveal-text.settings.rotate_img.label",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.curve.content"
+    },
+    {
+      "type": "select",
+      "id": "curve",
+      "label": "t:sections.all.curve.label",
+      "options": [
+        {
+          "label": "t:sections.all.curve.settings.options_1.label",
+          "value": "none"
+        },
+        {
+          "label": "t:sections.all.curve.settings.options_2.label",
+          "value": "top"
+        },
+        {
+          "label": "t:sections.all.curve.settings.options_3.label",
+          "value": "bottom"
+        },
+        {
+          "label": "t:sections.all.curve.settings.options_4.label",
+          "value": "both"
+        }
+      ],
+      "default": "both"
+    },
+    {
+      "type": "range",
+      "id": "curve_opacity",
+      "label": "t:sections.all.opacity.label",
+      "min": 30,
+      "max": 100,
+      "step": 10,
+      "unit": "%",
+      "default": 50,
+      "visible_if": "{{ section.settings.curve != 'none' }}"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.spacing.spacing_heading"
+    },
+    {
+      "type": "range",
+      "id": "top_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.top_space",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "bot_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.bot_space",
+      "default": 140
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "t:sections.reveal-text.blocks.name",
+      "limit": 10,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.reveal-text.blocks.settings.image.label",
+          "info": "534 × 399px recommended"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.reveal-text.presets.name",
+      "blocks": [
+        {
+          "type": "column"
+        },
+        {
+          "type": "column"
+        },
+        {
+          "type": "column"
+        },
+        {
+          "type": "column"
+        },
+        {
+          "type": "column"
+        },
+        {
+          "type": "column"
+        },
+        {
+          "type": "column"
+        },
+        {
+          "type": "column"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

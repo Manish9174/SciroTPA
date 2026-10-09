@@ -1,0 +1,258 @@
+{% render 'spacing' %}
+
+{%- style -%}
+    @media (max-width: 1199.98px) {
+    .recover_form form .form_input button{
+      position: relative !important;
+    }
+    .recover_form form .form_input{ width:100% !important; }
+  }
+  .form_container{ width:41%; }
+  .form_container .errors{
+    color: rgba(var(--color-link-hover));
+  }
+  .form_container .errors ul{
+     padding-left: 0.25rem;
+  }
+  @media (max-width: 1199.98px){
+    .form_container{ width:51%; }
+  }
+  @media (max-width: 991.98px){
+    .form_container{ width:71%; }
+  }
+  @media (max-width: 767.98px) {
+    .form_container{
+      width:100%;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient w-100">
+   <div class="section-{{ section.id }}-padding container ">
+  <div class="container">
+     <div class="mx-auto form_container" id="reset_password" style="display:none !important">
+       <div class="mb-5 text-center">
+    <h2 class="{{ section.settings.heading_size }}" tabindex="-1">
+      {{ 'customer.recover_password.title' | t }}
+    </h2>
+    <p>
+      {{ 'customer.recover_password.subtext' | t }}
+    </p>
+  </div>
+     {%- form 'recover_customer_password', id:"reset_customer_password" -%}
+              {% assign recover_success = form.posted_successfully? %}
+              <div class="mb-3 mb-lg-4">
+               <label for="RecoverEmail" class="mb-3 h4">{{ 'customer.login_page.email' | t }}*</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  value=""
+                  name="email"
+                  id="RecoverEmail"
+                  autocorrect="off"
+                  autocapitalize="off"
+                  autocomplete="email"
+                  {% if form.errors %}
+                    aria-invalid="true" aria-describedby="RecoverEmail-email-error" autofocus
+                  {% endif %}
+                  placeholder="{{ 'sections.blogs.article.enter_your_email' | t }}"
+                  required
+                >
+              </div>
+       
+             {%- if form.errors contains 'password' -%}
+        <small id="password-error" class="form__message text-danger">
+          <svg aria-hidden="true" focusable="false">
+            <use href="#icon-error" />
+          </svg>
+          {{ form.errors.translated_fields.password | capitalize }}
+          {{ form.errors.messages.password }}
+        </small>
+      {%- endif -%}
+              <div class="d-flex flex-wrap gap-4 align-items-center w-100 recover_button justify-content-between">
+                <button class="btn btn-primary rounded-pill">
+                  <span> {{ 'customer.login_page.submit' | t }} </span>
+                </button>
+                <div class="text-center text-md-end">
+                  <a href="#login"> {{ 'customer.login_page.cancel' | t }} </a>
+                </div>
+              </div>
+            {%- endform -%}                
+     </div>         
+</div>
+  
+  <div class="mx-auto form_container">
+      <div id="login_panel">
+        <div class="text-center mb-5">
+          {%- if section.settings.title != blank -%}
+            <h2 class="{{ section.settings.heading_size }}">{{ section.settings.title | escape }}</h2>
+          {% endif %}
+          {%- if section.settings.paragraph != blank -%}{{ section.settings.paragraph }} {% endif %}
+        </div>
+        <div class="login_form">
+          {% form 'customer_login' %}
+            {%- if form.errors -%}
+                <div class="form__message d-flex align-items-start p-0" role="alert">  
+                  <span class="text-danger">{% render 'icon-error' %}</span>
+                  {{ form.errors | default_errors }}
+                </div>
+              {%- endif -%} 
+            {%- if recover_success == true -%}
+              <div class="mb-3 d-flex align-items-center" role="alert">
+                <span class="form__message text-start" tabindex="-1" >
+                  <span class=" text-success">{% render 'icon-success' %}</span>
+                  <span>{{ 'customer.recover_password.success' | t }}</span>
+                </span>
+              </div>
+            {%- endif -%}
+            <div class="email mb-4 mb-sm-5">
+                <label for="email" class="mb-3 h4">{{ 'customer.login_page.email' | t }}*</label>
+              <input
+                type="email"
+                id="email"
+                name="customer[email]"
+                autocomplete="off"
+                placeholder="{{ 'customer.login_page.email_placeholder' | t }}"
+                class="form-control" required
+              >
+            </div>
+            <div class="password mb-4">
+                <label for="password" class="mb-3 h4"> {{ 'customer.login_page.password' | t }}*</label>
+              <input
+                type="password"
+                id="password"
+                name="customer[password]"
+                autocomplete="off"
+                placeholder="{{ 'customer.login_page.your_password' | t }}"
+                class="form-control" required
+              >
+            </div>
+
+            <div class="my-3  text-center text-sm-start">
+              <a href="{{ routes.account_login_url }}#recover">
+                {{- 'customer.login_page.forgot_password' | t -}}
+              </a>
+            </div>
+            <div class="d-flex flex-wrap row-gap-3 justify-content-center justify-content-sm-between align-items-center mt-4 ">
+              <div class="submit me-3">
+                <button type="submit" class="btn btn-primary rounded-pill ">
+                  {{ 'customer.login_page.login' | t }}
+                </button>
+              </div>
+              <div class="d-flex flex-wrap row-gap-2">
+                <span class="me-2"> {{ 'customer.login_page.account' | t }} </span>
+                {% if shop.customer_accounts_optional %}
+                  <a href="{{ routes.account_register_url }}">
+                    {{- 'customer.login_page.create_account' | t -}}
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+          {% endform %}
+        </div>
+      </div>
+    </div>
+    {%- if shop.checkout.guest_login -%}
+    <div class="border-1 border-top mt-5 pt-5 text-center">
+      <h2>{{ 'customer.login_page.guest_title' | t }}</h2>
+      {%- form 'guest_login' -%}
+        <button class='btn btn-secondary'>
+          {{ 'customer.login_page.guest_continue' | t }}
+        </button>
+      {%- endform -%}
+    </div>
+  {%- endif -%}
+  </div>
+</div>
+<script> 
+      document.addEventListener('DOMContentLoaded', function () { 
+ 
+    const successAlert = document.querySelector('.alert-recover-success');
+
+    if (successAlert) {
+        // Hide specific elements by class
+        const elementsToHide = document.querySelectorAll('#login_panel');
+        elementsToHide.forEach(element => {
+            element.style.display = 'none !important';
+        });
+    }
+ 
+    // if (window.location.hash === '#recover') {
+    //     document.getElementById('reset_password').style.display = 'block';
+    //     document.getElementById('login_panel').style.display = 'none';
+    // } else {
+    //     document.getElementById('reset_password').style.display = 'none';
+    //     document.getElementById('login_panel').style.display = 'block';
+    // }
+});
+
+</script>
+{% schema %}
+{
+  "name": "t:sections.main-login.name",
+  "class": "account-template d-flex flex-column justify-content-center align-items-center h-100 color-scheme",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "default": "Text with icons",
+      "label": "t:sections.all.heading.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+    "type": "text",
+    "id": "paragraph",
+    "label": "t:sections.all.description.label"
+   },
+    {
+      "type": "header",
+      "content": "t:sections.all.spacing.spacing_heading"
+    },
+    {
+      "type": "range",
+      "id": "top_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "bot_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 140
+    }
+  ]
+}
+{% endschema %}

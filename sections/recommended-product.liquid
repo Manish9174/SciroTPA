@@ -1,0 +1,23 @@
+{%- if recommendations.performed and recommendations.products_count > 0 -%}
+  <div class="swiper-wrapper">
+    {%- for product in recommendations.products -%}
+      {%- unless product.tags contains 'hidden-from-recommendations' -%}
+        <div class="swiper-slide" tabindex="0">
+          <div class="swiper-card my-1 card swiper-card--{{ forloop.index }} d-flex flex-column w-75 mx-auto">
+            {% render 'card-product',
+              card_product: product,
+              aspect_ratio: aspect_ratio,
+              secondary_img: section.settings.secondary_img,
+              show_inventory: section.settings.show_inventory,
+              show_vendor: section.settings.show_vendor,
+              show_swatches: section.settings.show_swatches,
+              enable_quickview: section.settings.enable_quickview,
+              show_product_type: section.settings.show_product_type,
+              section_id: section.id
+            %}
+          </div>
+        </div>
+      {%- endunless -%}
+    {%- endfor -%}
+  </div>
+{%- endif -%}

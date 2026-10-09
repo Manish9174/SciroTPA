@@ -1,0 +1,71 @@
+{% style %}
+
+  
+  .seperator:has(> .curve-on-top)::before, .seperator:has(> .curve-on-bottom)::after,
+  .seperator:has(> .curve-on-both)::before, .seperator:has(> .curve-on-both)::after { 
+    display: block !important;
+    position: relative; 
+    content: ""; 
+    right: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 15vw; 
+    background: var(--bs-body-bg);
+  }
+    .seperator:has(svg.wdt-separator.wdt-separator__stroke.wdt-separator__down):after {
+    bottom: -2px;
+    }
+    .seperator:has(svg.wdt-separator.wdt-separator__stroke.wdt-separator__top):before {
+    top: -2px;
+    }
+
+  /* Svg Wave */
+
+   .wdt-separator { z-index: 9; pointer-events: none; width: 100%; height: 15vw; fill: var(--gradient-background); display: block; position: absolute; width: calc(100% + 10px); left: -5px; }
+   .wdt-separator__top { top: 2px; /* -webkit-transform: translateY(-100%); transform: translateY(-100%); */}
+   .wdt-separator__down { bottom: 1px; /* -webkit-transform: translateY(100%); transform: translateY(100%); */  rotate: 180deg; filter:  }
+
+   .wdt-separator__top:is( .curve-on-invert-top, .curve-on-invert-both ) { top: -1px; /* -webkit-transform: translateY(-100%); transform: translateY(-100%); */ }
+   .wdt-separator__down:is( .curve-on-invert-bottom, .curve-on-invert-both ) { bottom: -1px; /* -webkit-transform: translateY(100%); transform: translateY(100%); */  rotate: 0deg; }
+
+
+
+
+
+
+  .section-{{ section.id }}-padding.curvy{ 
+    {% if curve_class == 'top' or curve_class == 'both' %}
+        margin-top:6vw; 
+   {% endif %}
+   {% if curve_class == 'bottom' or curve_class == 'both' %}
+        margin-bottom:6vw;
+   {% endif %}
+}
+{% endstyle %}
+{% if curve_class == 'top' or curve_class == 'both' %}
+  <svg
+    class="wdt-separator wdt-separator__top curve-on-{{ curve_class }}"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 1920 154.3"
+    preserveAspectRatio="none"
+  >
+    <path class="wdt__path_anim separator__path" vector-effect="non-scaling-stroke" 
+          d="M2.1,154.8C303,56.9,625.1,3.9,960,3.9c335,0,657.3,53.1,958.4,151"/>
+  </svg>
+{% endif %}
+
+{% if curve_class == 'bottom' or curve_class == 'both' %}
+  <svg
+    class="wdt-separator wdt-separator__down curve-on-{{ curve_class }}"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 1920 154.3"
+    preserveAspectRatio="none"
+  >
+    <path class="wdt__path_anim separator__path" vector-effect="non-scaling-stroke"
+          d="M2.1,154.8C303,56.9,625.1,3.9,960,3.9c335,0,657.3,53.1,958.4,151"/>
+  </svg>
+{% endif %}
+
+ 
+
+ 

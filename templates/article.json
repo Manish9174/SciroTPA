@@ -1,0 +1,31 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-article",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "aspect_ratio": "landscape",
+        "show_date": true,
+        "show_author": false,
+        "show_comments": false,
+        "tags": false,
+        "share": true,
+        "navigation_style": "artistic",
+        "top_space": 120,
+        "bot_space": 120
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

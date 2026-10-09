@@ -1,0 +1,91 @@
+{% style %}
+
+
+  .title-container{ margin-bottom:clamp(1.875rem, 1.625rem + 1.25vw, 3.125rem); }
+
+  {%- if section.settings.title != blank or section.settings.richtext != blank-%}
+  {% if section.settings.column_alignment == 'center'  %}
+    @media (min-width: 576px) {
+       .title-container{
+        max-width:90%;
+      }
+   }
+    @media (max-width: 575.98px) {
+       .title-container{
+        max-width:100%;
+      }
+   }
+  {% endif %}
+
+  /* {% if section.settings.column_alignment == 'center' %}
+     @media (min-width: 576px) {
+      .title-container{
+        max-width:90%;
+      }
+     }
+  {% endif %}    */
+  {% endif %}
+{% endstyle %}
+{%- if section.settings.title != blank
+  or section.settings.sub_heading != blank
+  or section.settings.description != blank
+  or section.settings.button_label != blank
+-%}
+  <div
+    class="text-break title-container{% if section.settings.column_alignment %} text-{{ section.settings.column_alignment }}{% endif %}{% if section.settings.column_alignment == 'left' or section.settings.column_alignment == 'start' %} ms-0 {% elsif section.settings.column_alignment == 'center' %} mx-auto {% elsif section.settings.column_alignment == 'right' or section.settings.column_alignment == 'end' %} ms-auto{% endif %} {% if class %} {{ class}}{% endif %}"
+  >
+    {%- assign delay = 0 -%}
+
+    {%- if section.settings.sub_heading != blank -%}
+      <p class="h6 caption" {% if settings.animation != 'none' %}
+        data-aos="{{ settings.animation }}"
+        data-aos-delay="{{ delay | plus: 50 }}"
+          {% endif %}>
+        {{ section.settings.sub_heading | escape }}
+      </p>
+         {%- assign delay = 0 -%}
+    {%- endif -%}
+
+    {%- if section.settings.title != blank -%}
+      <h2
+        class="{% if section.settings.column_alignment == 'center' %}mx-auto col-11 col-lg-9{% elsif section.settings.column_alignment == 'right' or section.settings.column_alignment == 'end' %} ms-auto{% endif %} {{ section.settings.heading_size }}"
+      {% if settings.animation != 'none' %}
+        data-aos="{{ settings.animation }}"
+        data-aos-delay="{{ delay | plus: 50 }}"
+          {% endif %}>
+        {{ section.settings.title | strip_html }}
+      </h2>
+      {%- assign delay = delay | plus: 50 -%}
+    {%- endif -%}
+
+    {%- if section.settings.description != blank -%}
+      <p class="mb-0{% if section.settings.column_alignment == 'center' %} col-11 col-lg-9 mx-auto{% elsif section.settings.column_alignment == 'right' or section.settings.column_alignment == 'end' %} ms-auto{% endif %} "
+      {% if settings.animation != 'none' %}
+        data-aos="{{ settings.animation }}"
+        data-aos-delay="{{ delay | plus: 50 }}"
+          {% endif %}>
+        {{ section.settings.description }}
+      </p>
+      {%- assign delay = delay | plus: 50 -%}
+    {%- endif -%}
+
+    {%- if section.settings.button_label != blank -%}
+      <div class="btn-group mt-2"
+      {% if settings.animation != 'none' %}
+        data-aos="{{ settings.animation }}"
+        data-aos-delay="{{ delay | plus: 50 }}"
+          {% endif %} >
+        <a
+          {% if section.settings.button_link %}
+            href="{{ section.settings.button_link }}"
+          {% else %}
+            role="link" aria-disabled="true"
+          {% endif %}
+          class="btn rounded-pill text-{{ section.settings.column_alignment }} {% if section.settings.button_style_secondary %} btn-outline-primary {% else %} {{ btn_style | default:"btn-primary" }}{% endif %}  {% if section.settings.button_link == blank %} disabled {% endif %}"
+        >
+          {{- section.settings.button_label | escape -}}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+{%- endif -%}

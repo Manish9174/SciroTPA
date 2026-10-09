@@ -1,0 +1,144 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "column_alignment": "center",
+        "top_space": 0,
+        "bot_space": 0
+      }
+    },
+    "featured_blog_3UPydL": {
+      "type": "featured-blog",
+      "name": "t:sections.featured-blog.presets.name",
+      "settings": {
+        "full_width": false,
+        "color_scheme": "scheme-4",
+        "title": "Featured Blog",
+        "heading_size": "h1",
+        "description": "Use this text to share the information which you like!.",
+        "column_alignment": "center",
+        "blog": "news",
+        "blog_aspect_ratio": "adapt",
+        "post_limit": 4,
+        "blog_alignment": "normal",
+        "desktop_column": "3",
+        "enable_slider": true,
+        "pagination": "dots",
+        "pagination_style": "bold",
+        "autoplay_delay": 0,
+        "space": 20,
+        "show_image": true,
+        "show_date": true,
+        "show_author": true,
+        "show_comments": true,
+        "show_excerpts": true,
+        "show_tag": true,
+        "readmore_button": true,
+        "show_view_all": false,
+        "curve": "none",
+        "curve_opacity": 50,
+        "top_space": 36,
+        "bot_space": 36
+      }
+    },
+    "contact_YwEcbj": {
+      "type": "contact",
+      "name": "t:sections.contact-form.name",
+      "settings": {
+        "full_width": false,
+        "color_scheme": "scheme-4",
+        "title": "Contact form",
+        "heading_size": "h1",
+        "description": "",
+        "column_alignment": "center",
+        "form_style": "form_only",
+        "form_position": "form_second",
+        "aspect_ratio": "adapt",
+        "custom_liquid": "",
+        "enable_contact": true,
+        "info_title": "Contact details",
+        "address": "75 9th Ave, New York, NY 10011-7006",
+        "email": "info@yourstore.com",
+        "phone": "+1234567890",
+        "enable_social_icons": true,
+        "alignment": "start",
+        "top_space": 140,
+        "bot_space": 140
+      }
+    },
+    "marquee_tyQLi6": {
+      "type": "marquee",
+      "blocks": {
+        "heading_jAnETg": {
+          "type": "heading",
+          "settings": {
+            "block_heading": "Rooted in Science.",
+            "text": "Grown for life.",
+            "block_img_link": ""
+          }
+        },
+        "heading_3rLAhz": {
+          "type": "heading",
+          "settings": {
+            "block_heading": "Rooted in Science.",
+            "text": "Grown for life.",
+            "block_img_link": ""
+          }
+        },
+        "heading_tpaqhX": {
+          "type": "heading",
+          "settings": {
+            "block_heading": "Rooted in Science.",
+            "text": "Grown for life.",
+            "block_img_link": ""
+          }
+        },
+        "heading_rrhAEa": {
+          "type": "heading",
+          "settings": {
+            "block_heading": "Rooted in Science.",
+            "text": "Grown for life.",
+            "block_img_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_jAnETg",
+        "heading_3rLAhz",
+        "heading_tpaqhX",
+        "heading_rrhAEa"
+      ],
+      "name": "t:sections.marquee.name",
+      "settings": {
+        "full_width": true,
+        "color_scheme": "scheme-2",
+        "content_reverse": false,
+        "enable_edgefade": false,
+        "pause_on_hover": true,
+        "speed": 70,
+        "marquee_padding": 3,
+        "heading_size": "h2",
+        "marquee_img_width": 100,
+        "top_space": 20,
+        "bot_space": 20
+      }
+    }
+  },
+  "order": [
+    "main",
+    "featured_blog_3UPydL",
+    "contact_YwEcbj",
+    "marquee_tyQLi6"
+  ]
+}

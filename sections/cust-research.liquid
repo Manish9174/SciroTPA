@@ -1,0 +1,786 @@
+{%- comment -%}
+  Section: Sciro – Research Slider (Swiper)
+  File name: sections/sciro-research-slider.liquid
+{%- endcomment -%}
+
+{%- liquid
+  assign sid = section.id
+-%}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+<style>
+  #sr-{{ sid }} {
+    --sr-bg: {{ section.settings.bg_color }};
+    --sr-eyebrow: {{ section.settings.eyebrow_color }};
+    --sr-heading: {{ section.settings.heading_color }};
+    --sr-card: {{ section.settings.card_bg }};
+    --sr-badge-bg: {{ section.settings.badge_bg }};
+    --sr-badge-text: {{ section.settings.badge_text_color }};
+    --sr-year: {{ section.settings.year_color }};
+    --sr-title: {{ section.settings.title_color }};
+    --sr-text: {{ section.settings.text_color }};
+    --sr-link: {{ section.settings.link_color }};
+    --sr-arrow-bg: {{ section.settings.arrow_bg }};
+    --sr-arrow-color: {{ section.settings.arrow_color }};
+    background: var(--sr-bg);
+    padding: {{ section.settings.padding_top }}px 24px {{ section.settings.padding_bottom }}px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  #sr-{{ sid }} *,
+  #sr-{{ sid }} *::before,
+  #sr-{{ sid }} *::after { box-sizing: border-box; }
+
+  #sr-{{ sid }} .sr__inner {
+    max-width: {{ section.settings.max_width }}px;
+    margin: 0 auto;
+  }
+
+  /* Heading */
+  #sr-{{ sid }} .sr__head {
+    text-align: center;
+    margin-bottom: {{ section.settings.heading_gap }}px;
+  }
+
+  #sr-{{ sid }} .sr__eyebrow {
+    margin: 0 0 4px;
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--sr-eyebrow);
+  }
+
+  #sr-{{ sid }} .sr__heading {
+    margin: 0;
+    font-size: {{ section.settings.heading_size }}px;
+    line-height: 1.2;
+    font-weight: 500;
+    letter-spacing: -.01em;
+    color: var(--sr-heading);
+  }
+
+  /* Slider */
+  #sr-{{ sid }} .swiper {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  #sr-{{ sid }} .swiper-slide {
+    height: auto;
+    display: flex;
+  }
+
+  #sr-{{ sid }} .sr__card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: {{ section.settings.card_min_height }}px;
+    padding: 24px 24px 26px;
+    background: var(--sr-card);
+    border-radius: {{ section.settings.card_radius }}px;
+  }
+
+  #sr-{{ sid }} .sr__badge {
+    flex: 0 0 auto;
+    width: 60px;
+    height: 60px;
+    margin-bottom: 14px;
+    border-radius: 50%;
+    background: var(--sr-badge-bg);
+    color: var(--sr-badge-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.1;
+    padding: 4px;
+  }
+
+  #sr-{{ sid }} .sr__badge img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  #sr-{{ sid }} .sr__year {
+    margin: 0 0 14px;
+    font-size: 16px;
+    line-height: 1.3;
+    letter-spacing: .2px;
+    color: var(--sr-year);
+  }
+
+  #sr-{{ sid }} .sr__title {
+    margin: 0 0 12px;
+    font-size: 20px;
+    line-height: 1.4;
+    font-weight: 600;
+    color: var(--sr-title);
+  }
+
+  #sr-{{ sid }} .sr__title sup {
+    font-size: .6em;
+    line-height: 0;
+    margin-left: 1px;
+  }
+
+  #sr-{{ sid }} .sr__text {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--sr-text);
+  }
+
+  #sr-{{ sid }} .sr__link-wrap {
+    margin-top: auto;
+    padding-top: 28px;
+  }
+
+  #sr-{{ sid }} .sr__link {
+    display: inline-block;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--sr-link);
+    text-decoration: none;
+    border-bottom: 2px solid currentColor;
+    transition: opacity .2s ease;
+  }
+
+  #sr-{{ sid }} .sr__link:hover { opacity: .7; }
+  #sr-{{ sid }} .sr__link:focus-visible { outline: 2px solid var(--sr-link); outline-offset: 4px; }
+
+  /* Arrows */
+  #sr-{{ sid }} .sr__nav {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+    justify-content: {{ section.settings.arrow_align }};
+  }
+
+  #sr-{{ sid }} .sr__btn {
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--sr-arrow-bg);
+    color: var(--sr-arrow-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: opacity .2s ease, transform .2s ease;
+  }
+
+  #sr-{{ sid }} .sr__btn svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  #sr-{{ sid }} .sr__btn:hover { transform: scale(1.06); }
+  #sr-{{ sid }} .sr__btn:focus-visible { outline: 2px solid var(--sr-arrow-color); outline-offset: 3px; }
+  #sr-{{ sid }} .sr__btn.sr-disabled { opacity: .4; cursor: default; transform: none; }
+  #sr-{{ sid }} .sr__btn.sr-lock,
+  #sr-{{ sid }} .sr__nav.sr-nav-hidden { display: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    #sr-{{ sid }} .sr__btn,
+    #sr-{{ sid }} .sr__link { transition: none; }
+  }
+
+  /* Tablet */
+  @media (max-width: 989px) {
+    #sr-{{ sid }} {
+      padding-top: {{ section.settings.padding_top | times: 0.8 | round }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.8 | round }}px;
+    }
+    #sr-{{ sid }} .sr__heading { font-size: {{ section.settings.heading_size | times: 0.9 | round }}px; }
+  }
+
+  /* Mobile */
+  @media (max-width: 599px) {
+    #sr-{{ sid }} {
+      padding-left: 16px;
+      padding-right: 16px;
+      padding-top: {{ section.settings.padding_top | times: 0.6 | round }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.6 | round }}px;
+    }
+    #sr-{{ sid }} .sr__head { margin-bottom: {{ section.settings.heading_gap | times: 0.7 | round }}px; }
+    #sr-{{ sid }} .sr__eyebrow { font-size: 14px; }
+    #sr-{{ sid }} .sr__heading { font-size: {{ section.settings.heading_size | times: 0.7 | round }}px; }
+    #sr-{{ sid }} .sr__card { padding: 20px 20px 22px; min-height: {{ section.settings.card_min_height | times: 0.85 | round }}px; }
+    #sr-{{ sid }} .sr__title { font-size: 18px; }
+    #sr-{{ sid }} .sr__btn { width: 44px; height: 44px; }
+    #sr-{{ sid }} .sr__nav { gap: 12px; margin-top: 18px; }
+  }
+</style>
+
+<section id="sr-{{ sid }}" class="sr" data-section-id="{{ sid }}">
+  <div class="sr__inner">
+
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+      <div class="sr__head">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="sr__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="sr__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="swiper sr__swiper" aria-roledescription="carousel">
+        <div class="swiper-wrapper">
+          {%- for block in section.blocks -%}
+            <div class="swiper-slide" {{ block.shopify_attributes }}>
+              <article class="sr__card">
+
+                {%- if block.settings.badge_image != blank or block.settings.badge_text != blank -%}
+                  <div class="sr__badge">
+                    {%- if block.settings.badge_image != blank -%}
+                      {{ block.settings.badge_image | image_url: width: 120 | image_tag:
+                        loading: 'lazy',
+                        widths: '60, 120',
+                        sizes: '60px',
+                        alt: block.settings.badge_text }}
+                    {%- else -%}
+                      {{ block.settings.badge_text }}
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.year != blank -%}
+                  <p class="sr__year">{{ block.settings.year }}</p>
+                {%- endif -%}
+
+                {%- if block.settings.title != blank -%}
+                  <h3 class="sr__title">
+                    {{- block.settings.title -}}
+                    {%- if block.settings.ref != blank -%}<sup>{{ block.settings.ref }}</sup>{%- endif -%}
+                  </h3>
+                {%- endif -%}
+
+                {%- if block.settings.text != blank -%}
+                  <p class="sr__text">{{ block.settings.text }}</p>
+                {%- endif -%}
+
+                {%- if block.settings.link_label != blank and block.settings.link != blank -%}
+                  <div class="sr__link-wrap">
+                    <a class="sr__link" href="{{ block.settings.link }}"{% if block.settings.new_tab %} target="_blank" rel="noopener"{% endif %}>{{ block.settings.link_label }}</a>
+                  </div>
+                {%- endif -%}
+
+              </article>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      <div class="sr__nav">
+        <button type="button" class="sr__btn sr__prev" aria-label="Previous">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+        </button>
+        <button type="button" class="sr__btn sr__next" aria-label="Next">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+<script>
+  (function () {
+    var root = document.getElementById('sr-{{ sid }}');
+    if (!root) return;
+
+    function loadSwiper(cb) {
+      if (window.Swiper) return cb();
+      var s = document.querySelector('script[data-swiper-cdn]');
+      if (!s) {
+        s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js';
+        s.setAttribute('data-swiper-cdn', '');
+        document.head.appendChild(s);
+      }
+      s.addEventListener('load', cb);
+    }
+
+    function init() {
+      var el = root.querySelector('.sr__swiper');
+      if (!el) return;
+      if (el.swiper) el.swiper.destroy(true, true);
+
+      var nav = root.querySelector('.sr__nav');
+
+      var swiper = new Swiper(el, {
+        slidesPerView: {{ section.settings.mobile_slides }},
+        spaceBetween: {{ section.settings.mobile_gap }},
+        speed: {{ section.settings.speed }},
+        grabCursor: true,
+        watchOverflow: true,
+        {% if section.settings.loop and section.blocks.size > 3 %}
+        loop: true,
+        {% endif %}
+        {% if section.settings.autoplay %}
+        autoplay: {
+          delay: {{ section.settings.autoplay_delay | times: 1000 }},
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true
+        },
+        {% endif %}
+        navigation: {
+          nextEl: root.querySelector('.sr__next'),
+          prevEl: root.querySelector('.sr__prev'),
+          disabledClass: 'sr-disabled',
+          lockClass: 'sr-lock'
+        },
+        a11y: { enabled: true },
+        breakpoints: {
+          600: {
+            slidesPerView: {{ section.settings.tablet_slides }},
+            spaceBetween: {{ section.settings.tablet_gap }}
+          },
+          990: {
+            slidesPerView: {{ section.settings.desktop_slides }},
+            spaceBetween: {{ section.settings.desktop_gap }}
+          }
+        },
+        on: {
+          init: toggleNav,
+          resize: toggleNav,
+          breakpoint: toggleNav,
+          lock: function () { if (nav) nav.classList.add('sr-nav-hidden'); },
+          unlock: function () { if (nav) nav.classList.remove('sr-nav-hidden'); }
+        }
+      });
+
+      function toggleNav(s) {
+        if (!nav) return;
+        var sw = s || swiper;
+        if (sw && sw.isLocked) nav.classList.add('sr-nav-hidden');
+        else nav.classList.remove('sr-nav-hidden');
+      }
+    }
+
+    loadSwiper(init);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Sciro – Research Slider",
+  "tag": "section",
+  "class": "section-sciro-research",
+  "max_blocks": 15,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small text",
+      "default": "Backed by research"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Research Behind Every Formula"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 20,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "heading_gap",
+      "label": "Heading aur cards ke beech gap",
+      "min": 10,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Slider (Swiper)"
+    },
+    {
+      "type": "range",
+      "id": "desktop_slides",
+      "label": "Desktop par cards (990px+)",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "tablet_slides",
+      "label": "Tablet par cards (600–989px)",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "select",
+      "id": "mobile_slides",
+      "label": "Mobile par cards",
+      "options": [
+        { "value": "1", "label": "1 (pura card)" },
+        { "value": "1.1", "label": "1.1 (agla card thoda jhalakta hai)" },
+        { "value": "1.2", "label": "1.2 (zyada jhalakta hai)" },
+        { "value": "1.5", "label": "1.5" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "1.1"
+    },
+    {
+      "type": "range",
+      "id": "desktop_gap",
+      "label": "Desktop card gap",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "tablet_gap",
+      "label": "Tablet card gap",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "mobile_gap",
+      "label": "Mobile card gap",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Slide speed",
+      "min": 200,
+      "max": 1500,
+      "step": 50,
+      "unit": "ms",
+      "default": 500
+    },
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "Loop (4+ cards hone par)",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Autoplay",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "autoplay_delay",
+      "label": "Autoplay delay",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "arrow_align",
+      "label": "Arrows ki position",
+      "options": [
+        { "value": "flex-start", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Right" }
+      ],
+      "default": "flex-start"
+    },
+    {
+      "type": "header",
+      "content": "Card"
+    },
+    {
+      "type": "range",
+      "id": "card_min_height",
+      "label": "Card minimum height",
+      "min": 200,
+      "max": 600,
+      "step": 10,
+      "unit": "px",
+      "default": 370
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Content max width",
+      "min": 800,
+      "max": 1700,
+      "step": 20,
+      "unit": "px",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Small text color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card background",
+      "default": "#eeeeee"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg",
+      "label": "Badge circle background",
+      "default": "#b8c0c4"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Badge text color",
+      "default": "#2a2f33"
+    },
+    {
+      "type": "color",
+      "id": "year_color",
+      "label": "Study year color",
+      "default": "#4a6b7a"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Card title color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Card text color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "arrow_bg",
+      "label": "Arrow button background",
+      "default": "#dcecf8"
+    },
+    {
+      "type": "color",
+      "id": "arrow_color",
+      "label": "Arrow icon color",
+      "default": "#111111"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "study",
+      "name": "Research card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "badge_image",
+          "label": "Badge image (optional)"
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Badge text (image na ho to dikhega)",
+          "default": "Source"
+        },
+        {
+          "type": "text",
+          "id": "year",
+          "label": "Year line",
+          "default": "Study Year | 2024"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title (journal / source name)",
+          "default": "Journal name goes here"
+        },
+        {
+          "type": "text",
+          "id": "ref",
+          "label": "Reference number (superscript)",
+          "default": "1"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Short description",
+          "default": "Write a short, plain-language summary of the published study here."
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link label",
+          "default": "Evidence"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link to study"
+        },
+        {
+          "type": "checkbox",
+          "id": "new_tab",
+          "label": "Naye tab me kholo",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sciro – Research Slider",
+      "blocks": [
+        {
+          "type": "study",
+          "settings": {
+            "badge_text": "Gut",
+            "year": "Study Year | 2024",
+            "title": "Journal name goes here",
+            "ref": "1",
+            "text": "Add a short, plain-language summary of a published study on probiotic strains and digestive comfort."
+          }
+        },
+        {
+          "type": "study",
+          "settings": {
+            "badge_text": "Immune",
+            "year": "Study Year | 2023",
+            "title": "Journal name goes here",
+            "ref": "2",
+            "text": "Add a short, plain-language summary of a published study on vitamins and everyday immune support."
+          }
+        },
+        {
+          "type": "study",
+          "settings": {
+            "badge_text": "Greens",
+            "year": "Study Year | 2022",
+            "title": "Journal name goes here",
+            "ref": "3",
+            "text": "Add a short, plain-language summary of a published study on leafy greens and antioxidant intake."
+          }
+        },
+        {
+          "type": "study",
+          "settings": {
+            "badge_text": "Enzymes",
+            "year": "Study Year | 2021",
+            "title": "Journal name goes here",
+            "ref": "4",
+            "text": "Add a short, plain-language summary of a published study on digestive enzymes and nutrient absorption."
+          }
+        },
+        {
+          "type": "study",
+          "settings": {
+            "badge_text": "Minerals",
+            "year": "Study Year | 2020",
+            "title": "Journal name goes here",
+            "ref": "5",
+            "text": "Add a short, plain-language summary of a published study on minerals and daily energy levels."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

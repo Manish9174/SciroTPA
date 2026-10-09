@@ -1,0 +1,18 @@
+  {%- liquid
+    # Determine the aspect ratio for the product card
+    assign aspect_ratio = ''
+    case settings.card_aspect_ratio
+      when 'square'
+        assign aspect_ratio = 'ratio-1x1'
+      when 'portrait'
+        assign aspect_ratio = 'ratio-3x4'
+      when 'landscape'
+        assign aspect_ratio = 'ratio-4x3'
+      when 'wide'
+        assign aspect_ratio = 'ratio-16x9'
+      when 'adapt'
+        assign aspect_ratio = 'ratio-auto'
+      else
+        assign aspect_ratio = 'ratio-1x1'
+    endcase
+  -%}

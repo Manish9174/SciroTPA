@@ -1,0 +1,68 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "custom.overlay",
+  "name": "t:sections.overlay-group.name",
+  "sections": {
+    "offer_popup_VaEB9y": {
+      "type": "offer-popup",
+      "disabled": true,
+      "settings": {
+        "color_scheme": "scheme-3",
+        "content": "Get 20%  Off",
+        "additional_content": "on first sale",
+        "offer_shapes": "circle",
+        "offer_shadow": true,
+        "place_alignment": "start"
+      }
+    },
+    "age_verification": {
+      "type": "age-verification",
+      "disabled": true,
+      "settings": {
+        "color_scheme": "scheme-1",
+        "heading": "Confirm your age",
+        "heading_size": "h2",
+        "description": "Are you 18 years of age or older?",
+        "accept_btn": "Yes I'm 18+",
+        "decline_btn": "No I'm not"
+      }
+    },
+    "click_to_top_PwCke4": {
+      "type": "click-to-top",
+      "settings": {
+        "color_scheme": "scheme-3",
+        "shadow": true,
+        "arrow_style": "default"
+      }
+    },
+    "newsletter_modal_UmVUTG": {
+      "type": "newsletter-popup",
+      "disabled": true,
+      "settings": {
+        "cookie_expires": 30,
+        "cookie_modal_delay": "1000",
+        "layout_position": "bottom_left",
+        "newsletter_shape": "square",
+        "color_scheme": "scheme-3",
+        "heading": "Subscribe to our Newsletter",
+        "heading_size": "h1",
+        "description": "",
+        "update": "I'm in for monthly & weekly updates from now"
+      }
+    }
+  },
+  "order": [
+    "offer_popup_VaEB9y",
+    "age_verification",
+    "click_to_top_PwCke4",
+    "newsletter_modal_UmVUTG"
+  ]
+}

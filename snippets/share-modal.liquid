@@ -1,0 +1,101 @@
+<style>
+   .modal.shareModal.show .modal-body .modal-link .btn svg{color:currentcolor;}
+   .modal.shareModal.show .modal-body #copyButton {top:2px; bottom:2px; right:2px;  border-top-left-radius: var(--bs-border-radius);
+        border-bottom-left-radius: var(--bs-border-radius);}
+   .modal.shareModal.show .modal-dialog .modal-content .modal-body .modal-link button{ transition:all .3s linear; width:32px; height:32px; border-radius:50% !important;}
+   .modal.shareModal.show .alert-success svg { width: 16px;}
+    .modal.shareModal.show #successMessage { margin-top: 0;  align-items: center; display: flex; justify-content: center; gap: 5px;}
+   @media screen and (min-width: 576px) {
+     .modal.shareModal.show .modal-body .form-control {padding-right:8rem; padding-left:1rem;}
+   }
+  @media screen and (max-width: 576px) {
+     .modal.shareModal.show .modal-dialog .input-group{ flex-direction:column;}
+      .modal.shareModal.show .modal-dialog .input-group .form-control{width:100%;}
+      .modal.shareModal.show.modal-dialog #copyButton{    display: flex; justify-content: center;  margin: auto; position: relative !important;}
+   }
+  div#shareModal.show {overflow:hidden;}
+</style>
+
+<div
+  class="modal fade shareModal"
+  id="shareModal"
+  tabindex="-1"
+  aria-labelledby="shareModalLabel"
+  aria-hidden="true"
+  {{ block.shopify_attributes }}
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content color-{{ settings.offcanvas_color_scheme }} gradient m-2 p-3 p-sm-4">
+      <button
+        type="button"
+        class="btn-close m-2 m-sm-3 position-absolute top-0 end-0 z-1"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      ></button>
+      {%- if share_title != blank -%}
+        <div class="modal-header border-0 p-0  mb-4 justify-content-center justify-content-sm-start">
+          <h4 id="shareModalLabel" class="mb-0 me-sm-4 ">{{ share_title }}</h4>
+        </div>
+      {%- endif -%}
+      <div class="modal-body p-0">
+        <div class="gap-3 d-flex flex-wrap position-relative mb-2 mb-2 gap-3">
+          <input
+            type="text"
+            id="productUrl-{{ section.id }}"
+            class="productUrl form-control w-100  mr-2 z-1"
+            value="{{ share_link  }}"
+            readonly
+          >
+          <label for="productUrl-{{ section.id }}" class="visually-hidden">{{ share_title }}</label>
+          <button
+            class="position-sm-absolute z-1 m-auto btn btn-primary d-flex align-items-center gap-2 shadow-none"
+            type="button"
+            id="copyButton"
+          >
+            {{ 'general.share.copy' | t }}
+          </button>
+        </div>
+        <div
+          id="successMessage"
+          class="alert bg-body text-center mb-3 p-0"
+          role="alert"
+          style="display: none;"
+        >
+          {% render 'icon-copy' %}
+          {{ 'general.share.success_message' | t }}
+        </div>
+        <div class="d-flex flex-wrap justify-content-center justify-content-sm-start  gap-3 modal-link mt-4">
+          <!-- Facebook Share Button -->
+          <button
+            onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href), 'facebook-share-dialog', 'width=436,height=436'); return false;"
+            aria-label="{{ 'general.social.icons.facebook' | t }}"
+            title="{{ 'general.social.icons.facebook' | t }}"
+            class="border rounded-1 d-flex align-items-center justify-content-center p-2 btn"
+          >
+            {%- render 'social-icon-facebook', class: 'overflow-visible' -%}
+          </button>
+
+          <!-- Twitter Share Button -->
+          <button
+            onclick="window.open('http://twitter.com/home/?status='+encodeURIComponent(location.href), 'twitter-share-dialog', 'width=436,height=436'); return false;"
+            aria-label="{{ 'general.social.icons.twitter' | t }}"
+            title="{{ 'general.social.icons.twitter' | t }}"
+            class="border rounded-1 d-flex align-items-center justify-content-center p-2 btn"
+          >
+            {%- render 'social-icon-twitter', class: 'overflow-visible' -%}
+          </button>
+
+          <!-- Pinterest Share Button -->
+          <button
+            onclick="window.open('http://pinterest.com/pin/create/button/?url='+encodeURIComponent(location.href), 'pinterest-share-dialog', 'width=436,height=436'); return false;"
+            aria-label="{{ 'general.social.icons.pinterest' | t }}"
+            title="{{ 'general.social.icons.pinterest' | t }}"
+            class="border rounded-1 d-flex align-items-center justify-content-center p-2 btn"
+          >
+            {%- render 'social-icon-pinterest', class: 'overflow-visible' -%}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

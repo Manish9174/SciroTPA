@@ -1,0 +1,156 @@
+{% liquid
+  assign decorator_canvas = settings.seperator_line
+%}
+
+<div
+  class="offcanvas offcanvas-end text-break d-lg-none color-{{ settings.canvas_color_scheme }} gradient"
+  data-bs-scroll="false"
+  tabindex="-1"
+  id="mobileOffCanvas"
+  aria-labelledby="mobileOffCanvasLabel"
+>
+  <div class="offcanvas-header  text-center justify-content-center position-relative">
+    <h2 class="offcanvas-title h1" id="mobileOffCanvasLabel">{{ 'sections.header.mobile_menu.canvas_heading' | t }}</h2>
+    <button
+      type="button"
+      class="btn-close position-absolute top-0 end-0 m-3 d-flex"
+      data-bs-dismiss="offcanvas"
+      aria-label="{{ 'accessibility.close' | t }}"
+    ></button>
+  </div>
+
+  {% render 'line-decor', decorator_canvas: decorator_canvas %}
+
+  <div class="offcanvas-body offset-1 ms-3">
+    <ul class="navbar-nav body-container row-gap-2" id="mobileOffCanvas--nav">
+      {%- for link in section.settings.main_menu.links -%}
+        <li class="nav-item">
+          <div class="nav-item-menu d-flex gap-3 align-items-baseline justify-content-between">
+            <a
+              href="{{ link.url }}"
+              class="top_level nav-link{% if link.active %} active{% endif %}"
+            >
+              {{ link.title | escape }}
+            </a>
+            {% if link.links != blank %}
+              <button
+                class="top_level nav-link h-100 p-2 {% if link.active %} active{% endif %} {% if link.links != blank %} d-flex dropdown-toggle{% endif %}"
+                data-bs-toggle="collapse"
+                data-bs-target="#mobile-collapse-{{ forloop.index }}"
+                aria-expanded="false"
+                aria-controls="mobile-collapse-{{ forloop.index }}"
+                aria-label="{{ 'accessibility.toggle-submenu' | t }}"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                  <path d='M8.7,13.7c0.4-0.4,1.1-0.4,1.5,0l6,6l6-6c0.4-0.4,1.1-0.4,1.5,0s0.4,1.1,0,1.5l-6.7,6.7c-0.4,0.4-1.1,0.4-1.5,0l-6.7-6.7C8.3,14.6,8.3,14.1,8.7,13.7z'/>
+                </svg>
+              </button>
+            {% endif %}
+          </div>
+          {%- if link.links != blank -%}
+            <div class="collapse" id="mobile-collapse-{{ forloop.index }}" data-bs-parent="#mobileOffCanvas--nav">
+              <ul class="list-unstyled ms-3 sub_menu">
+                {%- for childlink in link.links -%}
+                  <li class="nav-item pt-2">
+                    <div class="nav-item-menu d-flex gap-3 align-items-baseline justify-content-between">
+                      <a
+                        href="{{ childlink.url }}"
+                        class="nav-link d-inline text-decoration-none{% if childlink.current %} active{% endif %}"
+                      >
+                        {{ childlink.title | escape }}
+                      </a>
+                      {% if childlink.links != blank %}
+                        <button aria-label="child"
+                          class="nav-link d-inline text-decoration-none h-100 p-2 {% if childlink.current %} active{% endif %} {% if childlink.links != blank %} d-flex dropdown-toggle{% endif %}"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#mobile-collapse-child-{{ forloop.index }}"
+                          aria-expanded="false"
+                          aria-controls="mobile-collapse-child-{{ forloop.index }}"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                            <path d='M8.7,13.7c0.4-0.4,1.1-0.4,1.5,0l6,6l6-6c0.4-0.4,1.1-0.4,1.5,0s0.4,1.1,0,1.5l-6.7,6.7c-0.4,0.4-1.1,0.4-1.5,0l-6.7-6.7C8.3,14.6,8.3,14.1,8.7,13.7z'/>
+                          </svg>
+                        </button>
+                      {% endif %}
+                    </div>
+                    {%- if childlink.links != blank -%}
+                      <div class="collapse" id="mobile-collapse-child-{{ forloop.index }}">
+                        <ul class="list-unstyled ms-3 py-1">
+                          {%- for grandchildlink in childlink.links -%}
+                            <li class="{% if grandchildlink.current %}active{% endif %}py-2">
+                              <a
+                                href="{{ grandchildlink.url }}"
+                                class="d-inline-flex align-items-center gap-2 text-decoration-none {% if grandchildlink.current %} active {% endif %}"
+                              >
+                                {{ grandchildlink.title | escape }}
+                              </a>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                      </div>
+                    {%- endif -%}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+  <div class="offcanvas-footer container mt-3 d-lg-none">
+    <div class="nav nav-justified w-100 body-container border-top">
+      {%- if shop.customer_accounts_enabled and section.settings.show_account -%}
+        <a
+          href="{%- if customer -%}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}"
+          class="nav-link btn-icon px-2"
+          aria-label="{{ 'customer.account' | t }}"
+        >
+          {%- if customer -%}
+            {% if section.settings.menu_styles == 'icon' %}
+              {% render 'icon-account' %}
+            {% else %}
+              {{ 'customer.account' | t }}
+            {% endif %}
+          {%- else -%}
+            {% if section.settings.menu_styles == 'icon' %}
+              {% render 'icon-account' %}
+            {% else %}
+              {{ 'customer.login' | t }}
+            {% endif %}
+          {%- endif -%}
+        </a>
+
+        {%- if customer -%}
+          <a href="{{ routes.account_logout_url }}" class="nav-link btn-icon px-2">
+          {% if section.settings.menu_styles == 'icon' %}
+            {% render 'icon-logout' %}
+          {% else %}
+              {{ 'customer.logout' | t }}
+            {% endif %}
+          </a>
+        {% endif %}
+      {% endif %}
+
+      {% if section.settings.show_search %}
+        <a
+          href="{{ routes.cart_url }}"
+          class="nav-link btn-icon px-2"
+          id="search-icon"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#searchOffCanvas"
+          data-action="search"
+          aria-label="{{ 'sections.header.icons.search' |t }}"
+        >
+          <span class="d-block">
+            {% if section.settings.menu_styles == 'icon' %}
+              <span class="menu-as-icon">{% render 'icon-search' %}</span>
+            {% else %}
+              <span class="d-block">{{ 'sections.header.icons.search' | t }}</span>
+            {% endif -%}
+          </span>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</div>

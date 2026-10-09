@@ -1,0 +1,296 @@
+{% style %}
+  .marquee_announcement.reverse {
+    animation-direction: reverse;
+  }
+
+  {% if section.settings.edge_fade %}
+  .announcement_bar_style-horizontal::before{
+    content: '';
+    background: linear-gradient(to right, rgba(var(--color-background),1), transparent);
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 25%;
+    display: block;
+    z-index: 2;
+    pointer-events: none;
+  }
+    .announcement_bar_style-horizontal::after{
+    content: '';
+    background: linear-gradient(to left, rgba(var(--color-background),1), transparent);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 25%;
+    display: block;
+    z-index: 2;
+  pointer-events: none;
+  }
+    {% endif %}
+  .announcement_bar_style-horizontal{
+    position:relative;
+  }
+  .section-{{ section.id }} .marquee_announcement.no-marquee{
+    animation:none;
+  }
+  .section-{{ section.id }} .marquee_announcement {
+    animation: scroll-left {{ section.settings.timer}}s linear infinite;min-width: 100%;
+  }
+  {% if section.settings.pause_on_hover %}
+  .section-{{ section.id }} .marquee_announcement:hover {
+    animation-play-state:paused;
+  }
+   {% endif %}
+
+  @keyframes scroll-left{
+    0%{
+      transform:translateX(0%);
+    }
+    100%{
+      transform:translateX(-100%);
+    }
+  }
+  .announcement-bar-section{
+    z-index: 1032;
+    position: relative;
+  }
+  .announcement_bar .disclosure button {
+    text-align: right;
+}
+.announcement-bar-section #social_icons :is(.social_icons-item):has(.visually-hidden.social-text){
+    background-color: inherit;
+    color: inherit;
+}
+.announcement-bar-section #social_icons :is(.social_icons-item):has(.visually-hidden.social-text) > a{padding:0 !important;}
+.announcement-bar-section #social_icons :is(.social_icons-item):has(.visually-hidden.social-text) > a svg{width:20px; height:20px;}
+{% endstyle %}
+{% liquid
+   if section.settings.enable_social_icons
+  if settings.social_facebook_link != blank or settings.social_instagram_link != blank or settings.social_pinterest_link != blank or settings.social_snapchat_link != blank or settings.social_tiktok_link != blank or settings.social_tumblr_link != blank or settings.social_twitter_link != blank or settings.social_vimeo_link != blank or settings.social_youtube_link != blank
+     assign social_blocks = true
+  else
+   assign social_blocks = false
+  endif
+  endif
+%}
+<div class="section-{{ section.id }} announcement-bar-section color-{{ section.settings.color_scheme }} gradient {% if section.settings.disable_announcement_bar_mobile %} d-none d-sm-block {% endif %} {% if section.settings.enable_border %}border-bottom{% endif %}">
+  <div class="{% if section.settings.full_width %}container-fluid px-0{% else %}container{% endif %}">
+    <div class="row announcement_bar {% if section.settings.full_width %} mx-0 {% endif %} align-items-center {% if section.settings.enable_social_icons %} justify-content-start {% else %} justify-content-end {% endif %}">
+      {% if section.settings.enable_social_icons  %}
+      <div class="col-3 d-none d-lg-flex justify-content-lg-start justify-content-center my-2 pe-0">
+        {% render 'social-icons' %}
+      </div>
+      {% endif %}
+       <div class="{% if section.settings.enable_country_selector or section.settings.enable_language_selector or section.settings.enable_social_icons  %} col-lg-6 {% else %} col-12 px-0 {% endif %} announcement_bar_style-horizontal d-flex flex-wrap justify-content-center">
+        <div class="w-100 d-flex align-items-center overflow-hidden  {%- for block in section.blocks -%} {% if  section.blocks.size > 1 %} text-nowrap {% endif %} {% endfor %} py-2 py-md-2">
+          {% liquid
+            assign size = section.blocks.size
+          if size >= 3
+          assign loop = 1
+          elsif size == 2
+          assign loop = 2
+          elsif size == 1
+          assign loop = 1
+          endif
+          %}
+          {% for n in (1..2) %}
+          <div class="marquee_announcement {% if  section.blocks.size == 1 %} no-marquee {% endif %} {% if section.settings.direction == 'left_right' %} reverse {% endif %} d-flex align-items-center justify-content-around  {% if  section.blocks.size > 1 %} flex-shrink-0 {% else %} text-center {% endif %}">
+                {% for n in (1..loop) %}
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+                {%- when 'announcement' -%}
+                  <div
+                    class="px-3"
+                    {{ block.shopify_attributes }}
+                  >
+                    {%- if block.settings.text != blank -%}
+                      <p class="announcement_btn mb-0 d-flex align-items-center justify-content-center flex-wrap">
+                        {%- if block.settings.link != blank -%}
+                          <a
+                            href="{{ block.settings.link }}"
+                             {% if block.settings.target %} target="_blank" {% endif %}
+                            class="announcement-bar__link link link--text focus-inset animate-arrow"
+                          >
+                        {%- endif -%}
+                        {{ block.settings.text | escape }}
+                        {%- if block.settings.link != blank -%}
+                          </a>
+                        {%- endif -%}
+                      </p>
+                    {%- endif -%}
+                  </div>
+              {%- endcase -%}
+            {%- endfor -%}
+            {% endfor %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      
+      {% if section.settings.enable_country_selector or section.settings.enable_language_selector %}
+        
+          <div class="localization col-3 d-none d-lg-flex gap-2 justify-content-center justify-content-md-end">
+            {% if localization.available_countries.size > 1 or localization.available_languages.size > 1 %}
+            {% render 'country-localization',placement:'end' %}
+            {% endif %}
+          </div>
+      
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "t:sections.announcement-bar.name",
+  "tag": "section",
+  "class": "announcement-bar-section",
+  "max_blocks": 8,
+  "limit":1,
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings":[
+    {
+      "type": "checkbox",
+      "id":"full_width",
+      "label": "t:sections.all.full_width.label",
+      "default": true
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "disable_announcement_bar_mobile",
+      "label": "t:sections.announcement-bar.settings.disable_announcement_bar_mobile.label",
+      "default": true
+   },
+   {
+      "type": "checkbox",
+      "id": "enable_border",
+      "label": "t:sections.announcement-bar.settings.show_border.label"
+   },
+   {
+      "type": "checkbox",
+      "id": "edge_fade",
+      "label": "t:sections.announcement-bar.settings.enable_edgefade.label"
+   },
+   {
+      "type": "header",
+      "content": "t:sections.announcement-bar.settings.language_heading"
+   },
+   {
+      "type": "checkbox",
+      "id": "enable_language_selector",
+      "default": false,
+      "label": "t:sections.announcement-bar.settings.enable_language_selector.label",
+      "info": "t:sections.announcement-bar.settings.enable_language_selector.info"
+   },
+   {
+      "type": "header",
+      "content": "t:sections.announcement-bar.settings.country_heading"
+   },
+   {
+      "type": "checkbox",
+      "id": "enable_country_selector",
+      "default": false,
+      "label": "t:sections.announcement-bar.settings.enable_country_selector.label",
+      "info": "t:sections.announcement-bar.settings.enable_country_selector.info"
+   },
+   {
+      "type": "header",
+      "content": "t:sections.announcement-bar.settings.social_heading"
+   },
+   {
+      "type": "checkbox",
+      "id": "enable_social_icons",
+      "default": true,
+      "label": "t:sections.announcement-bar.settings.social_icons.label",
+      "info": "t:sections.announcement-bar.settings.social_icons.info"
+   },
+   {
+      "type": "header",
+      "content": "t:sections.announcement-bar.settings.animation_heading"
+   },
+   {
+      "type": "select",
+      "label": "t:sections.announcement-bar.settings.animation_direction.label",
+      "id": "direction",
+      "default": "right_left",
+      "options": [
+        {
+          "value": "right_left",
+          "label": "t:sections.announcement-bar.settings.animation_direction.options.option_1.label"
+        },
+        {
+          "value": "left_right",
+          "label": "t:sections.announcement-bar.settings.animation_direction.options.option_2.label"
+        }
+      ]
+   },
+   {
+      "type": "range",
+      "id": "timer",
+      "label": "t:sections.announcement-bar.settings.animation_speed.label",
+      "min": 30,
+      "max": 80,
+      "step": 5,
+      "unit": "s",
+      "default":30,
+   },
+   {
+      "type":"checkbox",
+      "id": "pause_on_hover",
+      "label": "t:sections.announcement-bar.settings.pause_on_hover.label"
+   },
+  ],
+   "blocks": [
+    {
+      "type": "announcement",
+      "name": "t:sections.announcement-bar.blocks.announcement.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "default": "t:sections.announcement-bar.blocks.announcement.settings.text.default",
+          "label": "t:sections.announcement-bar.blocks.announcement.settings.text.label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:sections.announcement-bar.blocks.announcement.settings.link.label"
+        },
+        {
+          "type": "checkbox",
+          "id":"target",
+          "label":"t:sections.all.link_target.label"
+        },
+      ]
+    }
+  ],
+   "presets": [
+    {
+      "name": "t:sections.announcement-bar.presets.name",
+      "blocks": [
+        {
+          "type": "announcement"
+        },
+        {
+          "type": "announcement"
+        },
+        {
+          "type": "announcement"
+        },
+        {
+          "type": "announcement"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,55 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:settings_schema.groups.header_group.name",
+  "type": "header",
+  "sections": {
+    "header": {
+      "type": "header",
+      "blocks": {
+        "image_banner_ze38NV": {
+          "type": "image_banner",
+          "settings": {
+            "mega_1": "collection image",
+            "menu_column": "4",
+            "image_1_link": "shopify://collections",
+            "image_2_link": "shopify://collections/abstract-adventures",
+            "banner_position": "right"
+          }
+        }
+      },
+      "block_order": [
+        "image_banner_ze38NV"
+      ],
+      "custom_css": [],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "main_menu": "main-menu",
+        "logo_position": "middle-left",
+        "curved_header_style": "standard",
+        "curve_opacity": 50,
+        "home_headertext": "canvas creations bring walls to life",
+        "sticky_header": true,
+        "show_account": true,
+        "show_search": true,
+        "menu_styles": "icon",
+        "cart_icon": "bag",
+        "transparent_header": false,
+        "transparent_logo": "shopify://shop_images/logosciro-08.png",
+        "transparent_color_scheme": "scheme-4",
+        "show_seperator_style": false,
+        "seperator_style": "line"
+      }
+    }
+  },
+  "order": [
+    "header"
+  ]
+}

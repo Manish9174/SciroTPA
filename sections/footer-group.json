@@ -1,0 +1,80 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:settings_schema.groups.footer_group.name",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "brand_XxCa8Y": {
+          "type": "brand",
+          "settings": {
+            "brand_info_alignment": "center",
+            "brand_heading": "",
+            "brand_info": "",
+            "enable_logo": true,
+            "brand_image": "shopify://shop_images/logosciro-09.png",
+            "brand_image_width": 215,
+            "logo_position": "above_heading"
+          }
+        },
+        "menu_fE9myi": {
+          "type": "menu",
+          "settings": {
+            "menu_alignment": "center",
+            "menu": "",
+            "heading": false,
+            "menu_secondary": "",
+            "heading_secondary": false
+          }
+        },
+        "menu_xV8Fh9": {
+          "type": "menu",
+          "settings": {
+            "menu_alignment": "center",
+            "menu": "",
+            "heading": false,
+            "menu_secondary": "",
+            "heading_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "brand_XxCa8Y",
+        "menu_fE9myi",
+        "menu_xV8Fh9"
+      ],
+      "settings": {
+        "color_scheme": "scheme-28071c62-cdc6-495f-87d0-cf12aade111e",
+        "footer_layout": "two",
+        "footer_mobile_layout": "stacked",
+        "enable_newsletter": false,
+        "newsletter_heading": "Join our creative community",
+        "heading_size": "h2",
+        "description": "",
+        "footer_description": "I'm in for monthly & Weekly updates from now",
+        "column_alignment": "center",
+        "enable_follow_on_shop": false,
+        "enable_language_selector": false,
+        "enable_country_selector": false,
+        "payment_enable": false,
+        "show_policy": false,
+        "curve": "none",
+        "curve_opacity": 50,
+        "top_space": 0,
+        "bot_space": 0
+      }
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}

@@ -1,0 +1,168 @@
+{% render 'spacing' %}
+
+{%- style -%}
+  @media (max-width: 1199.98px) {
+  .recover_form form .form_input button{
+    position: relative !important;
+  }
+  .recover_form form .form_input{ width:100% !important; }
+}
+.form_container{ width:41%; } 
+@media (max-width: 1199.98px){
+  .form_container{ width:51%; } 
+}
+@media (max-width: 991.98px){
+  .form_container{ width:71%; } 
+}
+@media (max-width: 767.98px) {
+  .form_container{
+    width:100%;
+  }
+}
+  
+{%- endstyle -%}
+
+<div class=" color-{{ section.settings.color_scheme }} gradient w-100">
+<div class="section-{{ section.id }}-padding container">
+    <div class="">
+       <div class="text-center mb-5">
+          {%- if section.settings.title != blank -%}
+            <h2 class="{{ section.settings.heading_size }}">{{ section.settings.title | escape }}</h2>
+          {% endif %}
+          {%- if section.settings.paragraph != blank -%}{{ section.settings.paragraph }} {% endif %}
+        </div>
+        <div class="mx-auto form_container">
+           <div class="rejister_form">
+                {% form 'create_customer', return_to: routes.account_url %}
+                 {% if form.errors %}
+                  {{ form.errors | default_errors }}
+                  {%- for field in form.errors -%}
+                  <li class="list-unstyled text-danger">
+                  {%- if field == 'form' -%}
+                      {{ form.errors.messages[field] }}
+                  {%- else -%}
+                    <a href="#RegisterForm-{{ field }}">
+                {{ form.errors.translated_fields[field] | capitalize }}
+                {{ form.errors.messages[field] }}
+              </a>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+                   {% endif %}
+                
+                  <div class="first-name mb-4 mb-sm-5">
+                   <label for="first-name" class="mb-3 h4">{{ 'customer.register.first_name' | t }}*</label> 
+                    <input type="text" name="customer[first_name]" id="first-name" placeholder="{{ 'customer.register.first_name' | t }}" required autocomplete="off" class="form-control">
+                  </div>
+                
+                  <div class="last-name mb-4 mb-sm-5">
+                    <label for="last-name" class="mb-3 h4" >{{ 'customer.register.last_name' | t }}*</label>
+                    <input type="text" name="customer[last_name]" id="last-name" placeholder="{{ 'customer.register.last_name' | t }}" required autocomplete="off" class="form-control">
+                  </div>
+                
+                  <div class="email mb-4 mb-sm-5">
+                   <label for="email" class="mb-3 h4" >{{ 'customer.register.email' | t }}*</label>
+                    <input type="email" name="customer[email]" id="email" placeholder="{{ 'customer.login_page.email_placeholder' | t }}" required autocomplete="off" class="form-control">
+                  </div>
+                
+                  <div class="password mb-4">
+                    <label for="password" class="mb-3 h4">{{ 'customer.register.password' | t }}*</label>
+                    <input type="password" name="customer[password]" id="password" placeholder="{{ 'customer.login_page.your_password' | t }}" required autocomplete="off" class="form-control">
+                  </div>
+
+                  <div class="mb-4  mt-4 d-flex align-items-start gap-1 justify-content-center justify-content-sm-start">
+                    <input type="checkbox" id="check" class="mt-1" required>
+                    <label for="check">{{ 'customer.register.check' | t }} 
+                    <a href="{{ shop.terms_of_service.url }}" target="_blank" rel="noopener"> {{ 'customer.register.terms' | t }}</a>
+                    </label>
+                  </div>
+                  
+                  <div class="d-flex flex-wrap row-gap-3 justify-content-center justify-content-sm-between align-items-center">
+                    <div class="submit me-3">
+                      <button type="submit" class="btn btn-primary rounded-pill "> {{ 'customer.register.create' | t }} </button>
+                    </div>
+                     <div class="d-flex flex-wrap row-gap-2">
+                       <span class="me-2"> {{ 'customer.register.already_account' | t }} </span>
+                       <a href="{{ routes.account_login_url }}"> {{ 'customer.login_page.login' | t }} </a> 
+                     </div>
+                  </div>
+                {% endform %}
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+{% schema %}
+{
+  "name": "t:sections.main-register.name",
+  "class": "account-template d-flex flex-column justify-content-center align-items-center h-100 color-scheme",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "default": "Register",
+      "label": "t:sections.all.heading.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+    "type": "text",
+    "id": "paragraph",
+    "label": "t:sections.all.description.label"
+   },
+    {
+      "type": "header",
+      "content": "t:sections.all.spacing.spacing_heading"
+    },
+    {
+      "type": "range",
+      "id": "top_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "bot_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 140
+    }
+  ]
+}
+{% endschema %}

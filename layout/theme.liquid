@@ -1,0 +1,580 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script>
+      document.documentElement.classList.remove('no-js');
+      document.documentElement.classList.add('js');
+    </script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    {% if settings.favicon != blank %}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {% endif %}
+    {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
+      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    {%- endunless -%}
+    <link rel="stylesheet" href="{{ 'swiper-bundle.min.css' | asset_url }}" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="{{ 'model-viewer-ui.css' | asset_url }}" media="print" onload="this.media='all'">
+
+    <script src="{{ 'jquery.min.js' | asset_url }}"></script>
+    <script src="{{ 'popper.min.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'bootstrap.min.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'swiper-bundle.min.js' | asset_url }}"></script>
+    <script src="{{ 'header-search.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'main_core.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'main_section.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'main-highvariant.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'mini-cart.js' | asset_url }}" defer="defer"></script>
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+    {% render 'meta-tags' %}
+    {% if settings.animation != 'none' %}
+      <script src="{{ 'animation.js' | asset_url }}"></script>
+    {% endif %}
+    {{ 'style.css' | asset_url | stylesheet_tag }}
+    {{ 'theme.css' | asset_url | stylesheet_tag }}
+    {{ 'custom-product.css' | asset_url | stylesheet_tag }}
+    {{ 'custom.css' | asset_url | stylesheet_tag }}
+
+
+    <script src="{{ 'custom.js' | asset_url }}"></script>
+
+
+
+    {{ content_for_header }}
+
+    {%- liquid
+      assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
+      assign body_font_italic = settings.type_body_font | font_modify: 'style', 'italic'
+      assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
+    %}
+    {% style %}
+         {{ settings.type_body_font | font_face: font_display: 'swap' }}
+         {{ body_font_bold | font_face: font_display: 'swap' }}
+         {{ body_font_italic | font_face: font_display: 'swap' }}
+         {{ body_font_bold_italic | font_face: font_display: 'swap' }}
+         {{ settings.type_header_font | font_face: font_display: 'swap' }}
+
+         {% for scheme in settings.color_schemes -%}
+         {% assign scheme_classes = scheme_classes | append: ', .color-' | append: scheme.id %}
+         {% if forloop.index == 1 -%}
+         :root,
+         {%- endif %}
+         .color-{{ scheme.id }} {
+         --color-background: {{ scheme.settings.background.red }},{{ scheme.settings.background.green }},{{ scheme.settings.background.blue }};
+         --gradient-background: {{ scheme.settings.background }};
+         {% liquid
+         assign background_color = scheme.settings.background
+         assign background_color_brightness = background_color | color_brightness
+         if background_color_brightness <= 26
+         assign background_color_contrast = background_color | color_lighten: 50
+         elsif background_color_brightness <= 65
+         assign background_color_contrast = background_color | color_lighten: 5
+         else
+         assign background_color_contrast = background_color | color_darken: 25
+         endif
+         %}
+         --color-foreground: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
+         --color-heading: {{ scheme.settings.color_heading.red }},{{ scheme.settings.color_heading.green }},{{ scheme.settings.color_heading.blue }};
+         --color-bg-hex: {{ scheme.settings.background }};
+         --color-background-contrast: {{ background_color_contrast.red }},{{ background_color_contrast.green }},{{ background_color_contrast.blue }};
+         --color-primary-button-bg: {{ scheme.settings.button.red }},{{ scheme.settings.button.green }},{{ scheme.settings.button.blue }};
+         --color-primary-button-text: {{ scheme.settings.button_label.red }},{{ scheme.settings.button_label.green }},{{ scheme.settings.button_label.blue }};
+         --color-primary-button-border:{{ scheme.settings.button_border.red }},{{ scheme.settings.button_border.green }},{{ scheme.settings.button_border.blue }};
+         --color-secondary-button-bg: {{ scheme.settings.secondary_button.red }},{{ scheme.settings.secondary_button.green }},{{ scheme.settings.secondary_button.blue }};
+         --color-secondary-button-text: {{ scheme.settings.secondary_button_label.red }},{{ scheme.settings.secondary_button_label.green }},{{ scheme.settings.secondary_button_label.blue }};
+         --color-secondary-button-border:{{ scheme.settings.secondary_border.red }},{{ scheme.settings.secondary_border.green }},{{ scheme.settings.secondary_border.blue }};
+         --color-link: {{ scheme.settings.link_color.red }},{{ scheme.settings.link_color.green }},{{ scheme.settings.link_color.blue }};
+         --color-input-bg: {{ scheme.settings.bg_input.red }},{{ scheme.settings.bg_input.green }},{{ scheme.settings.bg_input.blue }};
+         --color-border: {{ scheme.settings.color_border.red }},{{ scheme.settings.color_border.green }},{{ scheme.settings.color_border.blue }};
+         --color-input-border: {{ scheme.settings.color_input.red }},{{ scheme.settings.color_input.green }},{{ scheme.settings.color_input.blue }};
+         --color-input-text-color: {{ scheme.settings.input_text.red }},{{ scheme.settings.input_text.green }},{{ scheme.settings.input_text.blue }};
+         --color-badge-foreground: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
+         --color-sale-badge-background: {{ settings.sale_badge_color.red }},{{ settings.sale_badge_color.green }},{{ settings.sale_badge_color.blue }} ;
+         --color-sale-badge-text: {{ settings.sale_badge_text.red }},{{ settings.sale_badge_text.green }},{{ settings.sale_badge_text.blue }} ;
+
+         --color-sold-badge-background: {{ settings.sold_badge_color.red }},{{ settings.sold_badge_color.green }},{{ settings.sold_badge_color.blue }} ;
+         --color-sold-badge-text: {{ settings.sold_badge_text.red }},{{ settings.sold_badge_text.green }},{{ settings.sold_badge_text.blue }} ;
+
+         --color-badge-border: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
+         --payment-terms-background-color: rgb({{ scheme.settings.background.rgb }});
+         --bs-link-color-rgb: var(--color-link);
+         --bs-link-color: rgb(var(--color-link));
+         --bs-link-hover-color-rgb:var(--color-link);
+         --bs-bg-input:rgb(var(--color-input-bg));
+         --bs-border-color: rgb(var(--color-border));
+         --swiper-pagination-color:rgb(var(--color-primary-button-bg));
+         --bs-navbar-color: rgba(var(--color-foreground), 1);
+         --bs-navbar-active-color:rgba(var(--color-link),1);
+         --border-color:rgba(var(--color-input-border),{{ settings.input_border_opacity | times:0.01 }})
+         }
+
+             {%  if background_color_brightness <= 35 %}
+               .offcanvas.color-{{ scheme.id }} .btn-close{
+                  filter: var(--bs-btn-close-white-filter);
+               }
+               .modal-content.password-modal__content .btn-close {
+                   filter: var(--bs-btn-close-white-filter);
+               }
+             {% endif %}
+
+            {% endfor %}
+           {{ scheme_classes | prepend: 'body' }} {
+             --bs-body-color: rgba(var(--color-foreground));
+             --bs-body-color-rgb: var(--color-foreground);
+             color: rgba(var(--color-foreground), 1);
+             background-color: rgb(var(--color-background));
+           }
+           :root {
+           --bs-body-bg:var(--color-bg-hex);
+           --bs-body-bg-rgb:var(--color-background);
+           --bs-body-font-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+           --font-body-style: {{ settings.type_body_font.style }};
+           --font-body-weight: {{ settings.type_body_font.weight }};
+           --font-body-weight-bold: {{ settings.type_body_font.weight | plus: 300 | at_most: 1000 }};
+           --bs-body-line-height:1.5; /*settings.body_line_height*/
+           --bs-body-letter-space:0px; /*settings.body_letter_space*/
+
+           --font-heading-family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
+           --font-heading-transform: {{ settings.heading_transform }};
+           --font-heading-style: {{ settings.type_header_font.style }};
+           --font-heading-weight: {{ settings.type_header_font.weight }};
+           --font-heading-color:var(--color-foreground);
+           --heading-line-height:1.2; /* settings.heading_line_height */
+           --heading-letter-space:0px; /*settings.heading_letter_space*/
+
+           --page-width: {{ settings.page_width | divided_by: 1 }}rem;
+           --page-width-margin: {% if settings.page_width == '1600' %}2{% else %}0{% endif %}rem;
+           --bs-btn-border:{{ settings.btn_border}}px;
+           {% if settings.btn_border != 0 %}
+            --bs-btn-outline-border:{{ settings.btn_border}}px;
+           {% else %}
+           --bs-btn-outline-border:1px;
+           {% endif %}
+           --bs-input-border:{{ settings.input_border}}px;
+           --bs-btn-border-opacity:{{ settings.btn_border_opacity | times:0.01 }};
+
+           --bs-style-border:{{ settings.border_style }}px;
+           --bs-radius:{{ settings.radius }}px;
+
+           {% if settings.btn_radius == "small" %}
+             --btn-border-radius:.25rem !important;
+           {% elsif settings.btn_radius == "medium" %}
+             --btn-border-radius:.5rem !important;
+           {% elsif settings.btn_radius == "large" %}
+             --btn-border-radius:5rem !important;
+           {% elsif settings.btn_radius == "none" %}
+             --btn-border-radius:0rem !important;
+           {% endif %}
+           {% if settings.input_radius == "small" %}
+             --input-btn-border-radius:.25rem;
+           {% elsif settings.input_radius == "medium" %}
+             --input-btn-border-radius:.5rem;
+           {% elsif settings.input_radius == "large" %}
+             --input-btn-border-radius:40px;
+           {% elsif settings.input_radius == "none" %}
+             --input-btn-border-radius:0rem;
+           {% endif %}
+
+           --circle-bg:#E0D2B5;
+           --head-h1:clamp(1.875rem, 1.5rem + 1.875vw, 3.75rem);
+           --head-h2:clamp(1.5rem, 1.3rem + 1vw, 2.5rem);
+           --head-h3:clamp(1.375rem, 1.2rem + 0.875vw, 2.25rem);
+           --head-h4:clamp(1.25rem, 1.125rem + 0.625vw, 1.875rem);
+           --head-h5:clamp(1.125rem, 1.05rem + 0.375vw, 1.5rem);
+           --head-h6:clamp(1rem, 0.95rem + 0.25vw, 1.25rem);
+           --bg-white: #fff;
+           --head-font-scale:{{ settings.header_size | times:0.01 }};
+           --body-font-scale:{{ settings.base_font_size | times:0.01 }};
+           --h1:calc(var(--head-h1) * var(--head-font-scale));
+           --h2:calc(var(--head-h2) * var(--head-font-scale));
+           --h3:calc(var(--head-h3) * var(--head-font-scale));
+           --h4:calc(var(--head-h4) * var(--head-font-scale));
+           --h5:calc(var(--head-h5) * var(--head-font-scale));
+           --h6:calc(var(--head-h6) * var(--head-font-scale));
+           --btn-transform:{{ settings.btn-transform }};
+           --email-btn-width: 0px;
+           --bs-font-xs: 12px;
+           --bs-font-sm: 14px;
+           --bs-font-md: 16px;
+           }
+           .gradient {
+           background: rgb(var(--color-background));
+           background: var(--gradient-background);
+           background-attachment: fixed;
+           }
+           h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1{
+           --bs-heading-color:rgba(var(--color-heading),var(--wdt-text-opacity));
+           --wdt-text-opacity: 1;
+           font-family: var(--font-heading-family);
+           text-transform: var(--font-heading-transform);
+           }
+           @media (min-width: 1540px) {
+           .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+           max-width: calc(var(--page-width) + var(--bs-gutter-x) * 2);
+           }
+           .container {
+           width: 90%;
+           }
+           }
+         .offcanvas .line-decor .container{width:100%;}
+      {% if settings.canvas_style == "default" %}
+         @media (min-width: 992px) {
+         .offcanvas .line-decor .container{max-width: 75%;width: 100%;}
+         }
+       {% endif %}
+           @media (min-width: 992px) {
+           [id*="OffCanvas"],[class*="OffCanvas"] {
+           {% if settings.canvas_style == "default" %}
+           clip-path: ellipse(100% 100% at 100% 50%);
+           {% else %}
+           width:600px !important;
+           clip-path: none;
+           {% endif %}
+           }
+           }
+           @media (min-width: 1925px) {
+           [id*="OffCanvas"],[class*="OffCanvas"] {
+           {% if settings.canvas_style == "default" %}
+           clip-path: ellipse(100% 100% at 100% 50%);
+           {% else %}
+           width:1000px !important;
+           clip-path: none;
+           {% endif %}
+           }
+           }
+           @media (max-width: 991.98px){
+           [id*="OffCanvas"],[class*="OffCanvas"] {
+           {% if settings.canvas_style == "default" %}
+           width:clamp(22rem, 17.4rem + 23vw, 45rem) !important;
+           max-width:100%;
+           {% else %}
+           width:clamp(22rem, 17.4rem + 23vw, 45rem) !important;
+           {% endif %}
+           }
+           }
+           {% if settings.card_alignment == "normal" %}
+           .card_container .card_wrapper:nth-child(3n+2), .main_collection .product-card:nth-child(odd), .main_blog .article-card:nth-child(even), .md-mt-14, .featured_blog .article-card:nth-child(even)
+           {
+           margin-top:0 !important;
+           }
+           {% endif %}
+           .btn{
+           text-transform: {{ settings.btn-transform }};
+           font-family: {% if settings.btn-font == 'heading' %} var(--font-heading-family); {% else %} var(--bs-body-font-family); {% endif %}
+           }
+           button.shopify-payment-button__button--unbranded{
+           text-transform: {{ settings.btn-transform }};
+           font-family: {% if settings.btn-font == 'heading' %} var(--font-heading-family); {% else %} var(--bs-body-font-family); {% endif %}
+           }
+           .btn_radius, button.shopify-payment-button__button--unbranded { border-radius:var(--btn-border-radius); }
+           .form-control, .input-group-text,.cart-item__quantity, .input_button  { border-radius:var(--input-btn-border-radius) !important; }
+           {% if settings.arrow_style == "style2" %}
+           .main-prev, .main-next{
+           width:60px;
+           height:60px;
+           border:1px solid rgb(var(--color-foreground));
+           border-radius:50%;
+           display:flex;
+           justify-content:center;
+           align-items:center;
+           background:var(--bs-body-bg);
+           }
+           @media screen and (max-width:576px){
+           .main-prev, .main-next{
+           width:40px;
+           height:40px;
+           }
+           }
+           {% endif %}
+           .card_product_detail, .card_images{
+           border: var(--bs-style-border) solid var(--bs-border-color);
+           border-radius:var(--bs-radius);
+           }
+           .collection_card{
+           border: var(--bs-style-border) solid var(--bs-border-color);
+           border-radius:var(--bs-radius);
+           overflow:hidden;
+           }
+           .collection_cards{
+           border: var(--bs-style-border) solid var(--bs-border-color);
+           border-radius:var(--bs-radius);
+           overflow:hidden;
+           }
+           /*common border and radius*/
+           {% if settings.card_align == 'standard'%}
+           .produc_card .card-img:has(a:focus-visible){
+           outline: 2px dashed currentcolor !important;
+           }
+           .produc_card .card-image:has(a:focus-visible){
+           outline: 2px dashed currentcolor !important;
+           }
+           .card_product_detail, .card_images{
+           overflow:hidden;
+           }
+           {% elsif settings.card_align == 'card'  %}
+           .produc_card:has(a.card-img:focus-visible){
+           outline: 2px dashed currentcolor !important;
+           }
+           .card_product_detail, .card_images{
+           overflow:hidden;
+           }
+           .produc_card a.card-img:focus-visible{outline:0;}
+           {% endif %}
+
+           {% if settings.collection_card_align == 'standard'%}
+           .collection_card .card-img:has(a:focus-visible){
+           outline: 2px dashed  currentcolor !important;
+           }
+           .card_product_detail, .card_images{
+           overflow:hidden;
+           }
+           {% elsif settings.collection_card_align == 'card'  %}
+           .collection_card:has(a.card-img:focus-visible){
+           outline: 2px dashed  currentcolor !important;
+           }
+           .card_product_detail, .card_images{
+           overflow:hidden;
+           }
+           .collection_card a.card-img:focus-visible{outline:0;}
+           {% endif %}
+
+           {% if settings.blog_card_align == 'standard'%}
+           .blog_card .card-img:has(a:focus-visible){
+           outline: 2px dashed  currentcolor !important;
+           }
+           .card_product_detail, .card_images{
+           overflow:hidden;
+           }
+           {% elsif settings.blog_card_align == 'card'  %}
+           .blog_card:has(a.card-img:focus-visible){
+           outline: 2px dashed  currentcolor !important;
+           }
+           .card_product_detail, .card_images{
+           overflow:hidden;
+           }
+           .blog_card a.card-img:focus-visible{outline:0;}
+           {% endif %}
+
+           .blog-article{
+           border: var(--bs-style-border) solid var(--bs-border-color);
+           border-radius:var(--bs-radius);
+           overflow:hidden;
+           }
+
+           [id*="OffCanvas"] .body-container{
+           max-width: 75%;
+           margin: auto;
+           width: 100%;
+           overflow:hidden;
+           padding: 5px;
+           }
+           @media (max-width: 991.98px) {
+           [id*="OffCanvas"] .body-container{
+           max-width: 100%;
+           width: 100%;
+           }
+           }
+           {% if settings.canvas_style == "none" %}
+           [id*="OffCanvas"] .body-container{
+           max-width: 100%;
+           margin: auto;
+           width: 100%;
+           overflow:hidden;
+           }
+           @media (min-width: 1925px) {
+           .offcanvas .line-decor .container,
+           [id*="OffCanvas"] .body-container{
+           max-width: 85%;
+           margin: auto;
+           width: 100%;
+           overflow:hidden;
+           }
+            [id*="OffCanvas"]  .offcanvas-header{
+           max-width: 85%;
+           margin-inline: auto;
+           width: 100%;
+           }
+           }
+           @media (max-width: 767.98px) {
+           [id$="OffCanvas"] .body-container{
+           max-width: 100%;
+           width: 100%;
+           }
+           }
+           {% endif %}
+
+           input{
+           color: rgb(var(--color-input-text-color));
+           background: rgb(var(--color-input-bg));
+           }
+    {% endstyle %}
+
+    {%- unless settings.type_body_font.system? -%}
+      {% comment %}theme-check-disable AssetPreload{% endcomment %}
+      <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
+      {% comment %}theme-check-enable AssetPreload{% endcomment %}
+    {%- endunless -%}
+    {%- unless settings.type_header_font.system? -%}
+      {% comment %}theme-check-disable AssetPreload{% endcomment %}
+      <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
+      {% comment %}theme-check-enable AssetPreload{% endcomment %}
+    {%- endunless -%}
+    {% comment %} For mobile score increase {% endcomment %}
+
+    {% if template.name == 'product' and product.featured_media %}
+      {%- assign poster = product.featured_media.preview_image -%}
+
+      <link
+        rel="preload"
+        as="image"
+        href="{{ poster | image_url: width: 750 }}"
+        imagesrcset="{{ poster | image_url: width: 360 }} 360w,{{ poster | image_url: width: 535 }} 535w,{{ poster | image_url: width: 750 }} 750w"
+        imagesizes="(min-width: 1200px) 370px, (min-width: 750px) 50vw, 50vw"
+        fetchpriority="high"
+      >
+    {% endif %}
+  </head>
+
+  <body class="gradient">
+    <a
+      class="skip-to-content-link btn btn-primary visually-hidden btn position-absolute start-0 w-auto py-2 px-3 m-2"
+      href="#MainContent"
+    >
+      {{ 'accessibility.skip_to_text' | t }}
+    </a>
+    {%- render 'cart-drawer' -%}
+    {%- render 'search-drawer' -%}
+    {%- render 'modal_quickview' -%}
+    <div class="wrapper">
+      <div class="inner-wrapper">
+        {% sections 'header-group' %}
+        <main id="MainContent" class="content-for-layout shadow-none outline-none" role="main" tabindex="-1">
+          {{ content_for_layout }}
+        </main>
+        {% sections 'footer-group' %}
+      </div>
+    </div>
+
+    <script>
+        /* Overlay Tab comtrol */
+        var main = document.getElementById('MainContent');
+
+      function focusMain() {
+        if (main) {
+          if (!main.hasAttribute('tabindex')) {
+            main.setAttribute('tabindex', '-1');
+          }
+          main.focus();
+        }
+      }
+
+      document.addEventListener('click', function(event) {
+        var target = event.target;
+        if (!target.closest) return;
+
+        if (target.closest('[data-newsletter-popup-close]')) {
+          focusMain();
+        }
+      });
+
+      document.addEventListener('keyup', function(event) {
+        if (event.key === 'Escape') {
+          var popup = document.querySelector('[data-newsletter-popup]');
+          if (popup && !popup.hasAttribute('hidden')) {
+            focusMain();
+          }
+        }
+      });
+
+        {% if settings.animation != 'none' %}
+        AOS.init({
+            once: true,
+            offset: 50,
+            delay: 0,
+            duration: 1000,
+            initClassName: 'aos-init',
+            animatedClassName: 'aos-animate',
+        });  {% endif %}
+        $(document).ready(function () {
+          function checkHashAndToggle() {
+            if (window.location.hash === '#recover') {
+              $('#reset_password').show();
+              $('#login_panel').hide();
+            } else {
+              $('#reset_password').hide();
+              $('#login_panel').show();
+            }
+          }
+          checkHashAndToggle();
+
+          $(window).on('hashchange', function () {
+            checkHashAndToggle();
+          });
+
+          $('#header_searchresult').hide();
+
+          $('#header_search').click(function () {
+            setTimeout(function () {
+              $('input#Search').focus();
+            }, 500);
+            $('#header_searchresult').slideToggle();
+            $('#header_searchresult').attr('style', 'width:1000px;height:200px; border:2px solid #ccc;');
+          });
+          $('.search_clear_btn').click(function (e) {
+            e.preventDefault();
+            if ($('input#Search').length) {
+              $('input#Search').val('');
+              $(this).addClass('d-none');
+              $('.filter_top_bar').addClass('d-none');
+            }
+            if ($('input#SearchFormSearch').length) {
+              $('input#SearchFormSearch').val('');
+               $(this).addClass('d-none');
+
+            }
+            $('.predictive-search-empty').addClass('d-none');
+              $('.frequent_search').removeAttr('style');
+              $('.search_collection').removeAttr('style');
+               $('#predictive-search-results').addClass('d-none');
+          });
+          $('#SearchFormSearch').keyup(function (e) {
+              var SearchFormSearchLen = $(this).val().length;
+              if(SearchFormSearchLen == "0") { $('.search_clear_btn').addClass('d-none') }
+              else {  $('.search_clear_btn').removeClass('d-none') }
+
+          });
+
+          $('.edit_address,.address_details').hide();
+          $('.editaddress_button').click(function () {
+            $(this).siblings('.edit_address').toggle();
+          });
+           $('.addnew_address').click(function () {
+            $('.address_details').removeClass('d-none');
+            $('.address_details').toggle();
+          });
+
+          $('.search-container').hide();
+          $('.toggle_filter').click(function () {
+            $('.search-container').toggle();
+          });
+        });
+    </script>
+    {% render 'common-variables' %}
+    {% sections 'overlay-group' %}
+  </body>
+</html>

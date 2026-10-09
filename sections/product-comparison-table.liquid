@@ -1,0 +1,577 @@
+{% render 'spacing' %}
+
+{% liquid
+  assign table_border = section.settings.table_border
+  assign table_border_radius = section.settings.table_border_radius
+%}
+
+{% assign current_variant = product.selected_or_first_available_variant %}
+
+{% style %}
+    {% if section.settings.text_2 == blank and section.settings.text_3 == blank and section.settings.text_4 == blank and section.settings.text_5 == blank %}
+    .product-comparison-table .compare_container .comapre_details .product-block .product-table-media { border-bottom: 0px !important; }
+      {% endif %}
+      .comparision_wrapper .compare_container:has(.comapre_details.flex-grow-1:empty) { display: none !important; }
+      .product-comparison-table .compare_container .comapre_details .product-block:last-child { border-right: 0 !important; }
+      .product-comparison-table .compare_container .compare_heading{ grid-template-rows: 1fr auto;   }
+      .product-comparison-table .compare_container .comapre_details .product-block .product-table-list .form-group:last-child, .compare_container .compare_heading .heading:not(.hidden):last-child { border-bottom:0!important; }
+      .product-comparison-table .compare_container .comapre_details{ display: grid;grid-template-columns: repeat({{section.blocks.size }},auto);}
+      .product-comparison-table .compare_container .compare_heading .heading:first-child { display: flex;  align-items: center;}
+      .product-comparison-table .form-group,.product-comparison-table .heading { min-height: 70px;}
+      .product-comparison-table .form-group{display:grid;place-items:center;}
+      .product-comparison-table .compare_heading .heading{display:grid;align-items:center;}
+
+  .compare_heading .heading:not(.heading-1) span{
+    display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+  }
+
+      @media screen and (min-width:1440px){
+      .product-comparison-table .product-table-list svg {  width: 50px;  height: 50px;}
+      .product-comparison-table .compare_heading .heading {display: grid;   grid-template-rows: 50px; width: 100%; }
+      .product-comparison-table .compare_container {overflow:hidden;}
+      .product-comparison-table .compare_container .compare_heading .heading:first-child span { -webkit-text-stroke-width: calc(var(--bs-stroke-width) + 0.8px);}
+      .product-comparison-table .compare_container .compare_heading,
+      .product-comparison-table .compare_container .compare_heading .heading{max-width:400px;flex-shrink:0;}
+
+      }
+      @media screen and (min-width:1200px) and (max-width:1439px) {
+      .product-comparison-table .product-table-list svg {  width: 40px;  height: 40px;}
+      .product-comparison-table .compare_heading .heading {display: grid;   grid-template-rows: 40px; width: 100%;}
+      .product-comparison-table .compare_container {overflow:hidden;}
+      .product-comparison-table .compare_container .compare_heading .heading:first-child span { -webkit-text-stroke-width: calc(var(--bs-stroke-width) + 0.8px);}
+      .product-comparison-table .compare_container .compare_heading,
+      .product-comparison-table .compare_container .compare_heading .heading{max-width:300px; flex-shrink:0;}
+      }
+
+      @media screen and (max-width:1199px){
+      .product-comparison-table .product-block .product-table-media { position: sticky;left: 0;background: rgba(var(--color-background));}
+      .product-comparison-table .product-table-list svg { width: 30px;height: 30px;}
+      .product-comparison-table .product-block {  display: grid; grid-template-columns: 300px;}
+      .product-comparison-table .compare_container {overflow:auto;}
+      .product-comparison-table .compare_container .compare_heading .heading span,.product-comparison-table .compare_container .compare_heading .heading:first-child,.product-comparison-table .compare_container .product-table-media  .product-img
+      {
+        justify-content: center;
+        position: sticky;
+        left: 0;
+        background: rgba(var(--color-background));
+      }
+      .product-comparison-table .product-table-media {border-right: {{table_border }}px solid var(--bs-border-color); }
+
+      .product-comparison-table .compare_container .compare_heading{
+          grid-template-columns: repeat(5, 1fr);
+          border-radius: var(--bs-border-radius-xxl) 0 0 var(--bs-border-radius-xxl);
+          background: rgba(var(--color-background));
+          border-right: 0 !important;
+      }
+      comparison-table .compare_container .compare_heading .heading:first-child{
+        position: sticky;
+        left: 0;
+        background: rgba(var(--color-background));
+      }
+      .product-comparison-table .compare_heading .heading{
+        border-right: {{ table_border }}px var(--bs-border-style) var(--bs-border-color)!important;
+        text-align: center;
+      }
+      .product-comparison-table .compare_heading .heading:last-child{
+        border-right: 0 !important;
+      }
+      .product-comparison-table .product-block {
+          display: grid;
+          grid-template-columns: 268px auto;
+          border-right: 0 !important;
+      }
+      .product-table-media.p-3.text-center.border-bottom.positon-relative {
+          border-right: {{table_border}}px var(--bs-border-style) var(--bs-border-color)!important;
+          position: sticky;
+          left: 0;
+          background: rgba(var(--color-background));
+      }
+      .product-table-list {
+          display: grid;
+          grid-template-columns: repeat(4, 268px);
+      }
+      .product-comparison-table .form-group {
+          border-right: {{table_border}}px var(--bs-border-style) var(--bs-border-color)!important;
+      }
+      .product-comparison-table .form-group:last-child{
+        border-right:0 !important;
+      }
+      .product-comparison-table .compare_container .product-table-media .product-img{
+        position: sticky;
+        left: 0;
+        background: rgba(var(--color-background));
+      }
+      .product-comparison-table .compare_container .comapre_details {
+          display: grid;
+          grid-template-columns: unset;
+      }
+        .compare_container .compare_heading .heading:not(.hidden):last-child,
+       .product-comparison-table .compare_container .comapre_details .product-block .product-table-list .form-group:last-child, .compare_container .compare_heading .heading:last-child{
+        border-bottom: {{table_border}}px var(--bs-border-style) var(--bs-border-color)!important;
+      }
+      .product-comparison-table .compare_heading :not(.heading:first-child) {
+          position: relative;
+          z-index: -1;
+      }
+      .product-comparison-table .compare_container .product-table-media .product-img .product-media{ width:100px; }
+
+      .product-comparison-table .compare_container.product_table { -webkit-mask-image: -webkit-radial-gradient(rgb(var(--color-primary-button-text)), rgb(var(--color-primary-button-bg))); }
+
+
+      }
+      @media screen and (max-width: 768px) {
+      .product-comparison-table .product-table-list svg { width:28px;  height: 28px;  }
+      .product-comparison-table .product-block { display: grid; }
+      .product-comparison-table .compare_container .compare_heading{min-width:200px;}
+      .product-comparison-table .compare_container .compare_heading .heading span.h4,.product-comparison-table .compare_container  .product-content h4,
+      .product-comparison-table .compare_container .compare_heading .heading:first-child span {  -webkit-text-stroke-width: calc(var(--bs-stroke-width) - .5px);}
+    }
+
+      @media screen and (max-width: 575px) {
+      .product-comparison-table .product-block { display: grid; }
+      .product-comparison-table .compare_container .compare_heading {  min-width: 130px; }
+      .product-comparison-table .form-group,.product-comparison-table .heading {  min-height: 78px;}
+      .product-comparison-table .compare_container .compare_heading .heading span,.product-comparison-table .compare_container .compare_heading .heading{ white-space: normal !important; }
+      .product-comparison-table .compare_container .compare_heading{border-radius:0;}
+      .product-comparison-table .compare_container .compare_heading{ grid-template-columns: repeat(5, 200px); }
+      .product-comparison-table .product-block{ grid-template-columns: 200px auto; }
+      .product-table-list{ grid-template-columns: repeat(4, 200px); }
+       }
+       @media screen and (max-width: 425px) {
+        .product-comparison-table .compare_container .product-table-media .product-img .product-media { width: 70px; }
+        .product-comparison-table .compare_container .product-table-media .product-img .product-media img { border-radius: var(--bs-border-radius-lg)!important; }
+        .product-table-list{ grid-template-columns: repeat(4, 200px); }
+       }
+         @media screen and (max-width: 390px) {
+           .product-comparison-table .compare_container .compare_heading{ grid-template-columns: repeat(5, 150px); }
+            .product-comparison-table .product-block{ grid-template-columns: 150px auto; }
+            .product-table-list{ grid-template-columns: repeat(4, 150px); }
+         }
+
+
+       /* scroll bar */
+      .product-comparison-table ::-webkit-scrollbar { width: 8px; height: 8px;}
+      .product-comparison-table ::-webkit-scrollbar-track { background:var(--color-primary-button-text); border:1px solid currentcolor; border-radius: 6px; margin-top:100px !important;}
+      .product-comparison-table ::-webkit-scrollbar-thumb { background: var(--color-primary-button-bg); border-radius: 6px; border:1px solid currentcolor;cursor:pointer;position:relative;margin-top:50px;}
+      .product-comparison-table .compare_container .comapre_details .product-block {
+          display: grid;
+          grid-template-rows: 1fr;
+      }
+  .compare_heading .heading span:has(a:focus-visible){
+        outline: 2px dotted -webkit-focus-ring-color !important;
+        outline: 2px dotted #000 !important;
+  }
+   .compare_heading .heading span a:focus-visible{
+     outline:0 !important;
+   }
+   .product-comparison-table .compare_container { border-radius: {{ table_border_radius }}px; border: {{table_border }}px solid var(--bs-border-color); }
+   .product-comparison-table .product-media .img-fluid { border: var(--bs-style-border) solid var(--bs-border-color); border-radius: var(--bs-radius);  }
+   .product-comparison-table .heading-{{i}},
+   .product-comparison-table .heading_options,
+   .product-comparison-table .product-table-media,
+   .product-comparison-table .form-group { border-bottom: {{table_border }}px solid var(--bs-border-color); }
+   .product-comparison-table .compare_heading, .product-comparison-table .product-block { border-right: {{table_border }}px solid var(--bs-border-color); }
+   .product-comparison-table .product-table-media { min-height: 250px; height: 100%; }
+{% endstyle %}
+
+<div class="product-comparison-table  color-{{ section.settings.color_scheme }} gradient">
+  <div class="comparison-table  {% if section.settings.full_width %}container-fluid px-0 {% else %}container{% endif %} section-{{ section.id }}-padding">
+    {% if section.settings.full_width %}
+      {% render 'title-container', class: 'container mb-sm-5 mb-3' %}
+    {% else %}
+      {% render 'title-container', class: 'mb-sm-5 mb-3' -%}
+    {%- endif %}
+    <div
+      class="comparision_wrapper"
+      {% if settings.animation != 'none' %}
+        data-aos="{{ settings.animation}}"
+      {% endif %}
+    >
+      <div class="compare_container mb-0 d-grid d-xl-flex product_table ">
+        {% assign col_counter = 0 %}
+        {% if col_counter == 4 %}
+          </div>
+          </div>
+          <!-- End the current row -->
+          <div class="row">
+            <!-- Start a new row -->
+            {% assign col_counter = 0 %}
+        {% endif %}
+
+        <div class="compare_heading color-{{ section.settings.block_color_scheme }} d-grid start-0 z-1">
+          {% for i in (1..5) %}
+            {% assign option_text = 'text_' | append: i %}
+            {% if option_text == 'text_1' %}
+              <div class="heading heading_options  heading-{{i}}  p-xl-4 p-sm-3 p-2  text-wrap w-100">
+                <span class="h2 bg-transparent text-center mb-0 p-0">
+                  {%- if section.settings[option_text] != blank %}
+                    {{ section.settings[option_text] }}
+                  {% else %}
+                    {{ 'comparison-table.primary_heading' | t }}
+                  {% endif -%}
+                </span>
+              </div>
+            {% else %}
+              {% if option_text == 'text_2' and section.settings.text_2 != blank %}
+                <div class="heading heading_options p-xl-4 p-sm-3 p-2  text-wrap ">
+                  <span class="h4  bg-transparent text-center mb-0 p-0">{{ section.settings[option_text] }}</span>
+                </div>
+              {% endif %}
+              {% if option_text == 'text_3' and section.settings.text_3 != blank %}
+                <div class="heading heading_options p-xl-4 p-sm-3 p-2  text-wrap ">
+                  <span class="h4  bg-transparent text-center mb-0 p-0">{{ section.settings[option_text] }}</span>
+                </div>
+              {% endif %}
+              {% if option_text == 'text_4' and section.settings.text_4 != blank %}
+                <div class="heading heading_options p-xl-4 p-sm-3 p-2  text-wrap ">
+                  <span class="h4  bg-transparent text-center mb-0 p-0">{{ section.settings[option_text] }}</span>
+                </div>
+              {% endif %}
+              {% if option_text == 'text_5' and section.settings.text_5 != blank %}
+                <div class="heading heading_options p-xl-4 p-sm-3 p-2  text-wrap ">
+                  <span class="h4  bg-transparent text-center mb-0 p-0">{{ section.settings[option_text] }}</span>
+                </div>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <div class="comapre_details flex-grow-1">
+          {%- for block in section.blocks -%}
+            {% if block.type == 'product' %}
+              {% assign product = all_products[block.settings.product] %}
+              {% assign my_string = product.title | size %}
+              {% assign px_size = my_string | plus: 240 %}
+              <div class="product-block  position-relative">
+                <div class="product-table-media p-2 text-center d-flex align-items-center align-items-xl-start justify-content-center  positon-relative ">
+                  <div class="product-img p-0  d-flex align-items-center flex-column gap-3">
+                    {% if product.featured_media != blank %}
+                      <div class="product-media">
+                        <a href="{{ product.url }}">
+                          {{ product.featured_media | image_url: width: 400 | image_tag: class: 'img-fluid ' }}
+                        </a>
+                      </div>
+                      <div class="product-content">
+                        <h4 class="h4 mb-3   text-wrap product-content_wrap">
+                          <a href="{{ product.url }}" class="text-decoration-none"> {{ product.title }}</a>
+                        </h4>
+                        <div class="product-compare-price d-flex align-items-center justify-content-center gap-2 flex-wrap">
+                        <p class="mb-0 price-item price-item--regular">{{ product.price | money }}</p>
+                        {% if product.compare_at_price > product.price %}
+                          <span class="low_price text-decoration-line-through">
+                            {% if settings.currency_code_enabled %}
+                              {{ product.compare_at_price | money_with_currency }}
+                            {% else %}
+                              {{ product.compare_at_price | money }}
+                            {% endif %}
+                          </span>
+                        {% endif %}
+                      </div>
+                      </div>
+                    {% else %}
+                      <div class="product-media ">
+                        {%- assign placeholder_slide = forloop.index | modulo: 4 | plus: 1 -%}
+                        {{ 'product-' | append: placeholder_slide | placeholder_svg_tag: 'placeholder-svg img-fluid ' }}
+                      </div>
+                      <div class="product-content">
+                        <h4 class="gallery__heading inline-richtext mb-2">{{ 'onboarding.product_title' | t }}</h4>
+                        <h5 class="mb-0">{{ 00 | money }}</h5>
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="product-table-list p-0">
+                  {% for i in (1..4) %}
+                    {% assign option_text_key = 'option_' | append: i | append: '_text' %}
+                    {% assign option_key = 'option_' | append: i %}
+                    {% if option_key == 'option_1' and section.settings.text_2 != blank %}
+                      <div class="form-group p-xl-4 p-3 text-center ">
+                        {% if block.settings[option_key] %}
+                          <span>{% render 'icon-check' %}</span>
+                        {% else %}
+                          <span>{% render 'table-close-icon' %}</span>
+                        {% endif %}
+                      </div>
+                    {% endif %}
+                    {% if option_key == 'option_2' and section.settings.text_3 != blank %}
+                      <div class="form-group p-xl-4 p-3 text-center ">
+                        {% if block.settings[option_key] %}
+                          <span>{% render 'icon-check' %}</span>
+                        {% else %}
+                          <span>{% render 'table-close-icon' %}</span>
+                        {% endif %}
+                      </div>
+                    {% endif %}
+                    {% if option_key == 'option_3' and section.settings.text_4 != blank %}
+                      <div class="form-group p-xl-4 p-3 text-center ">
+                        {% if block.settings[option_key] %}
+                          <span>{% render 'icon-check' %}</span>
+                        {% else %}
+                          <span>{% render 'table-close-icon' %}</span>
+                        {% endif %}
+                      </div>
+                    {% endif %}
+                    {% if option_key == 'option_4' and section.settings.text_5 != blank %}
+                      <div class="form-group p-xl-4 p-3 text-center ">
+                        {% if block.settings[option_key] %}
+                          <span>{% render 'icon-check' %}</span>
+                        {% else %}
+                          <span>{% render 'table-close-icon' %}</span>
+                        {% endif %}
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            {% endif %}
+          {%- endfor -%}
+        </div>
+      </div>
+      {% assign col_counter = col_counter | plus: 1 %}
+
+      {% if col_counter != 0 %}
+        <!-- Fill empty columns in the last row -->
+        {% for i in (col_counter..3) %}
+          <!-- <div class="col-12 col-md-3 mb-4 "></div> -->
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.comparison-table.name",
+  "tag": "section",
+  "class": "section-comparison-table",
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.overlay"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "t:sections.all.full_width.label",
+      "default": false
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-3"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "default": "Comparison-table",
+      "label": "t:sections.all.heading.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h4",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h3",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h2",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "description",
+      "label": "t:sections.all.description.label",
+      "default": "Description"
+    },
+    {
+      "type": "select",
+      "id": "column_alignment",
+      "options": [
+       {
+          "value": "left",
+          "label": "t:sections.all.content_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.all.content_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.all.content_alignment.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "t:sections.all.content_alignment.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.comparison-table.settings.product_table.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "block_color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "text_1",
+      "label": "t:sections.comparison-table.blocks.heading.settings.inline_richtext.info"
+    },
+    {
+      "type": "text",
+      "id": "text_2",
+      "label": "t:sections.comparison-table.blocks.heading.settings.text_1.label",
+      "info": "t:sections.comparison-table.blocks.heading.settings.text_2.info",
+      "default": "t:sections.comparison-table.blocks.heading.settings.text_1.default"
+    },
+    {
+      "type": "text",
+      "id": "text_3",
+      "label": "t:sections.comparison-table.blocks.heading.settings.text_2.label",
+      "info": "t:sections.comparison-table.blocks.heading.settings.text_2.info",
+      "default": "t:sections.comparison-table.blocks.heading.settings.text_1.default"
+    },
+    {
+      "type": "text",
+      "id": "text_4",
+      "label": "t:sections.comparison-table.blocks.heading.settings.text_3.label",
+      "info": "t:sections.comparison-table.blocks.heading.settings.text_2.info",
+      "default": "t:sections.comparison-table.blocks.heading.settings.text_1.default"
+    },
+    {
+      "type": "text",
+      "id": "text_5",
+      "label": "t:sections.comparison-table.blocks.heading.settings.text_4.label",
+      "info": "t:sections.comparison-table.blocks.heading.settings.text_2.info",
+      "default": "t:sections.comparison-table.blocks.heading.settings.text_1.default"
+    },
+    {
+      "type": "header",
+      "content": "t:settings_schema.card.settings.border_heading.content"
+    },
+    {
+      "type": "range",
+      "id": "table_border",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "default": 1,
+      "label": "t:settings_schema.border.settings.border_style.label"
+    },
+    {
+      "type": "range",
+      "id": "table_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 10,
+      "unit": "px",
+      "default": 0,
+      "label": "t:settings_schema.border.settings.radius.label"
+    },
+
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "top_space",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "bot_space",
+      "min": 0,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 100
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "t:sections.comparison-table.blocks.product.name",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "header",
+          "content": "t:sections.comparison-table.blocks.product.content"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "t:sections.comparison-table.blocks.product.settings.product.label"
+        },
+        {
+          "type": "checkbox",
+          "id": "option_1",
+          "label": "t:sections.comparison-table.blocks.product.settings.option_1.label",
+          "default": false
+        },
+
+        {
+          "type": "checkbox",
+          "id": "option_2",
+          "label": "t:sections.comparison-table.blocks.product.settings.option_2.label",
+          "default": false
+        },
+
+        {
+          "type": "checkbox",
+          "id": "option_3",
+          "label": "t:sections.comparison-table.blocks.product.settings.option_3.label",
+          "default": false
+        },
+
+        {
+          "type": "checkbox",
+          "id": "option_4",
+          "label": "t:sections.comparison-table.blocks.product.settings.option_4.label",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.comparison-table.presets.name",
+      "blocks": [
+        {
+          "type": "product"
+        },
+        {
+          "type": "product"
+        },
+        {
+          "type": "product"
+        },
+        {
+          "type": "product"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,168 @@
+    {% style %}
+
+    .offer-popup{
+    z-index:1029;
+    width:clamp(17.5rem, 16rem + 7.5vw, 25rem);
+    height:clamp(17.5rem, 16rem + 7.5vw, 25rem);
+    margin:32px;
+    background-color:rgb(var(--color-background));
+    {% if section.settings.offer_shadow == true %}
+    box-shadow: 0 0 1px 30px rgba(var(--color-foreground),0.2);
+    {% endif %}
+    }
+    .gradient_wrapper{
+    width: clamp(17.5rem, 16rem + 7.5vw, 25rem);
+    height: clamp(17.5rem, 16rem + 7.5vw, 25rem);
+    overflow-y: scroll;
+    position: relative;
+    scrollbar-width: none;
+    }
+    {% if section.settings.offer_shapes == 'square' %}
+    .gradient_wrapper{
+    height:100%;
+    width:100%;
+    max-height: 270px;
+    max-width: 400px;
+    }
+    .offer-popup{
+    width: fit-content !important;
+    height: fit-content !important;
+    max-width:700px;
+    max-height:600px;
+    border-radius: var(--bs-radius);
+    overflow: auto;
+    border: var(--bs-style-border) solid var(--bs-border-color);
+    }
+    #offer_popup{
+    right:0
+    }
+    {% endif %}
+
+    #offer_popup{
+    {% if section.settings.offer_shapes == 'circle' %}
+     right: 52px !important;
+     top: 30px !important;
+    {% else %}
+     right: 10px !important;
+     top:10px !important;
+     {% endif %}
+     {% if section.settings.offer_shapes == 'square' %}
+    {% endif %}
+    {% if section.settings.offer_shadow == true %}
+   /*  box-shadow:0 0 1px 10px rgba(var(--color-foreground),0.2); */
+    {% endif %}
+    opacity:1;
+    border:none;
+    }
+    #offer_popup svg { width: 40px; height: 40px; }
+    .content-scroll{
+    scrollbar-width:none;
+    }
+    .offer-popup a {
+    text-decoration: none;
+    }
+    {% if section.settings.offer_shapes == 'circle' %}
+    .offer-popup .product-image{
+    border-radius:50% !important;
+    }
+    {% endif %}
+    /* manipulated class names for overflow's in both the shapes */
+    {% if section.settings.offer_shapes == 'circle' %}  .gradient_wrapper::after  {% else %} .offer-popup::after{% endif %}
+    {
+    content: '';
+    background: linear-gradient(to top,rgb(var(--color-background)) 40%, transparent 100%);
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    {% if section.settings.offer_shapes == 'circle' %} height: 60px;
+    {% else %} height: 29px;
+    {% endif%}
+    display: block;
+    z-index: 2;
+    pointer-events: none;
+    }
+
+    {% if  section.settings.offer_shadow != true %}
+    .offer-popup{
+    -webkit-box-shadow: 0px -1px 29px -5px rgba(0,0,0,0.67);
+    box-shadow: 0px -1px 29px -5px rgba(0, 0, 0, 0.67);
+    }
+    {% if section.settings.offer_shapes == "square" %}
+
+    {% endif %}
+    {% endif %}
+    {% endstyle %}
+
+    <div class='position-relative'>
+    <div class="offer-popup position-fixed bottom-0 {% if section.settings.place_alignment == 'start' %} start-0 {% else %} end-0 {% endif %} {% if  section.settings.offer_shapes == 'circle' %} rounded-circle {% endif %} color-{{ section.settings.color_scheme }} gradient" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="gradient_wrapper {% if section.settings.offer_shapes == 'circle' %}  rounded-circle {% endif %}">
+    <div class='content-scroll overflow-auto w-100 h-100 d-flex  {% if section.settings.offer_shapes == 'circle' %} rounded-circle {% endif %} '>
+    <div class="text-center text-decoration-none my-auto {% if section.settings.offer_shapes == 'circle' %}mx-5 py-5 {% else %} mx-4 p-4 {% endif %}">
+    <h2 class="h1">{{ section.settings.content  }}</h2>
+    <h3 class="mb-0">{{ section.settings.additional_content }}</h3>
+    </div>
+    </div>
+    </div>
+    <button name="offer_popup" aria-label="{{ 'accessibility.close' | t }}" type="button" id="offer_popup" class="{% if section.settings.offer_shapes == 'circle' %} translate-middle-x p-2  rounded-circle {% else %} p-0 m-0 {% endif %} position-absolute top-0 end-0 btn">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+    </svg>
+    </button>
+    </div>
+    </div>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+    var offerPopupButton = document.getElementById("offer_popup");
+    offerPopupButton.addEventListener("click", function() {
+    var offerPopup = document.querySelector(".offer-popup");
+    offerPopup.style.display = "none";
+    });
+    });
+    </script>
+    {% schema %}
+    {
+    "name": "t:sections.offer-popup.name",
+    "tag": "aside",
+    "class": "section-offer-popup",
+    "settings": [
+    {
+    "type": "color_scheme",
+    "id": "color_scheme",
+    "label": "t:sections.all.colors.label"
+    },
+    {
+    "type": "inline_richtext",
+    "id": "content",
+    "label": "t:sections.offer-popup.settings.content.label"
+    },
+    {
+    "type": "inline_richtext",
+    "id": "additional_content",
+    "label": "t:sections.offer-popup.settings.additional_content.label"
+    },
+    {
+    "type": "select",
+    "id": "offer_shapes",
+    "label": "t:sections.offer-popup.settings.offer_shapes.label",
+    "options": [
+    {"value": "circle","label": "t:sections.offer-popup.settings.offer_shapes.options__1.label"},
+    {"value": "square","label": "t:sections.offer-popup.settings.offer_shapes.options__2.label"}
+    ]
+    },
+    {
+    "type": "checkbox",
+    "id": "offer_shadow",
+    "label": "t:sections.offer-popup.settings.offer_shadow.label"
+    },
+    {
+    "type": "select",
+    "id": "place_alignment",
+    "label": "t:sections.offer-popup.settings.place_alignment.label",
+    "options": [
+    {"value": "start","label": "t:sections.offer-popup.settings.place_alignment.options__1.label"},
+    {"value": "end","label": "t:sections.offer-popup.settings.place_alignment.options__2.label"}
+    ]
+    }
+    ]
+    }
+    {% endschema %}

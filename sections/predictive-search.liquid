@@ -1,0 +1,216 @@
+{% liquid
+  # Determine the aspect ratio for the product card
+  assign aspect_ratio = ''
+  case settings.card_aspect_ratio
+    when 'square'
+      assign aspect_ratio = 'ratio-1x1'
+    when 'portrait'
+      assign aspect_ratio = 'ratio-3x4'
+    when 'landscape'
+      assign aspect_ratio = 'ratio-4x3'
+    when 'wide'
+      assign aspect_ratio = 'ratio-16x9'
+    when 'adapt'
+      assign aspect_ratio = 'ratio-auto'
+    else
+      assign aspect_ratio = 'ratio-1x1'
+  endcase
+
+   assign text_align = settings.text_align
+%}
+
+    {% style %}
+    @media screen and (min-width:768px){
+    {% if settings.canvas_style == "default" %}
+    .card_container .card_wrapper:nth-child(even):has(.blog-article),
+    .card_container .card_wrapper:nth-child(3n+2):has(.card_product_detail){
+    margin-top:14%;
+    }
+    {% endif %}
+    }
+    @media (min-width:576px) and (max-width:991.98px){
+    {% if settings.canvas_style == "default" %}
+    .card_container .card_wrapper:nth-child(even){
+    margin-top:14%;
+    }
+    {% endif %}
+    }
+
+    {% if settings.card_align == "card" %}
+    .card_container .card_wrapper{ margin-bottom:1.5rem; }
+    {% endif %}
+
+    {% if settings.blog_card_align == "card" %}
+    .card_container .card_wrapper{ margin-bottom:1.5rem; }
+    {% endif %}
+    @media (max-width:575.98px){
+    .card_container .card_wrapper :is(.blog_card, .produc_card){
+    height:100%;
+    }
+    .card_container .card_wrapper{ padding-inline: 0.4rem !important; }
+    }
+
+    .card_container .card_wrapper .card .card-body .date{ font-size: calc(var(--bs-body-font-size) - 3px ); }
+    @media screen and (max-width:425px){
+    {% if settings.canvas_style == "default" %}.card_container .card_wrapper:nth-child(even){ margin-top:0px; }{% endif %}
+    }
+    .article-card .card .card-body .tags .tag-item a{
+    text-decoration:none;
+    background: rgba(var(--color-primary-button-bg));
+    color: rgba(var(--color-primary-button-text));
+    padding: 3px 15px;
+    border-radius: var(--btn-radius);
+    height:100%;
+    display:block;
+    font-size: var(--bs-font-md);
+    }
+    .article-card .card .card-body .tags .tag-item.active a{
+    background: transparent;
+    color: rgba(var(--color-primary-button-bg));
+    outline: 1px solid rgba(var(--color-border));
+    }
+    .article-card .card .card-body .blog_details, .article-card .card .card-body .read_more{ font-size: var(--bs-font-md); }
+
+    @media(max-width:480px){
+    #predictive-search-results .row-cols-2>*{width:100%;}
+    }
+    {% endstyle %}
+
+
+
+
+{% if predictive_search.performed %}
+  <div id="predictive-search-results">
+      {%- if settings.show_collections -%}
+    <!-- Collections Section -->
+    {% assign collections_size = predictive_search.resources.collections.size %}
+    {%- if collections_size > 0 -%}
+      <div class="my-5">
+        <h2 id="predictive-search-collections" class="text-center my-4">{{ 'general.search.title' | t }}</h2>
+        <div role="list" class="d-flex flex-wrap justify-content-center gap-3">
+          {%- for collection in predictive_search.resources.collections -%}
+            <div role="option">
+              <a href="{{ collection.url }}" class="btn btn-secondary rounded-pill">
+                <span>{{ collection.products_count }}</span>
+                {% render 'collection_count' %}
+                <span>{{ collection.title }}</span>
+              </a>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+ {%- endif -%}
+
+
+  <!-- Products Section -->
+    {% assign products_size = predictive_search.resources.products.size %}
+    {%- if products_size > 0 -%}
+      <h2 class="my-4 text-center">{{ 'general.search.product_title' | t }}</h2>
+      <div class="card_container row {% if settings.canvas_style == "none" or settings.canvas_style == "default" or settings.canvas_style == "zigzag" %}row-cols-2{% endif %} {% if settings.canvas_style != "none" %}row-cols-lg-3{% endif %} position-relative">
+        {%- for product in predictive_search.resources.products -%}
+          <div class="card_wrapper">
+            <div class="produc_card card d-flex flex-column color-{{ settings.card_background }}{% if settings.card_align == "card" %} card_product_detail{% else %} bg-transparent{% endif %}">
+              {% if product.media.size > 0 %}
+                <div
+                  class="card-img ratio {{ aspect_ratio }} {% if settings.card_align == "standard" %} card_product_detail color-{{ settings.card_background }} {% endif %}"
+                  style="--aspect-ratio:{% if product.featured_image.aspect_ratio %} {{ 1 | divided_by: product.featured_image.aspect_ratio | times: 100 }}{% else %}100{% endif %}%;"
+                >
+                  <a href="{{ product.url }}" class="card-img image_wrapper">
+                    {{ product.featured_media | image_url: width: 1200 | image_tag: class: 'img-fluid' }}
+                  </a>
+                </div>
+              {% else %}
+                {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+              {% endif %}
+              <div class="card-body{% if settings.card_text_align == "center" %} text-center{% elsif settings.card_text_align == "right" %} text-right{% endif %} {% if settings.card_align != "card" %} px-0{% endif %}">
+                <h6 class="card-title">
+                  <a href="{{ product.url }}" class="text-decoration-none">
+                    <span class="title">{{ product.title }}</span>
+                  </a>
+                </h6>
+                 {% render 'price', product: product, price_class: '', show_compare_at_price: true, text_align:text_align %}
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+ <!-- Pages Section -->
+
+    {% assign pages_size = predictive_search.resources.pages.size %}
+    {%- if pages_size > 0 -%}
+      <div class="mb-5">
+        <h2 id="predictive-search-pages" class="text-center my-4">{{ 'general.pages.title' | t }}</h2>
+        <div role="list" class="d-flex flex-wrap justify-content-center gap-3">
+          {%- for page in predictive_search.resources.pages -%}
+            <div>
+              <a href="{{ page.url }}" class="btn btn-secondary rounded-pill">
+                <span>{{ page.title }}</span>
+              </a>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+
+    <!-- Blogs Section -->
+    {%- if settings.show_articles -%}
+    {% assign blogs_size = predictive_search.resources.articles.size %}
+    {% if blogs_size > 0 %}
+      <div class="card_container article-card">
+        <h2 id="predictive-search-blogs" class="text-center my-4">{{ 'sections.blogs.article.blog' | t }}</h2>
+        <div role="list" class="row{% if settings.canvas_style == "none" %} row-cols-2{% else %} row-cols-1 row-cols-2 row-cols-lg-3{% endif %}">
+          {% for article in predictive_search.resources.articles %}
+            <div class="card_wrapper">
+              <div role="option" class="blog_card card color-{{ settings.blog_card_background }}{% if settings.blog_card_align == "card" %} blog-article{% else %} bg-transparent{% endif %}">
+                <div class="card-img{% if settings.blog_card_align == "standard" %} blog-article{% endif %}">
+                  <div class="ratio {{ aspect_ratio }}" style="--aspect-ratio: {% if article.image %}{{ 1 | divided_by: article.image.aspect_ratio | times: 100 }}{% else %}100{% endif %}%;">
+                  <a href="{{ article.url }}" class="image_wrapper text-decoration-none article_img card-img">
+                      {% if article.image %}
+                    {{-
+                      article.image
+                      | image_url: width: 1500
+                      | image_tag:
+                        aria_hidden: 'true',
+                        loading: 'lazy',
+                        class: 'img-fluid',
+                        width: article.image.width,
+                        height: article.image.height,
+                        sizes: '(min-width: 750px) 50vw, 100vw',
+                        alt: article.image.alt
+                      | escape
+                    -}}
+                      {% else %}
+                        {{ 'image' | placeholder_svg_tag : 'placeholder_svg' }}
+                      {% endif %}
+                    </a>
+                    </div>
+                </div>
+                 <div class="card-body{% if settings.blog_card_align != "card" %} px-0{% endif %} {% if settings.blog_text_align == "center" %} text-center{% elsif settings.blog_text_align == "right" %} text-end{% endif %}">
+                    <h3 class="card-title h6"> <a href="{{ article.url }}" class="text-decoration-none">{{ article.title }}</a> </h3>
+                    <p class="article-description m-0">{{ article.excerpt_or_content| strip_html | truncatewords: 5 }} </p>
+                </div>
+
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+    {% endif %}
+  </div>
+{% endif %}
+{% if predictive_search.resources.products.size == 0
+  and predictive_search.resources.collections.size == 0
+  and predictive_search.resources.pages.size == 0
+  and predictive_search.resources.articles.size == 0 %}
+  <div class="predictive-search-empty text-center">
+    <div class="d-grid text-center gap-4">
+    <div>{% render 'no-result' %}</div>
+    <h2 class="h4 search-results-no-result-text special-heading-s4"> {{ 'products.facets.not_found' | t }}  "{{ predictive_search.terms | highlight: predictive_search.terms }}". {{ 'products.facets.suggestion' | t }}</h2>
+    </div>
+  </div>
+{% endif %}

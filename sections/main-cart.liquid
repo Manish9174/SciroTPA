@@ -1,0 +1,715 @@
+{% render 'spacing' %}
+
+{% style %}
+    .main-cart .card-container .card-image{ width:120px; /* overflow:visible; */ }
+    .main-cart .card-container .card-body{ width: calc(100% - 120px ); }
+    /* .body-content > * { color: rgba(var(--color-input-text-color)) !important; } */
+    .body-content :is(.remove a), .card-body .remove_icon{ font-weight: var(--font-body-weight-bold); text-transform: var(--btn-transform); font-size: var(--bs-font-md); }
+    .card-container .card-body .variants, .card-container .card-body .discount{ font-size: var(--bs-font-md); }
+    .main-cart .main_cart_description{border-radius: var(--bs-radius);}
+    @media screen and (max-width:575px){
+      .main-cart .card-container .card-image{ width:120px; }
+      .main-cart .card-container .card-body{ width:calc(100% - 120px);}
+    }
+  input[type=number] {
+              -moz-appearance: textfield;
+            }
+  input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+     @media screen and (max-width:425px){
+       .main-cart .header .card-title .card-quantity, .cart-table .header .card-title, .cart-table .body .body-content{ display:none !important;}
+       .main-cart .body .card-content{ width: 100% !important;}
+       .main-cart .body .quantity, .cart-table .body .price{ display:block !important; }
+       .cart-table .header .title { width:100% !important; }
+     }
+
+      .main-cart .quantity-control{ width:115px;background:var(--bs-bg-input); }
+      .card-container .card-body .discount .cart-product-discounts ul:empty{ display:none; }
+      .card-container .card-body .pro_error{
+        font-size: var(--bs-font-md);
+      }
+      @media screen and (max-width: 575.98px){
+        .card-container .card-body .remove_icon{
+          display:block !important;
+        }
+        .card-container .card-body >*:not(:first-child) , .card-container .card-body .remove_icon a span { font-size:var(--bs-font-md); }
+      }
+    @media screen and (max-width:991.98px){
+       .card-container .card-body .quantity-control button{  padding: 5px 12px; }
+    }
+    .main-cart .card-container .card-body>div:empty {
+      display: none !important;
+  }
+  .discounts .discount_title{
+     font-size: var(--bs-font-md);
+  }
+.main-cart .vendor { font-size: var(--bs-font-md); }
+.card-image.card_product_detail:has(a:focus-visible){
+    outline: 2px dashed currentcolor !important;
+    outline: -webkit-focus-ring-color solid 2px;
+}
+.cart-item--nested .card-content {
+    padding-inline: 2.5rem;
+}
+{% endstyle %}
+
+<div class="main-cart container section-{{ section.id }}-padding">
+  {% if cart.item_count == 0 %}
+    <div class="text-center">
+      <div class="d-grid text-center gap-4">
+        <div>{% render 'no-result' %}</div>
+        <h4 class="h3">{{ 'sections.cart.empty' | t }}</h4>
+
+      </div>
+      <a href="{{ routes.all_products_collection_url }}" class="btn btn-primary mt-2">
+        {{- 'sections.cart.continue_shopping' | t -}}
+      </a>
+    </div>
+  {% else %}
+    <div class="mb-5">
+      <h1 class="mb-5">{{ 'sections.cart.headings.title' | t }}</h1>
+    </div>
+    {% if settings.enable_free_shipping %}
+    <div class="progress rounded-pill me-3">
+      <div
+        class="progress-bar rounded-pill"
+        role="progressbar"
+        style="width: 75%;" aria-label="{{ 'accessibility.loading_progress' | t }}"
+        aria-valuenow="25"
+        aria-valuemin="0"
+        aria-valuemax="100"
+      ></div>
+    </div>
+    <p class="my-3 progressbar_update">{{ 'sections.cart.progress_text' | t }} </p>
+
+
+  {% endif %}
+    <div class="mt-5">
+      <form action="{{ routes.cart_url }}" method="post" id="cart-form">
+        <div class="cart-table mb-5">
+          <div class="row header border-1 border-bottom g-0">
+            <div class="title col-8 col-md-5 col-lg-5">
+              <h2 class="mb-4 h4">{{ 'sections.cart.headings.product' | t }}</h2>
+            </div>
+            <div class="card-title col-4 col-md-7 col-lg-7 row g-0">
+              <h4 class="mb-4 col text-center text-md-center">{{ 'sections.cart.headings.price' | t }}</h4>
+              <h4 class="card-quantity mb-4 col d-none d-lg-block text-center">
+                {{ 'sections.cart.headings.quantity' | t }}
+              </h4>
+              <h4 class="mb-4 col d-none d-md-block text-center text-lg-center">
+                {{ 'sections.cart.headings.total' | t }}
+              </h4>
+              <h5 class="mb-4 col text-end text-md-center d-none d-md-block">
+                <!-- {{ 'sections.cart.headings.action' | t }} -->
+              </h5>
+            </div>
+
+          </div>
+
+          {% for item in cart.items %}
+            <div class="body row border-1 {% unless forloop.last %}border-bottom {% endunless %} py-4 g-0 repeated_items {% if item.parent_relationship.parent != null %} cart-item--nested {% endif %}" data-lineid="item-{{ item.id }}">
+              <div class="card-content col-8 col-md-5 col-lg-5 position-relative">
+                <div class="card-container d-flex">
+                  <div class="card-image  card_product_detail h-100">
+                    <a href="{{ item.url }}" class="card-img">
+                      {% if item.image %}
+                            {{
+                              item.image
+                              | image_url: width: 1280
+                              | image_tag:
+                                aria_hidden: 'true',
+                                loading: 'lazy',
+                                width: item.image.width,
+                                height: item.image.height,
+                                sizes: '(min-width: 1200px) 600px, (min-width: 992px) calc((100vw - 130px) / 3), (min-width: 768px) calc((100vw - 120px) / 2), calc((100vw - 35px) / 2)',
+                                widths: '320, 540, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946',
+                                class: 'img-fluid',
+                                alt: item.image.alt
+                              | escape
+                            }}
+                      {% else %}
+                        {{ 'product-1' | placeholder_svg_tag:"placeholder_svg" }}
+                      {% endif %}
+                    </a>
+                  </div>
+                  <div class="card-body align-self-md-center p-3 py-0 m-auto">
+                    {% if settings.Show_vendor_cart %}
+                              <div class="vendor text-uppercase mb-2">
+                                <p class="mb-0">{{item.vendor}}</p>
+                              </div>
+                            {% endif %}
+                    <h3 class="mb-2 h5 title">
+                      <a href="{{ item.url }}" class="text-decoration-none text-break"> {{ item.product.title }} </a>
+                    </h3>
+                    {% if item.unit_price and item.unit_price_measurement %}
+                      <p class="unit_price mb-1 fs-6">
+                        {{ item.unit_price | money }} / {{ item.unit_price_measurement.quantity_unit }}
+                      </p>
+                    {% endif %}
+
+
+
+
+                    {% assign has_visible_options = false %}
+
+                    {% for variant in item.options_with_values %}
+                      {% if variant.name != 'Title' or variant.value != 'Default Title' %}
+                        {% assign has_visible_options = true %}
+                      {% endif %}
+                    {% endfor %}
+
+                    {% if has_visible_options %}
+                      <div class="d-flex d-sm-flex gap-1 flex-wrap variants">
+                        {% for variant in item.options_with_values %}
+                          {% if variant.name != 'Title' or variant.value != 'Default Title' %}
+                            <p class="mb-1">
+                              {{ variant.value -}}
+                              {%- unless forloop.last %} /{% endunless %}
+                            </p>
+                          {% endif %}
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+
+                    {% if item.gift_card %}
+                      {% assign recipient_email = item.properties['Recipient email'] %}
+                      {% assign recipient_name = item.properties['Recipient name'] %}
+                      {% assign gift_message = item.properties.Message %}
+                      {% assign send_on_date = item.properties['Send on'] %}
+
+                      <div class="gift-card-details mt-2">
+                        {% if recipient_name != blank %}
+                          <p class="mb-1">{{ 'products.gift_card.recipient_form.name' | t }}: {{ recipient_name }}</p>
+                        {% endif %}
+                        {% if recipient_email != blank %}
+                          <p class="mb-1">{{ 'products.gift_card.recipient_form.email' | t }}: {{ recipient_email }}</p>
+                        {% endif %}
+                        {% if gift_message != blank %}
+                          <p class="mb-1">{{ 'products.gift_card.recipient_form.message' | t }}: {{ gift_message }}</p>
+                        {% endif %}
+                        {% if send_on_date != blank %}
+                          <p class="mb-1">{{ 'products.gift_card.recipient_form.date' | t }}: {{ send_on_date }}</p>
+                        {% endif %}
+                      </div>
+                    {% endif %}
+                    <div class="cart-message d-flex align-items-center gap-2"></div>
+                    <div>{{ item.selling_plan_allocation.selling_plan.name }}</div>
+
+                    <div class="discount">
+                      {%- if item.line_level_discount_allocations.size > 0 -%}
+                        <span class="cart-product-discounts">
+                          <ul
+                            class="cart-product-discounts-list p-0 mb-2"
+                            role="list"
+                            aria-label="{{ 'customer.order.discount' | t }}"
+                          >
+                            {%- for discount_allocation in item.line_level_discount_allocations -%}
+                              <li class="cart-product-discounts-list-item list-unstyled ">
+                                <span class="cart-product-discounts-list-item__title d-flex align-items-center gap-2  badges sale_badge">
+                                  <span class="discount_tag">
+                                    <svg class="icon icon-discount" width='12' height='12' viewBox="0 0 12 12"><path fill="currentColor" fill-rule="evenodd" d="M7 0h3a2 2 0 0 1 2 2v3a1 1 0 0 1-.3.7l-6 6a1 1 0 0 1-1.4 0l-4-4a1 1 0 0 1 0-1.4l6-6A1 1 0 0 1 7 0m2 2a1 1 0 1 0 2 0 1 1 0 0 0-2 0" clip-rule="evenodd"></path></svg>
+                                  </span>
+                                  <span class="text-uppercase discount_title lh-1">
+                                    {{ discount_allocation.discount_application.title }}
+                                  </span>
+                                </span>
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        </span>
+                      {%- endif -%}
+                    </div>
+
+                    <div class="quantity col d-flex d-lg-none align-items-center mb-2">
+                      <div class="quantity-control d-flex align-items-center  form-control p-0 px-1">
+
+                        <button type="button" class="decrement btn p-3 fs-5 border-0 quanity_descrement" data-line="{{ forloop.index }}"
+                        aria-label="{{ 'accessibility.decrement' | t }}"></button>
+                        <label for="updates-{{ item.id }}" class="visually-hidden">{{ 'sections.cart.headings.quantity' | t }}</label>
+                        <input
+                          type="number"
+                          name="updates[{{ item.id }}]"
+                          id="updates-{{ item.id }}"
+                          value="{{ item.quantity }}"
+                          class="cart-item-quantity w-100 text-center border-0 bg-transparent"
+                          data-line="{{ forloop.index }}"
+                        >
+                        <button type="button" class="increment btn p-3 fs-5 border-0 quanity_increment" data-line="{{ forloop.index }}" aria-label="{{ 'accessibility.increment' | t }}"></button>
+                      </div>
+                    </div>
+                    <div class="price col d-none align-items-center mb-2">
+                    <span class='fw-bold'><span class="default_cur"></span> {{ item.price | money_without_currency }} {% if settings.currency_code_enabled %}{{ cart.currency.iso_code }}{% endif %}</span>
+                    </div>
+                    <div class="remove remove_icon d-md-none">
+                      <a href="{{ item.url_to_remove }}">
+                        <span class="icon-close"></span>
+                        <span class="text-decoration-underline p-0">{{ 'sections.cart.remove' | t }}</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="body-content col-4 col-md-7 col-lg-7 row g-0 d-sm-flex">
+                <div class="col d-flex flex-column justify-content-center align-items-center">
+                  {% if item.line_level_discount_allocations.size > 0 %}
+                    <span class="text-decoration-line-through opacity-75"
+                      ><span class="default_cur"></span>{{ item.original_price | money_without_currency -}} {% if settings.currency_code_enabled %}{{ cart.currency.iso_code }}{% endif %}
+                    </span>
+                  {% endif %}
+                  <span class=''>
+                    <span class="default_cur"></span> {{ item.price | money_without_currency }} {% if settings.currency_code_enabled %}{{ cart.currency.iso_code }}{% endif %}
+                  </span>
+                </div>
+                <div class="quantity col d-none d-lg-flex align-items-center justify-content-center">
+                  <div class="quantity-control d-flex align-items-center form-control p-0 px-1">
+                    <button type="button" class="decrement btn p-3 fs-5 border-0 rounded-0 quanity_descrement" data-line="{{ forloop.index }}" aria-label="{{ 'accessibility.decrement' | t }}"></button>
+                    <label for="updates{{ item.id }}" class="visually-hidden">{{ 'sections.cart.headings.quantity' | t }}</label>
+                    <input
+                      type="number" min="0"
+                      name="updates[{{ item.id }}]"
+                      id="updates{{ item.id }}"
+                      value="{{ item.quantity }}"
+                      class="cart-item-quantity w-100 text-center border-0 bg-transparent"
+                      data-line="{{ forloop.index }}"
+                    >
+                    <button type="button" class="increment btn p-3 fs-5 border-0 rounded-0 quanity_increment" data-line="{{ forloop.index }}" aria-label="{{ 'accessibility.increment' | t }}">
+                    </button>
+                  </div>
+                </div>
+                <div
+                  class="item-total col d-flex align-items-center justify-content-center justify-content-lg-center d-none d-md-flex"
+                  data-line="{{ forloop.index }}"
+                >
+                  <span class='text-nowrap'><span class="default_cur"></span> {{ item.final_line_price | money_without_currency }} </span>
+                  <span class="ps-1 text-nowrap"> {% if settings.currency_code_enabled %}{{ cart.currency.iso_code }}{% endif %}</span>
+                </div>
+
+<div class="remove col d-flex align-items-center justify-content-end justify-content-md-end d-none d-md-flex">
+  <a href="#" class="text-decoration-none remove-item"
+     data-line-item-key="{{ item.key }}">
+    <span class="icon-close"></span>
+    <span class="text-decoration-underline">{{ 'sections.cart.remove' | t }}</span>
+  </a>
+</div>
+
+
+              </div>
+            </div>
+          {% endfor %}
+          <div class="d-flex justify-content-end ">
+                       <a href="{{ routes.all_products_collection_url }}" class="btn btn-primary mt-2">
+        {{- 'sections.cart.continue_shopping' | t -}}
+      </a>
+    </div>
+        </div>
+
+        <!-- Order description textarea -->
+        <div class="color-{{ section.settings.color_scheme }} gradient p-4 p-md-5 main_cart_description">
+          <div class="row row-cols-1 row-cols-lg-2 align-items-center row-gap-4">
+            <div><label for="order-description" class="visually-hidden">order-description:</label>
+              <textarea
+                id="order-description" name="order-description"
+                class="border-1 p-4 form-control"
+                name="note"
+                rows="6"
+                placeholder="{{ 'sections.cart.note' | t }}"
+              >{{ cart.note }}</textarea>
+            </div>
+            <div class="ps-lg-4">
+              <p class="pb-3 border-bottom border-1">
+                {%- if cart.duties_included and cart.taxes_included -%}
+                  {%- if shop.shipping_policy.body == blank -%}
+                    {{ 'sections.cart.duties_and_taxes_included_shipping_at_checkout_without_policy' | t }}
+                  {%- else -%}
+                    {{
+                      'sections.cart.duties_and_taxes_included_shipping_at_checkout_with_policy_html'
+                      | t: link: shop.shipping_policy.url
+                    }}
+                  {%- endif -%}
+                {%- elsif cart.duties_included == false and cart.taxes_included -%}
+                  {%- if shop.shipping_policy.body == blank -%}
+                    {{ 'sections.cart.taxes_included_shipping_at_checkout_without_policy' | t }}
+                  {%- else -%}
+                    {{
+                      'sections.cart.taxes_included_shipping_at_checkout_with_policy_html'
+                      | t: link: shop.shipping_policy.url
+                    }}
+                  {%- endif -%}
+                {%- elsif cart.duties_included and cart.taxes_included == false -%}
+                  {%- if shop.shipping_policy.body == blank -%}
+                    {{ 'sections.cart.duties_included_taxes_at_checkout_shipping_at_checkout_without_policy' | t }}
+                  {%- else -%}
+                    {{
+                      'sections.cart.duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html'
+                      | t: link: shop.shipping_policy.url
+                    }}
+                  {%- endif -%}
+                {%- elsif cart.duties_included == false and cart.taxes_included == false -%}
+                  {%- if shop.shipping_policy.body == blank -%}
+                    {{ 'sections.cart.taxes_at_checkout_shipping_at_checkout_without_policy' | t }}
+                  {%- else -%}
+                    {{
+                      'sections.cart.taxes_at_checkout_shipping_at_checkout_with_policy_html'
+                      | t: link: shop.shipping_policy.url
+                    }}
+                  {%- endif -%}
+                {%- endif -%}
+              </p>
+              <div class="mt-4 d-flex justify-content-between gap-2 flex-wrap">
+                <p class="m-0 h4">{{ 'sections.cart.subtotal' | t }} :</p>
+
+                <h5 id="cart-subtotal">
+                  <span class="default_cur"></span>  {{ cart.total_price | money_without_currency }} {% if settings.currency_code_enabled %}{{ cart.currency.iso_code }}{% endif %}
+                </h5>
+              </div>
+              <div class="discount d-flex justify-content-end mt-4">
+                   {%- if cart.cart_level_discount_applications.size > 0 -%}
+                      <ul class="discounts list-unstyled">
+                        {%- for discount in cart.cart_level_discount_applications -%}
+                          <li class="gap-2">
+                           <span class="discount_tag">
+                              <svg class="icon icon-discount" width='12' height='12' viewBox="0 0 12 12"><path fill="currentColor" fill-rule="evenodd" d="M7 0h3a2 2 0 0 1 2 2v3a1 1 0 0 1-.3.7l-6 6a1 1 0 0 1-1.4 0l-4-4a1 1 0 0 1 0-1.4l6-6A1 1 0 0 1 7 0m2 2a1 1 0 1 0 2 0 1 1 0 0 0-2 0" clip-rule="evenodd"></path></svg>
+                            </span>
+                           <span class="discount_title"> {{ discount.title | escape }} (-{{ discount.total_allocated_amount | money }})</span>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    {%- endif -%}
+                </div>
+               <div>
+                {% if additional_checkout_buttons %}
+                  {{ content_for_additional_checkout_buttons }}
+                {% endif %}
+              </div>
+              <div class="d-flex justify-content-end">
+                <button
+                  type="submit"
+                  name="checkout"
+                  class="btn btn-primary mt-4 "
+                  formaction="{{ routes.cart_url }}"
+                >
+                  {{ 'sections.cart.checkout' | t }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  {% endif %}
+</div>
+{% assign currency_symbol = shop.money_format | remove: '{{amount}}' %}
+<script>
+ document.addEventListener('DOMContentLoaded', function () {
+   var currencySymbol1 = "{{ currency_symbol }}";
+
+ document.querySelectorAll('.remove-item').forEach(function (el) {
+    el.addEventListener('click', function (e) {
+      e.preventDefault();
+
+      const lineItemKey = el.getAttribute('data-line-item-key');
+
+      fetch('/cart/change.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: lineItemKey,
+          quantity: 0
+        })
+      })
+      .then(response => response.json())
+      .then(cart => {
+        // Optionally reload or re-render cart section
+        location.reload(); // Replace with AJAX cart render if needed
+      })
+      .catch(() => {});
+
+    });
+  });
+
+   const currencySymbol = new Intl.NumberFormat(Shopify.locale, {
+    style: 'currency',
+    currency: Shopify.currency.active,
+  }).formatToParts(1).find(part => part.type === 'currency').value;
+   const currencyElements = document.querySelectorAll("span.default_cur");
+  currencyElements.forEach((element) => {
+    element.innerHTML = currencySymbol;
+  });
+
+  updateProgressBar({{ cart.original_total_price}})
+
+  const selectedcoun = document.querySelector('#CountrySelect .dropdown-item.selected');
+  const selectedText = Shopify.currency.active;
+  const locale = `${Shopify.locale}-${Shopify.country}`;
+
+  const incrementButtons = document.querySelectorAll('.increment');
+  const decrementButtons = document.querySelectorAll('.decrement');
+  const quantityInputs = document.querySelectorAll('.cart-item-quantity');
+
+
+  incrementButtons.forEach(function (button) {
+    button.addEventListener('click', function (event) {
+      var lineId = $(this).closest('.repeated_items').data('lineid');
+
+
+
+      const line = event.target.getAttribute('data-line');
+      const quantityInput = document.querySelector(`input[data-line="${line}"]`);
+
+      let newQuantity = parseInt(quantityInput.value) + 1;
+      updateCart(line, newQuantity , lineId);
+      showLoader(line);
+    });
+  });
+
+  decrementButtons.forEach(function (button) {
+
+    button.addEventListener('click', function (event) {
+      var lineId = $(this).closest('.repeated_items').data('lineid');
+    const line = event.target.getAttribute('data-line');
+    const quantityInput = document.querySelector(`input[data-line="${line}"]`);
+    let newQuantity = parseInt(quantityInput.value) - 1;
+    updateCart(line, newQuantity,  lineId);
+      showLoader(line);
+  });
+  });
+
+  quantityInputs.forEach(function (input) {
+    input.addEventListener('change', function (event) {
+      var lineId = $(this).closest('.repeated_items').data('lineid');
+      const line = input.getAttribute('data-line');
+      let newQuantity = parseInt(input.value);
+      // if (isNaN(newQuantity) || newQuantity < 1) {
+      //   newQuantity = 1;
+      // }
+
+      updateCart(line, newQuantity , lineId);
+      showLoader(line);
+    });
+  });
+
+function showLoader(lineId) {
+  const targetElement = document.querySelector(`.item-total[data-line="${lineId}"]`);
+  if (targetElement) {
+    targetElement.dataset.originalContent = targetElement.innerHTML;
+    targetElement.innerHTML = `
+      <div class="spinner-border spinner-border-sm text-center" role="status">
+        <span class="sr-only"></span>
+      </div>`;
+  }
+}
+
+function hideLoader(lineId) {
+  const targetElement = document.querySelector(`.item-total[data-line="${lineId}"]`);
+  if (targetElement) {
+    const originalContent = targetElement.dataset.originalContent;
+    if (originalContent) {
+      targetElement.innerHTML = originalContent;
+      delete targetElement.dataset.originalContent;
+    }
+  }
+}
+
+
+ function updateCart(line, quantity , lineId) {
+
+
+        fetch('{{ routes.cart_url }}/change.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          body: JSON.stringify({
+            line: parseInt(line),
+            quantity: quantity
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          hideLoader(line);
+
+          if (data.status === 'error') {
+          // alert('There was an error updating your cart: ' + data.message);
+          } else {
+
+            if (quantity <= 0) {
+
+              window.location.reload();
+            }
+            else {
+
+            updateCartUI(data , line ,lineId );
+            let lineItem = data.items[line - 1];
+            if (lineItem) {
+              let itemTotal = lineItem.final_line_price  ;
+              $('input.cart-item-quantity[data-line="'+line+'"]').val(quantity);
+              $('.item-total[data-line="'+line+'"]').html( formatMoney(itemTotal, locale, currency));
+
+
+            } }
+          }update_headercartcount()
+        })
+      .catch(error => {
+          const messageContainer = document.querySelector('.cart-message');
+
+          if (!messageContainer) {
+
+            return;
+          }
+
+          // messageContainer.innerHTML = `<span class='pro_error'> {{ 'sections.cart.headings.max_product' | t }}</span>`;
+        });
+}
+
+function update_headercartcount() {
+  let totalQuantity = 0;
+
+  // Create a set to keep track of unique lines
+  const seenLines = new Set();
+  const uniqueInputs = [];
+
+  $('input.cart-item-quantity').each(function() {
+    const line = $(this).data('line');
+    if (!seenLines.has(line)) {
+      seenLines.add(line);
+      uniqueInputs.push(this); // Save the DOM element
+    }
+  });
+
+  // Now calculate totalQuantity only from unique inputs
+  totalQuantity = uniqueInputs.map(function(input) {
+    return parseInt($(input).val(), 10) || 0;
+  }).reduce((a, b) => a + b, 0);
+
+
+  update_headercart(totalQuantity);
+}
+
+function updateCartUI(cart, line, lineId) { 
+  var lineItemContainer = document.querySelector('[data-lineid="' + lineId + '"]');
+  if (lineItemContainer) {
+    const messageContainer = lineItemContainer.querySelector('.cart-message');
+    const messageContent = cart.message ? ' <span class="pro_error mb-2 d-flex align-items-baseline"><span class="text-danger lh-0"><svg width="12px" height="12px" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">' +
+  '<path fill-rule="evenodd" clip-rule="evenodd" d="M1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12ZM10.0586 6.05547C10.0268 5.48227 10.483 5 11.0571 5H12.9429C13.517 5 13.9732 5.48227 13.9414 6.05547L13.5525 13.0555C13.523 13.5854 13.0847 14 12.554 14H11.446C10.9153 14 10.477 13.5854 10.4475 13.0555L10.0586 6.05547ZM14 17C14 18.1046 13.1046 19 12 19C10.8954 19 10 18.1046 10 17C10 15.8954 10.8954 15 12 15C13.1046 15 14 15.8954 14 17Z" fill="currentColor"/>' +
+  '</svg></span>' + '<span class="m-0 ms-1">{{ 'sections.cart.errors.max_quantity' | t }}</span></span>' : '';
+    messageContainer.innerHTML = messageContent;
+  }
+ 
+  if (cart && Array.isArray(cart.items)) {
+    cart.items.forEach((item, index) => {
+      const lineIndex = index + 1; 
+
+      const quantityInput = document.querySelector(`input.cart-item-quantity[data-line="${lineIndex}"]`);
+      const itemTotalEl = document.querySelector(`.item-total[data-line="${lineIndex}"]`);
+
+      if (quantityInput) {
+        quantityInput.value = item.quantity;
+      }
+
+      if (itemTotalEl) {
+        itemTotalEl.innerHTML = `<span class='text-nowrap'>
+          <span class="default_cur">${currencySymbol}</span> 
+          ${formatMoney(item.final_line_price, locale, Shopify.currency.active)}
+        </span>`;
+      }
+    }); 
+    const cartSubtotalElement = document.querySelector('#cart-subtotal');
+    if (cartSubtotalElement) {
+      cartSubtotalElement.innerHTML = `
+        <span class="default_cur">${currencySymbol}</span> 
+        ${formatMoney(cart.total_price, locale, Shopify.currency.active)}
+      `;
+      updateProgressBar(cart.total_price);
+    }
+  }
+}
+
+// Function to format money
+function formatMoney(cents, locale, currency) {
+  const value = (cents / 100);
+  const formattedValue = new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency: currency,
+    minimumFractionDigits: 2,
+  }).format(value);
+  const currencySymbol = new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency: currency,
+  }).formatToParts(value).find(part => part.type === 'currency').value;
+
+  const amount = formattedValue.replace(currencySymbol, '').trim();
+  var currencySymbol1 = "{{ currency_symbol }}";
+  return `${amount}{% if settings.currency_code_enabled %} {{ cart.currency.iso_code }}{% endif %}`;
+}
+
+function updateProgressBar(totalPrice) {
+    var targetPrice = {{ settings.cart_freeshipping | default: 1000 }};
+    var totalPrice = (totalPrice / 100);
+
+    const percentage = (totalPrice / targetPrice) * 100;
+    //document.querySelector('.progress-bar').style.width = percentage + '%';
+    let progressBar = document.querySelector('.progress-bar');
+    if (progressBar) {
+        progressBar.style.width = percentage + '%';
+    }
+   // let away_price = Math.round(targetPrice - totalPrice);
+   let away_price = (targetPrice - totalPrice).toFixed(2);
+
+    var progressBarText = document.querySelector('p.my-3.progressbar_update');
+    var progressBarContainer = document.querySelector('p.progressbar_update');
+
+    if (away_price > 0) {
+      if(progressBarText){ progressBarText.innerHTML = currencySymbol  + away_price +   ' {% if settings.currency_code_enabled %}{{ cart.currency.iso_code }}{% endif %} ' + `{{ 'sections.cart.errors.shipping' | t }}` ; }
+    } else {
+        if(progressBarContainer){ progressBarContainer.innerHTML = "{{ 'sections.cart.errors.free-shipping' | t }}"; }
+    }
+}
+});
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.main-cart-items.name",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-3",
+      "info": "t:sections.main-cart-items.color-info.info"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.spacing.spacing_heading"
+    },
+    {
+      "type": "range",
+      "id": "top_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.top_space",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "bot_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.bot_space",
+      "default": 140
+    }
+  ],
+}
+{% endschema %}

@@ -1,0 +1,301 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "slideshow_UPRfk9": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_zmqcA9": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/MainBanner_High_Lychee.jpg",
+            "color_scheme": "",
+            "heading": "",
+            "heading_size": "h2",
+            "text": "",
+            "button_label": "",
+            "link": "",
+            "target": false,
+            "content_alignment": "center",
+            "box_align": "justify-content-center align-items-center",
+            "desktop_content_width": 580,
+            "transparent": 0,
+            "mobile_transparent": 0,
+            "image_transparent": 0
+          }
+        },
+        "slide_7CAewR": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/MainBanner2.jpg",
+            "color_scheme": "",
+            "heading": "",
+            "heading_size": "h2",
+            "text": "",
+            "button_label": "",
+            "link": "",
+            "target": false,
+            "content_alignment": "center",
+            "box_align": "justify-content-center align-items-center",
+            "desktop_content_width": 580,
+            "transparent": 0,
+            "mobile_transparent": 0,
+            "image_transparent": 0
+          }
+        },
+        "slide_pirnzq": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/MainBanner11.jpg",
+            "color_scheme": "",
+            "heading": "",
+            "heading_size": "h2",
+            "text": "",
+            "button_label": "",
+            "link": "",
+            "target": false,
+            "content_alignment": "center",
+            "box_align": "justify-content-center align-items-center",
+            "desktop_content_width": 580,
+            "transparent": 0,
+            "mobile_transparent": 0,
+            "image_transparent": 0
+          }
+        },
+        "slide_LpAPHk": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/MainBanner3.jpg",
+            "color_scheme": "",
+            "heading": "",
+            "heading_size": "h2",
+            "text": "",
+            "button_label": "",
+            "link": "",
+            "target": false,
+            "content_alignment": "center",
+            "box_align": "justify-content-center align-items-center",
+            "desktop_content_width": 580,
+            "transparent": 0,
+            "mobile_transparent": 0,
+            "image_transparent": 0
+          }
+        }
+      },
+      "block_order": [
+        "slide_zmqcA9",
+        "slide_7CAewR",
+        "slide_pirnzq",
+        "slide_LpAPHk"
+      ],
+      "name": "t:sections.slideshow.name",
+      "settings": {
+        "full_width": true,
+        "height": "adapt",
+        "mobile_height": "adapt",
+        "bottom_placement": false,
+        "animation": "slide",
+        "pagination": "dots",
+        "pagination_style": "artistic",
+        "autoplay_delay": 0,
+        "mobile_navigation": false
+      }
+    },
+    "tpa_scroll_p3xEVL": {
+      "type": "tpa-scroll",
+      "name": "TPA Scroll",
+      "settings": {
+        "product_image": "shopify://shop_images/Sciro_Guava2.png",
+        "bg_image": "shopify://shop_images/cycling-speed-men-bicycle-with-motion-blur-adrenaline-extreme-sports-generative-ai_copy_jpg.jpg",
+        "straight_at": 90,
+        "start_rotation": -30,
+        "small_text": "Guava, Lemon, Bitters, Bubbles",
+        "heading": "Sciro Original",
+        "flavor_text": "Special 'gin' botanicals",
+        "button_text": "Shop now",
+        "button_link": "shopify://collections/all"
+      }
+    },
+    "sciro_comparison_MyfQzh": {
+      "type": "sciro-comparison",
+      "blocks": {
+        "feature_PUDpdi": {
+          "type": "feature",
+          "settings": {
+            "feature_name": "Vitamins",
+            "sciro": "yes",
+            "multivitamins": "yes",
+            "probiotics": "no",
+            "greens": "no"
+          }
+        },
+        "feature_EjVkgQ": {
+          "type": "feature",
+          "settings": {
+            "feature_name": "Minerals",
+            "sciro": "yes",
+            "multivitamins": "yes",
+            "probiotics": "no",
+            "greens": "no"
+          }
+        },
+        "feature_KhLjgt": {
+          "type": "feature",
+          "settings": {
+            "feature_name": "Prebiotics",
+            "sciro": "yes",
+            "multivitamins": "no",
+            "probiotics": "no",
+            "greens": "no"
+          }
+        },
+        "feature_FxgrC6": {
+          "type": "feature",
+          "settings": {
+            "feature_name": "Probiotics",
+            "sciro": "yes",
+            "multivitamins": "no",
+            "probiotics": "yes",
+            "greens": "no"
+          }
+        },
+        "feature_9CLJKh": {
+          "type": "feature",
+          "settings": {
+            "feature_name": "Greens & Superfoods",
+            "sciro": "yes",
+            "multivitamins": "no",
+            "probiotics": "no",
+            "greens": "yes"
+          }
+        },
+        "feature_pCjzYA": {
+          "type": "feature",
+          "settings": {
+            "feature_name": "Antioxidants",
+            "sciro": "yes",
+            "multivitamins": "no",
+            "probiotics": "no",
+            "greens": "yes"
+          }
+        },
+        "feature_HENHw9": {
+          "type": "feature",
+          "settings": {
+            "feature_name": "Digestive Enzymes",
+            "sciro": "yes",
+            "multivitamins": "no",
+            "probiotics": "no",
+            "greens": "no"
+          }
+        }
+      },
+      "block_order": [
+        "feature_PUDpdi",
+        "feature_EjVkgQ",
+        "feature_KhLjgt",
+        "feature_FxgrC6",
+        "feature_9CLJKh",
+        "feature_pCjzYA",
+        "feature_HENHw9"
+      ],
+      "name": "Sciro Comparison",
+      "settings": {
+        "heading": "<h2>Sciro is a more-in-one solution</h2>",
+        "product_name": "Sciro",
+        "column_2": "Multivitamins",
+        "column_3": "Probiotics",
+        "column_4": "Greens",
+        "feature_image": "shopify://shop_images/logosciro-08.png",
+        "column_1_image": "shopify://shop_images/fa54aa4c5a4d2fdd2b5f1fe61ac8911b016dea3e-862x548.png",
+        "column_2_image": "shopify://shop_images/fa54aa4c5a4d2fdd2b5f1fe61ac8911b016dea3e-862x548.png",
+        "column_3_image": "shopify://shop_images/fa54aa4c5a4d2fdd2b5f1fe61ac8911b016dea3e-862x548.png",
+        "column_4_image": "shopify://shop_images/fa54aa4c5a4d2fdd2b5f1fe61ac8911b016dea3e-862x548.png",
+        "image_height": 64,
+        "mobile_image_height": 36,
+        "max_width": 1560,
+        "desktop_spacing": 20,
+        "feature_width": 280,
+        "row_padding": 10,
+        "mobile_spacing": 15,
+        "mobile_heading_size": 22,
+        "heading_size": 34,
+        "heading_weight": "600",
+        "heading_bottom": 20,
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "mobile_padding_top": 30,
+        "mobile_padding_bottom": 30,
+        "background": "#ffffff",
+        "text_color": "#111111",
+        "border_color": "#dddddd",
+        "brand_color": "#004d4a",
+        "brand_text": "#ffffff",
+        "check_color": "#43d34a",
+        "cross_color": "#888888",
+        "footnote": "Based on current available data for mass market dietary supplements."
+      }
+    },
+    "marquee_7jJDzP": {
+      "type": "marquee",
+      "blocks": {
+        "heading_PTg4tV": {
+          "type": "heading",
+          "settings": {
+            "block_heading": "Marquee Heading",
+            "text": "",
+            "block_img_link": ""
+          }
+        },
+        "heading_MehrUt": {
+          "type": "heading",
+          "settings": {
+            "block_heading": "Marquee Heading",
+            "text": "",
+            "block_img_link": ""
+          }
+        },
+        "heading_TUJb6b": {
+          "type": "heading",
+          "settings": {
+            "block_heading": "Marquee Heading",
+            "text": "",
+            "block_img_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_PTg4tV",
+        "heading_MehrUt",
+        "heading_TUJb6b"
+      ],
+      "name": "t:sections.marquee.name",
+      "settings": {
+        "full_width": false,
+        "color_scheme": "",
+        "content_reverse": false,
+        "enable_edgefade": true,
+        "pause_on_hover": true,
+        "speed": 70,
+        "marquee_padding": 3,
+        "heading_size": "h2",
+        "marquee_img_width": 100,
+        "top_space": 60,
+        "bot_space": 60
+      }
+    }
+  },
+  "order": [
+    "slideshow_UPRfk9",
+    "tpa_scroll_p3xEVL",
+    "sciro_comparison_MyfQzh",
+    "marquee_7jJDzP"
+  ]
+}

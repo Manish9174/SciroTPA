@@ -1,0 +1,39 @@
+<script>  
+    {% assign currency_symbol = shop.money_format | remove: '{{amount}}' %}
+   window.shopUrl = '{{ request.origin }}';
+      window.routes = {
+        cart_add_url: '{{ routes.cart_add_url }}',
+        cart_change_url: '{{ routes.cart_change_url }}',
+        cart_update_url: '{{ routes.cart_update_url }}',
+        cart_url: '{{ routes.cart_url }}',
+        currency_symbol: '{{ currency_symbol }}',
+        predictive_search_url: '{{ routes.predictive_search_url }}',
+        search_url: '{{ shop.url }}{{ routes.search_url}}',
+        cart_type: `{{ settings.cart_type }}`,
+        cart_currency: '{{ cart.currency.iso_code }}',
+        canvas_color_scheme: '{{ settings.canvas_color_scheme }}'
+      };
+        window.cartTotStrings = { 
+          quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' }}`,
+        };
+         window.settingStrings = {
+          cartType: `{{ settings.cart_type }}`,
+        }
+        
+        
+        window.Shopify = window.Shopify || {};
+        window.Shopify.language = '{{ localization.language.iso_code }}';  
+        window.Shopify.country = '{{ localization.country.iso_code }}';   
+        window.complementaryPlaceholderSvg = '{{ 'image' | placeholder_svg_tag: 'img-fluid w-100 h-100 placeholder-svg' }}'; 
+      {% comment %} window.cartStrings = {
+        error: `{{ 'sections.cart.cart_error' | t }}`,
+        quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' }}`,
+        lowQuantity: `{{ 'sections.cart.cart_quantity_low' | t: quantity: '[quantity]' }}`,
+        quantityRemain: `{{ 'sections.cart.cart_quantity_remain_html' | t: quantity: '[quantity]' }}`,        
+        quantity_sold: `{{ 'sections.cart.quantity_sold' | t }}`,
+        quantity_correct: `{{ 'sections.cart.quantity_correct' | t }}`
+        
+      }; {% endcomment %}
+
+      
+</script>

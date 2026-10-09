@@ -1,0 +1,394 @@
+{% style %}
+  .rounded-text {
+    text-transform: uppercase;
+    color: rgb(var(--color-secondary-button-text));
+  }
+  .pointer-none{
+    pointer-events:none;
+  }
+  .round-title .strech-link {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    border-radius: 50%;
+  }
+ .round-title .strech-link:focus-visible{
+      outline-offset: 0px;
+ }
+  .main_container{
+    --width:455px;
+      background: rgb(var(--color-secondary-button-bg));
+      width: var(--width);
+      aspect-ratio: 1 / 1;
+      position: absolute;
+      right: 0;
+      left: 0;
+      margin: auto;
+      border-radius: 50%;
+      z-index: 1024;
+      bottom: 0;
+    transform:translateY(70%);
+    /* transform: translateY(46%); */
+    /* animation-name: slideIn;
+  animation-delay: 2s;
+  animation-duration: 1s;
+  animation-fill-mode: forwards; */
+  }
+  /* @keyframes slideIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+} */
+  .rounded_container{
+    position: absolute;
+    z-index: calc(100 - {{ section.index }});
+    bottom: 0;
+    top:0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    width: 430px;
+    height: 430px;
+    border-radius:50%;
+    overflow:hidden;
+    background: rgb(var(--color-secondary-button-bg));
+    color: rgb(var(--color-secondary-button-text));
+  }
+  .strech-link::after{
+    content:'';
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    border-radius: 50%;
+  }
+  .rounded_container .round-title{
+      width: 325px;
+      height: 325px;
+      background: rgba(var(--color-background));
+  }
+.round-title .title{
+  font-size: clamp(2.1875rem, 1.3875rem + 4vw, 6.1875rem);
+  }
+
+  @media (max-width: 1399.98px) {
+
+  .main_container{
+    --width:350px;
+  }
+
+  .rounded_container{
+    position: absolute;
+    z-index: 999;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    width: 320px;
+    height: 320px;
+    border-radius:50%;
+    overflow:hidden;
+    background: rgb(var(--color-secondary-button-bg));
+  }
+  .rounded_container .round-title{
+      width: 240px;
+      height: 240px;
+      background: var(--circle-bg);
+  }
+  }
+  @media (max-width: 991.98px) {
+
+  .main_container{
+    --width:270px;
+    bottom:40px;
+  }
+
+  .rounded_container{
+    position: absolute;
+    z-index: 999;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    width: 250px;
+    height: 250px;
+    border-radius:50%;
+    overflow:hidden;
+    background: rgb(var(--color-secondary-button-bg));
+  }
+  .rounded_container .round-title{
+      width: 190px;
+      height: 190px;
+      background: var(--circle-bg);
+  }
+  }
+
+  @media (max-width: 767.98px) {
+  .main_container {
+    --width: 250px;
+      bottom:0;
+  }
+  .rounded_container{
+    position: absolute;
+    z-index: 999;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    width: 230px;
+    height: 230px;
+    border-radius:50%;
+    overflow:hidden;
+    background: rgb(var(--color-secondary-button-bg));
+  }
+  .rounded_container .round-title{
+      width: 175px;
+      height: 175px;
+      background: var(--circle-bg);
+  }
+  }
+  @media (max-width: 575.98px) {
+  .rounded_container{
+    position: absolute;
+    z-index: 999;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    width: 210px;
+    height: 210px;
+    border-radius:50%;
+    overflow:hidden;
+    background: rgb(var(--color-secondary-button-bg));
+  }
+  .rounded_container .round-title{
+      width: 160px;
+      height: 160px;
+      background: var(--circle-bg);
+  }
+    .main_container {
+    --width: 225px;
+  }
+  }
+  @media (max-width: 425px) {
+    .main_container {
+      --width:200px;
+      
+  }
+    .rounded_container .round-title{
+      width: 140px;
+      height: 140px;
+    }
+  .rounded_container{
+    width: 190px;
+    height: 190px;
+    }
+  }
+
+  @keyframes rotating {
+    100% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  .rotating {
+    animation: rotating 15s linear infinite;
+  }
+
+  @keyframes coloring {
+    0%,
+    100% {
+      fill:rgb(var(--color-secondary-button-text));
+    }
+  }
+  .coloring {
+    animation: coloring 12s linear infinite;
+  }
+
+   
+  .rounded_container .round-title h3{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 220px;
+  }
+  .rounded_container .round-title h2{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 220px;
+  }
+  @media (min-width: 1925px){
+  .rounded_container .round-title h2, .rounded_container .round-title h3{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 260px;
+  }
+   }
+  @media (max-width: 1399.98px) {
+    .rounded_container .round-title h3{
+       width: 200px;
+       -webkit-line-clamp: 2;
+    }
+    .rounded_container .round-title h2{
+       width: 150px;
+       -webkit-line-clamp: 1;
+    }
+  }
+  @media (max-width: 991.98px) {
+    .rounded_container .round-title h3{
+       width: 176px;
+       -webkit-line-clamp: 1;
+    }
+    .rounded_container .round-title h2{
+       width: 150px;
+       -webkit-line-clamp: 1;
+    }
+  }
+  @media (max-width: 767.98px) {
+    .rounded_container .round-title h3{
+       width: 140px;
+       -webkit-line-clamp: 1;
+    }
+    .rounded_container .round-title h2{
+       width: 150px;
+       -webkit-line-clamp: 1;
+    }
+  }
+  @media (max-width: 575.98px) {
+    .rounded_container .round-title h3{
+       width: 135px;
+       -webkit-line-clamp: 1;
+    }
+    .rounded_container .round-title h2{
+       width: 150px;
+       -webkit-line-clamp: 1;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .rounded_container .round-title h3{
+       width: 133px;
+       -webkit-line-clamp: 2;
+    }
+    .rounded_container .round-title h2{
+       width: 140px;
+       -webkit-line-clamp: 0;
+    }
+  }
+  .rounded_container .round-title:has(a:focus-visible) {
+    /* outline-color: rgba(var(--color-background)); */
+    outline: 2px solid currentcolor !important;
+  outline: -webkit-focus-ring-color solid 2px; 
+}
+
+{% endstyle %}
+
+<div class="main_container">
+  <div class="rounded_container">
+    <div class="rounded-text rotating position-relative">
+      <svg viewBox="0 0 200 200">
+        <path id="textPath" d="M 85,0 A 85,85 0 0 1 -85,0 A 85,85 0 0 1 85,0" transform="translate(100,100)" fill="none" stroke-width="0"></path>
+        <g font-size="13.1px">
+          <text text-anchor="start">
+            <textPath class="coloring" data-dx="20" xlink:href="#textPath" startOffset="0%" id="textPathElement">
+              <!-- tspan elements will be added here -->
+            </textPath>
+          </text>
+        </g>
+      </svg>
+    </div>
+    <div class="round-title position-absolute inset-0 m-auto rounded-circle d-flex flex-column justify-content-center align-items-center">
+      <h2 class="title m-0 text-center"> {{ 'general.card.all' | t }} </h2>
+      <h3 class="h2 m-0 text-break text-center"> {{ 'general.password_page.product' | t }} </h3>
+      <a href="{{ heading_url }}" class="strech-link {% if heading_url == blank %} pointer-none{% endif %}" aria-label="{{ 'sections.feature_collection.view_all' | t }}"></a>
+    </div>{{ 'sections.feature_collection.view' | t }}
+  </div>
+</div>
+<script>
+  const viewText = {{ 'sections.feature_collection.view' | t | json }};
+</script>
+<script>
+ 
+ 
+function updateTextPath(textPathElement) {
+  if (!textPathElement || typeof textPathElement.appendChild !== 'function') {
+    {% comment %} console.warn('Invalid textPathElement:', textPathElement); {% endcomment %}
+    return;
+  }
+
+  // Clear existing tspans
+  textPathElement.innerHTML = '';
+
+  const iterations = window.innerWidth < 575 ? 9 : 10;
+
+  for (let i = 0; i < iterations; i++) {
+    const tspanStar = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+    tspanStar.textContent = "*";
+    tspanStar.setAttribute("dx", "8");
+    tspanStar.setAttribute("style", "font-size: 15px; font-family: Newsreader, serif;");
+
+    const tspanView = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+    tspanView.textContent = viewText;
+    tspanView.setAttribute("dx", "5");
+    tspanView.setAttribute("style", "font-size: 15px; font-family: Newsreader, serif;");
+
+    textPathElement.appendChild(tspanStar);
+    textPathElement.appendChild(tspanView);
+  }
+}
+
+function observeForTextPaths() {
+  const observer = new MutationObserver((mutations, obs) => {
+    const textPaths = document.querySelectorAll('textPath, textpath');
+    if (textPaths.length > 0) {
+      textPaths.forEach((tp) => {
+        if (tp instanceof SVGTextPathElement || tp.tagName.toLowerCase() === 'textpath') {
+          updateTextPath(tp);
+        }
+      });
+      obs.disconnect(); // Done observing once we found them
+    }
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+}
+
+// Run on DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+  observeForTextPaths();
+});
+document.addEventListener('shopify:section:reload', observeForTextPaths());
+document.addEventListener('shopify:section:load', observeForTextPaths()); 
+  document.addEventListener('shopify:section:change', observeForTextPaths()); 
+  document.addEventListener('shopify:block:change', observeForTextPaths()); 
+
+
+
+
+
+  
+
+// Initial call to set up the elements
+updateTextPath();
+
+// Update on window resize
+window.addEventListener('resize', updateTextPath);
+
+</script>

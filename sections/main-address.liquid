@@ -1,0 +1,605 @@
+{% render 'spacing' %}
+{%- style -%}
+   .address_container div.title {
+      width: 100%;
+      max-width:50%;
+      flex-shrink: 0;
+  }
+  .form-check-label{
+    cursor:pointer;
+  }
+  .hidden_element{
+    visibility: hidden;
+  }
+    @media (max-width: 575.98px) {
+      .address_container > div{
+        font-size:14px;
+      }
+    }
+{%- endstyle -%}
+
+{% if customer.addresses.size > 0 %}
+{% endif %}
+<div class="section-{{ section.id }}-padding color-{{ section.settings.section_color_scheme }} gradient ">
+  <div class="container-lg">
+    <div id="new_address" >
+      <div class="mb-5 text-center text-sm-start">
+        <h1 class='mb-3'>{{ 'customer.addresses.title' | t }}</h1>
+        <a href="{{ routes.account_url }}" class="text-dark d-block mb-3" style="width:fit-content;">{{ 'customer.order.return_to_account' | t }}</a>
+        <button class="addnew_address btn btn-primary rounded-pill text-uppercase">{{ 'customer.addresses.add_new' | t }}</button>
+      </div>
+      <div class="address_details pb-5 d-none" >
+        {% form 'customer_address', customer.new_address %}
+          <div class="row row-cols-1 row-cols-md-3 mb-md-4">
+            <div class="mb-3 mb-md-0">
+              <h4 class='mb-0'><label class='mb-3' for="first_name">{{ 'customer.register.first_name' | t }}*</label></h4>
+              <input required
+                type="text"
+                id="first_name"
+                name="address[first_name]"
+                autocomplete="off"
+                placeholder="{{ 'customer.register.first_name' | t }}"
+                class="form-control "
+                value="{{ form.first_name }}"
+              >
+            </div>
+            <div class="mb-3 mb-md-0">
+              <h4 class='mb-0'><label class='mb-3' for="last_name">{{ 'customer.register.last_name' | t }}*</label></h4>
+              <input
+                type="text" required
+                name="address[last_name]"
+                autocomplete="off"
+                id="last_name"
+                placeholder="{{ 'customer.register.last_name' | t }}"
+                class="form-control "
+                value="{{ form.last_name }}"
+              >
+            </div>
+            <div class="mb-3 mb-md-0">
+              <h4 class='mb-0'><label class='mb-3' for="company">{{ 'customer.addresses.company' | t }}*</label></h4>
+              <input
+                type="text" required
+                name="address[company]"
+                id="company"
+                autocomplete="off"
+                placeholder="{{ 'customer.addresses.company' | t }}"
+                class="form-control "
+                value="{{ form.company }}"
+              >
+            </div>
+          </div>
+
+          <div class="row row-cols-1 row-cols-md-2 mb-md-4">
+            <div class="mb-3 mb-md-0">
+              <h4 class='mb-0'><label class='mb-3' for="city">{{ 'customer.addresses.city' | t }}*</label></h4>
+              <input
+                type="text" required
+                id="city"
+                name="address[city]"
+                autocomplete="off"
+                placeholder="{{ 'customer.addresses.city' | t }}"
+                class="form-control "
+                value="{{ form.city }}"
+              >
+            </div>
+            <div class="mb-3 mb-md-0">
+              <h4 class='mb-0'><label class='mb-3' for="AddressCountryNew">{{ 'customer.addresses.country' | t }}*</label></h4>
+              <select name="address[country]" id="AddressCountryNew" class="form-control form-select">
+                {{ country_option_tags }}
+              </select>
+            </div>
+          </div>
+
+          <div class="row row-cols-1">
+            <div class="mb-3 mb-md-0">
+              <select
+                name="address[province]" 
+                id="AddressProvinceNew"
+                class="form-control d-none mb-md-4 form-select"
+              >
+                <option value="">{{ 'customer.addresses.select_province' | t }}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row row-cols-1 row-cols-md-2 mb-md-4">
+            <div class="mb-3 mb-md-0">
+              <h4 class='mb-0'><label class='mb-3' for="address1">{{ 'customer.addresses.address1' | t }}*</label></h4>
+              <input
+                type="text" required
+                name="address[address1]"
+                id="address1"
+                autocomplete="off"
+                placeholder="{{ 'customer.addresses.address1' | t }}"
+                class="form-control "
+                value="{{ form.address1 }}"
+              >
+            </div>
+            <div class="mb-3 mb-md-0">
+              <h4 class='mb-0'><label class='mb-3' for='address2'>{{ 'customer.addresses.address2' | t }}*</label></h4>
+              <input
+                type="text" required
+                name="address[address2]"
+                id="address2"
+                autocomplete="off"
+                placeholder="{{ 'customer.addresses.address2' | t }}"
+                class="form-control "
+                value="{{ form.address2 }}"
+              >
+            </div>
+          </div>
+
+          <div class="row row-cols-1 row-cols-md-2 mb-md-4">
+            <div class="mb-3 mb-md-0">
+              <h4 class='mb-0'><label class='mb-3' for="zipcode">{{ 'customer.addresses.zip' | t }}*</label></h4>
+              <input
+                type="text" required
+                name="address[zip]"
+                id='zipcode'
+                autocomplete="off"
+                placeholder="{{ 'customer.addresses.zip' | t }}"
+                class="form-control "
+                value="{{ form.zip }}"
+              >
+            </div>
+            <div class="mb-3 mb-md-0">
+              <h4 class='mb-0'><label class='mb-3' for="phone">{{ 'customer.addresses.phone' | t }}*</label></h4>
+              <input
+                type="tel" required
+                name="address[phone]"
+                id="phone"
+                autocomplete="off"
+                placeholder="{{ 'customer.addresses.phone' | t }}"
+                class="form-control "
+                value="{{ form.phone }}"
+              >
+            </div>
+          </div>
+          <div class="mb-3 mb-md-4 d-flex align-items-start gap-2">
+            <input type="checkbox" id="address_default_address_9756372697252" name="address[default]" value="1" class='mt-1'>
+            <label for="address_default_address_9756372697252" class="form-check-label">
+              {{- 'customer.addresses.set_default' | t -}}
+            </label>
+          </div>
+          <button type="submit" class="btn btn-primary rounded-pill ">{{ 'customer.addresses.new_address' | t }}</button>
+        {% endform %}
+      </div>
+    </div>
+  </div>
+
+  {% assign address_count = customer.addresses | size %}
+  {% if address_count > 0 %}
+    <div class="container-lg mx-auto mt-5 ">
+      <div class="row row-cols-1 row-cols-md-2 row-cols-xxl-3 row-gap-4">
+        <!-- Display the default address first -->
+        {% if customer.default_address %}
+          <div class="address_container">
+            <div class="color-{{ section.settings.color_scheme }} gradient p-4 p-sm-5 h-100">
+              <div class="h2 badge-default text-uppercase">{{ 'customer.addresses.default' | t }}</div>
+              <div class="mb-3 d-flex">
+                <div class="title">{{ 'customer.info.name' | t }}</div>
+                <div class="fw-bold">
+                  {{ customer.default_address.first_name }}
+                  {{ customer.default_address.last_name }}
+                </div>
+              </div>
+              <div class="mb-3 d-flex">
+                <div class="title">{{ 'customer.info.address1' | t }}</div>
+                <div class="fw-bold">{{ customer.default_address.address1 }}</div>
+              </div>
+              <div class="mb-3 d-flex">
+                <div class="title">{{ 'customer.info.address2' | t }}</div>
+                <div class="fw-bold">{{ customer.default_address.address2 }}</div>
+              </div>
+              <div class="mb-3 d-flex">
+                <div class="title">{{ 'customer.info.city' | t }}</div>
+                <div class="fw-bold">{{ customer.default_address.city }}</div>
+              </div>
+              <div class="mb-3 d-flex">
+                <div class="title">{{ 'customer.info.company_name' | t }}</div>
+                <div class="fw-bold">{{ customer.default_address.company }}</div>
+              </div>
+              <div class="mb-3 d-flex">
+                <div class="title">{{ 'customer.info.phone' | t }}</div>
+                <div class="fw-bold">{{ customer.default_address.phone }}</div>
+              </div>
+              <div class="mb-3 d-flex">
+                <div class="title">{{ 'customer.info.zip' | t }}</div>
+                <div class="fw-bold">{{ customer.default_address.zip }}</div>
+              </div>
+              <div class="mb-3 d-flex">
+                <div class="title">{{ 'customer.info.country' | t }}</div>
+                <div class="fw-bold">{{ customer.default_address.country }}</div>
+              </div>
+              <div
+                id="EditAddress_{{ customer.default_address.id }}"
+                class="mt-5 d-flex flex-wrap gap-4 fw-bold align-items-center justify-content-center"
+              >
+                <button
+                  type="button"
+                  aria-label="{{ 'customer.addresses.remove' | t }}"
+                  data-target="{{ routes.account_addresses_url }}{{ routes.root_url }}{{ customer.default_address.id }}"
+                  data-confirm-message="Are you sure you wish to delete this address?"
+                  class="btn btn-primary delete-address-button rounded-pill text-uppercase"
+                >
+                  {{ 'customer.addresses.remove' | t }}
+                </button>
+                <div class="editaddress_button"  data-address-id="{{ customer.default_address.id }}">
+                  <a href="#edit_address-{{ customer.default_address.id }}" class="text-decoration-none fw-bold text-uppercase">{{ 'customer.addresses.edit' | t }}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+
+        <!-- Loop through the rest of the addresses excluding the default one -->
+        {% for address in customer.addresses %}
+          {% unless address == customer.default_address %}
+            <div class="address_container">
+              <div class="color-{{ section.settings.color_scheme }} gradient p-4 p-sm-5 h-100">
+                <div inert class="h2 hidden_element d-md-block d-none ">Not_vivisble</div>
+                <div class="mb-3 d-flex">
+                  <div class="title">{{ 'customer.info.name' | t }}</div>
+                  <div class="fw-bold">
+                    {{ address.first_name }}
+                    {{ address.last_name }}
+                  </div>
+                </div>
+                <div class="mb-3 d-flex">
+                  <div class="title">{{ 'customer.info.address1' | t }}</div>
+                  <div class="fw-bold">{{ address.address1 }}</div>
+                </div>
+                <div class="mb-3 d-flex">
+                  <div class="title">{{ 'customer.info.address2' | t }}</div>
+                  <div class="fw-bold">{{ address.address2 }}</div>
+                </div>
+                <div class="mb-3 d-flex">
+                  <div class="title">{{ 'customer.info.city' | t }}</div>
+                  <div class="fw-bold">{{ address.city }}</div>
+                </div>
+                <div class="mb-3 d-flex">
+                  <div class="title">{{ 'customer.info.company_name' | t }}</div>
+                  <div class="fw-bold">{{ address.company }}</div>
+                </div>
+                <div class="mb-3 d-flex">
+                  <div class="title">{{ 'customer.info.phone' | t }}</div>
+                  <div class="fw-bold">{{ address.phone }}</div>
+                </div>
+                <div class="mb-3 d-flex">
+                  <div class="title">{{ 'customer.info.zip' | t }}</div>
+                  <div class="fw-bold">{{ address.zip }}</div>
+                </div>
+                <div class="mb-3 d-flex">
+                  <div class="title">{{ 'customer.info.country' | t }}</div>
+                  <div class="fw-bold">{{ address.country }}</div>
+                </div>
+                <div
+                  id="EditAddress_{{ address.id }}"
+                  class="mt-5 d-flex flex-wrap gap-4 fw-bold align-items-center justify-content-center"
+                >
+                  <button
+                    type="button"
+                    aria-label="{{ 'customer.addresses.remove' | t }}"
+                    data-target="{{ routes.account_addresses_url }}{{ routes.root_url }}{{ address.id }}"
+                    data-confirm-message="Are you sure you wish to delete this address?"
+                    class="btn btn-primary delete-address-button rounded-pill"
+                  >
+                    {{ 'customer.addresses.remove' | t }}
+                  </button>
+                  <div class="editaddress_button" data-address-id="{{ address.id }}">
+                    <a href="#edit_address-{{ address.id }}" class="text-decoration-none fw-bold text-uppercase">{{ 'customer.addresses.edit' | t }}</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endunless %}
+        {% endfor %}
+      </div>
+      {% for address in customer.addresses %}
+        <div class="edit_address pt-5 d-none" id="edit_address-{{ address.id }}">
+          {% form 'customer_address', address %}
+            <div class="row row-cols-1 row-cols-md-3 mb-md-4 mt-5">
+              <div class="mb-3 mb-md-0">
+              <h4 class='mb-0 '><label class='mb-3' for="edit_first_name">{{ 'customer.addresses.first_name' | t }}*</label></h4>
+                <input
+                  type="text" required
+                  id="edit_first_name"
+                  name="address[first_name]"
+                  autocomplete="off"
+                  placeholder="{{ 'customer.register.first_name' | t }}"
+                  class="form-control "
+                  value="{{ address.first_name }}"
+                >
+              </div>
+              <div class="mb-3 mb-md-0">
+                 <h4 class='mb-0 '><label class='mb-3' for='edit_last_name'>{{ 'customer.addresses.last_name' | t }}*</label></h4>
+                <input
+                  type="text" required
+                  name="address[last_name]"
+                  id="edit_last_name"
+                  autocomplete="off"
+                  placeholder="{{ 'customer.register.last_name' | t }}"
+                  class="form-control "
+                  value="{{ address.last_name }}"
+                >
+              </div>
+              <div class="mb-3 mb-md-0">
+                 <h4 class='mb-0 '><label class='mb-3' for="edit_company">{{ 'customer.addresses.company' | t }}</label></h4>
+                <input
+                  type="text" 
+                  name="address[company]"
+                  id="edit_company"
+                  autocomplete="off"
+                  placeholder="{{ 'customer.addresses.company' | t }}"
+                  class="form-control "
+                  value="{{ address.company }}"
+                >
+              </div>
+            </div>
+            <div class="row row-cols-1 row-cols-md-2 mb-md-4">
+              <div class="mb-3 mb-md-0">
+                 <h4 class='mb-0 '><label class='mb-3' for="edit_city">{{ 'customer.addresses.city' | t }}*</label></h4>
+                <input
+                  type="text" required
+                  id="edit_city"
+                  name="address[city]"
+                  autocomplete="off"
+                  placeholder="{{ 'customer.addresses.city' | t }}"
+                  class="form-control "
+                  value="{{ address.city }}"
+                >
+              </div>
+              <div class="mb-3 mb-md-0">
+                 <h4 class='mb-0 '><label class='mb-3' for="edit_country">{{ 'customer.addresses.country' | t }}*</label></h4>
+                   
+                <select required
+                    id="AddressCountry_{{ address.id }}"
+                    name="address[country]" required
+                    data-address-country-select
+                    data-default="{{ address.country }}"
+                    data-form-id="{{ address.id }}"
+                    autocomplete="country"  class="address_countrySelect form-control form-select">
+                {{ country_option_tags }}
+              </select>
+                
+              </div>
+              
+            </div>
+            <div class="row row-cols-1 ">
+            <div class="mb-3 mb-md-0">
+              <select 
+                    id="AddressProvince_{{ address.id }}"
+                    name="address[province]"
+                    data-default="{{ address.province }}"
+                    autocomplete="off"
+                class="form-control d-none mb-md-4 form-select" 
+              >
+                <option value="">{{ 'customer.addresses.select_province' | t }}</option>
+              </select>
+            </div>
+          
+          </div>
+            <div class="row row-cols-1 row-cols-md-2 mb-md-4">
+              <div class="mb-3 mb-md-0">
+                 <h4 class='mb-0 '><label class='mb-3' for="edit_address1">{{ 'customer.addresses.address1' | t }}*</label></h4>
+                <input
+                  type="text" required
+                  id="edit_address1"
+                  name="address[address1]"
+                  autocomplete="off"
+                  placeholder="{{ 'customer.addresses.address1' | t }}"
+                  class="form-control "
+                  value="{{ address.address1 }}"
+                >
+              </div>
+              <div class="mb-3 mb-md-0">
+                 <h4 class='mb-0 '><label class='mb-3' for="edit_address2">{{ 'customer.addresses.address2' | t }}*</label></h4>
+                <input
+                  type="text" required
+                  id="edit_address2"
+                  name="address[address2]"
+                  autocomplete="off"
+                  placeholder="{{ 'customer.addresses.address2' | t }}"
+                  class="form-control "
+                  value="{{ address.address2 }}"
+                >
+              </div>
+            </div>
+            <div class="row row-cols-1 row-cols-md-2 mb-md-4">
+              <div class="mb-3 mb-md-0">
+                 <h4 class='mb-0 '><label class='mb-3' for="edit_zipcode">{{ 'customer.addresses.zip' | t }}*</label></h4>
+                <input
+                  type="text" required
+                  name="address[zip]"
+                  id="edit_zipcode"
+                  autocomplete="off"
+                  placeholder="{{ 'customer.addresses.zip' | t }}"
+                  class="form-control "
+                  value="{{ address.zip }}"
+                >
+              </div>
+              <div class="mb-3 mb-md-0">
+                 <h4 class='mb-0 '><label class='mb-3' for="edit_phone">{{ 'customer.addresses.phone' | t }}*</label></h4>
+                <input
+                  type="tel"
+                  id="edit_phone" required
+                  name="address[phone]"
+                  autocomplete="off"
+                  placeholder="{{ 'customer.addresses.phone' | t }}"
+                  class="form-control"
+                  value="{{ address.phone }}"
+                >
+              </div>
+            </div>
+           {% if address.id != customer.default_address.id %}
+            <div class="mb-3 mb-md-4 d-flex align-items-center gap-2">
+              <input type="checkbox" id="address_default_address_{{ address.id }}" name="address[default]" value="1">
+              <label for="address_default_address_{{ address.id }}" class='form-check-label'>{{ 'customer.default_text' | t }}</label>
+            </div>
+          {% endif %}
+            <button type="submit" class="btn btn-primary rounded-pill">{{ 'customer.addresses.update' | t }}</button>
+          {% endform %}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+
+<script> 
+function initializeAddressHandlers() { 
+    document.querySelectorAll(".address_countrySelect").forEach(function (select) {
+        let defaultCountry = select.getAttribute("data-default");
+        if (defaultCountry) {
+            select.value = defaultCountry;
+        }
+    });
+     
+    $(document).on('click', '.address_countryEdit', function(){
+        $(this).remove();
+        $('.address_countrySelect').removeClass('d-none');
+        $('.address_provinceEdit').remove();
+    });
+    $(document).on('click', '.addnew_address', function(){
+      
+          $('.address_details').removeClass('d-none');
+          $('.address_details').toggle();
+   });
+     
+    $(document).on('click', '.editaddress_button', function() {
+       $('.edit_address').removeClass('d-none')
+        $('.edit_address').hide();
+        var addressid = $(this).data('address-id'); 
+        $('#edit_address-'+addressid).show();
+    });
+     
+    var addressSelectors = document.querySelectorAll('select[name="address[country]"]');
+    addressSelectors.forEach(function(select) {
+        countrySelectionHandler(select);
+         
+        select.addEventListener('change', function(){
+            countrySelectionHandler(select);
+        });
+    });
+     
+    $(document).on('click', '.delete-address-button', function() {
+        var target = $(this).data('target');
+        var confirmMessage = $(this).data('confirm-message');
+        
+        if (confirm(confirmMessage)) {
+            fetch(target, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                credentials: 'same-origin'
+            }).then(function(response) {
+                window.location.reload();
+            }).catch(function(error) {
+              
+                alert('An error occurred while deleting the address');
+            });
+        }
+    });
+}
+ 
+function countrySelectionHandler(select) {
+    var selectedValue = select.value || select.dataset.default;
+    var countryProvincesSelect = select.closest('form').querySelector('select[name="address[province]"]');
+    
+    if (!countryProvincesSelect) {
+        
+        return;  
+    }
+    
+    countryProvincesSelect.innerHTML = ''; 
+    
+    for (let i = 0; i < select.children.length; i++) {
+        var option = select.children[i];
+        if (option.value === selectedValue) {
+            var countryProvinces = JSON.parse(option.dataset.provinces); 
+           // console.log("countryProvinces", countryProvinces);
+            
+            if (countryProvinces && countryProvinces.length > 0) {
+                var label = countryProvincesSelect.closest('label');
+                if (label) {
+                    label.classList.add('active');  
+                }
+                 
+                countryProvinces.forEach(province => {
+                    var newOption = document.createElement("option");
+                    newOption.text = province[1];
+                    newOption.value = province[0];
+                    countryProvincesSelect.add(newOption);
+                });
+                countryProvincesSelect.classList.remove('d-none'); 
+                countryProvincesSelect.classList.add('d-block');
+            } else {
+                countryProvincesSelect.classList.add('d-none');
+                var label = countryProvincesSelect.closest('label');
+                if (label) {
+                    label.classList.remove('active');  
+                } 
+                countryProvincesSelect.innerHTML = '';
+            }
+            break;  
+        }
+    }
+}
+ 
+document.addEventListener('DOMContentLoaded', initializeAddressHandlers); 
+if (typeof Shopify !== 'undefined' && Shopify.designMode) {
+    document.addEventListener('shopify:section:load', function(event) {
+        initializeAddressHandlers();
+    });
+    
+    document.addEventListener('shopify:section:unload', function(event) { 
+    });
+}
+ 
+setTimeout(initializeAddressHandlers, 100);
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.main-addresses.name",
+  "settings": [
+     {
+      "type": "color_scheme",
+      "id": "section_color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.spacing.spacing_heading"
+    },
+    {
+      "type": "range",
+      "id": "top_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "bot_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 140
+    }
+  ]
+}
+{% endschema %}

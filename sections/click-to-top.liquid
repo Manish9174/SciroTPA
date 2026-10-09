@@ -1,0 +1,132 @@
+{% style %}
+  .click-to-top{
+    width:36px;
+    height:36px;
+    cursor:pointer;
+    background-color:rgb(var(--color-background));
+    {% if section.settings.shadow  %}
+    box-shadow:0 0 1px 8px rgba(var(--color-foreground),0.2);
+      {% else %}
+      border: 1px solid rgba(var(--color-foreground));
+    {% endif %}
+    z-index:1024;
+    overflow: hidden;
+  }
+  .click-to-top svg{
+    width:12px;
+  }
+  @media screen and (min-width:768px){
+    .click-to-top{
+      width:48px;
+      height:48px;
+      {% if section.settings.shadow %}
+      box-shadow:0 0 1px 12px rgba(var(--color-foreground),0.2);
+      {% endif %}
+    }
+  }
+{% endstyle %}
+<div>
+<a href="#click-to-top" 
+  aria-label="{{ 'accessibility.scroll_to_top' | t }}"
+  title="click-to-top"
+   class="footer_scrollbar click-to-top position-fixed bottom-0 translate-middle end-0 rounded-circle d-flex justify-content-center align-items-center d-none color-{{ section.settings.color_scheme }} gradient"
+   id="click-to-top">
+    {% render 'icon-click-to-top' %}
+</a>
+</div>
+
+ <script>
+
+let clickToTopButton = null;
+let clickToTopInitialized = false;
+ 
+function handleScroll() {
+  if (!clickToTopButton) return;
+
+  if (window.scrollY > 300) {
+    clickToTopButton.classList.remove("d-none");
+  } else {
+    clickToTopButton.classList.add("d-none");
+  }
+} 
+function handleClick(event) {
+  event.preventDefault();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+ 
+function initClickToTop() {
+  const button = document.getElementById("click-to-top");
+  clickToTopButton = button;
+
+  if (!button) {
+    return;
+  }
+ 
+  if (!clickToTopInitialized) {
+    window.addEventListener("scroll", handleScroll);
+    button.addEventListener("click", handleClick);
+    clickToTopInitialized = true;
+  } 
+  handleScroll();
+}
+ 
+document.addEventListener("DOMContentLoaded", initClickToTop);
+ 
+if (typeof Shopify !== "undefined") {
+  document.addEventListener("shopify:section:load", () => { 
+    initClickToTop();
+  });
+
+  document.addEventListener("shopify:section:select", () => {
+    initClickToTop();
+  });
+  document.addEventListener("shopify:section:change", () => {
+    initClickToTop();
+  });
+
+  document.addEventListener("shopify:section:deselect", () => {
+    initClickToTop();
+  });
+  if (window.location.href.includes('customize') || typeof Shopify !== 'undefined') {
+    initClickToTop();
+  }
+ 
+  setTimeout(initClickToTop, 500);
+}
+</script>
+{% schema %}
+  {
+    "name": "t:sections.click-to-top.name",
+    "tag": "aside",
+    "class": "section-click-to-top",
+    "settings": [
+      {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+      {
+        "type": "checkbox",
+        "id": "shadow",
+        "label": "t:sections.click-to-top.settings.shadow.label",
+      },
+      {
+      "type": "select",
+      "id": "arrow_style",
+      "options": [
+        {
+          "value": "art",
+          "label": "t:sections.click-to-top.settings.arrow_style.options__1.label"
+        },
+        {
+           "value": "default",
+          "label": "t:sections.click-to-top.settings.arrow_style.options__2.label"
+        }
+      ],
+      "label": "t:sections.click-to-top.settings.arrow_style.label",
+      "default": "default"
+    }
+    ]
+  }
+{% endschema %}

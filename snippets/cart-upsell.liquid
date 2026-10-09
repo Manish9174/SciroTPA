@@ -1,0 +1,133 @@
+{%- liquid
+  unless upsell_enabled == false
+    assign upsell_enabled = true
+  endunless
+
+   if upsell_heading == blank
+    assign upsell_heading = 'sections.cart.upsell_title' | t
+  endif
+
+  if max_products == blank
+    assign max_products = 8
+  endif
+
+  if show_compare_price == blank
+    assign show_compare_price = true
+  endif
+
+  if fallback_collection == blank or fallback_collection.handle == blank
+    assign fallback_collection_handle = 'all'
+  else
+    assign fallback_collection_handle = fallback_collection.handle
+  endif
+-%}
+
+ {{ 'cart-upsell.css' | asset_url | stylesheet_tag }}
+
+{%- if upsell_enabled -%}
+  <div
+    id="cart-upsell-section"
+    class="cart-upsell p-3 pb-0 border-bottom pb-4"
+    data-enabled="{{ upsell_enabled }}"
+    data-max-products="{{ max_products }}"
+    data-fallback-collection="{{ fallback_collection_handle }}"
+    data-show-vendor="{{ show_vendor | default: false }}"
+    data-show-rating="{{ show_rating | default: false }}"
+    data-show-compare-price="{{ show_compare_price }}"
+    data-heading="{{ upsell_heading | escape }}"
+     data-section-id="{{ section.id }}"
+     data-shop-currency="{{ localization.country.currency.iso_code }}"
+     data-upsell-source="{{ settings.upsell_source }}"
+  >
+    <div class="d-flex justify-content-between align-items-center mb-3 mb-lg-4">
+      <h2 class="cart-upsell__heading h5 m-0">{{ upsell_heading }}</h2>
+
+      <div class="d-flex justify-content-center gap-3 gap-lg-5 my-carousel__actions py-1 position-relative">
+        <div class="swiper-prev swiper-prev-{{ section.id }} main-prev d-inline-flex bottom-0 z-3 m-0 {% if settings.pagination_style != 'artistic' %} bg-arrow-style {% endif %}">
+          {% if settings.pagination_style == 'artistic' or settings.navigation_style == 'artistic' %}
+            <svg
+              width="60"
+              height="19"
+              viewBox="0 0 84 19"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon_one"
+            >
+              <path d="M83.9959 8.57675C65.7529 8.57675 47.514 8.58075 29.2711 8.58476C28.7374 8.58476 28.3055 8.14399 28.3381 7.61907C28.7374 1.66061 24.1257 -1.85756 18.5037 1.02349C12.4295 4.13295 9.12149 7.60304 1.11625 8.38842C0.814783 8.42047 0.566274 8.53667 0.350356 8.74905C0.118143 8.97745 0 9.25794 0 9.58251C0 10.1074 0.399243 10.5482 0.932926 10.6123C5.8257 11.1693 10.417 12.9524 14.7109 15.9817C20.5529 20.0729 28.4074 21.267 28.3911 11.3496C28.3911 10.8567 28.7903 10.4641 29.2914 10.4641C47.5263 10.4641 65.7652 10.46 84 10.456V8.57274L83.9959 8.57675ZM13.2484 9.41822L13.2972 9.99123C13.3298 10.3679 13.5295 10.5482 13.9124 10.5482L25.0953 10.6283C25.7105 10.6283 26.0934 10.9249 26.2278 11.5299C27.5111 17.4243 21.9014 18.3058 18.0556 15.7854C14.662 13.5575 11.2318 11.6782 7.75266 10.1235C7.23527 9.91109 7.21897 9.66666 7.70377 9.38617L20.3696 2.24965C21.9665 1.33204 24.0157 1.69267 25.2134 3.09914C26.3134 4.42546 26.676 5.84796 26.3134 7.38666C26.1464 8.0919 25.4986 8.59678 24.749 8.61281L13.9328 8.67692C13.4521 8.69295 13.2158 8.93738 13.2524 9.41421L13.2484 9.41822Z" fill="currentColor"/>
+            </svg>
+
+          {% elsif settings.pagination_style == 'bold' or settings.navigation_style == 'bold' %}
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 15 9"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon_two"
+            >
+              <path d="M0.598307 4.71951L3.85662 7.97982C3.91618 8.03716 3.99537 8.07025 4.07721 8.07025H6.12846C6.4064 8.07025 6.54559 7.73496 6.34904 7.53864L4.55566 5.74525H14.1821C14.3542 5.74525 14.4932 5.60407 14.4932 5.43202V3.56805C14.4932 3.39598 14.3542 3.25702 14.1821 3.25702H4.55566L6.34904 1.46143C6.54559 1.26511 6.4064 0.92981 6.12846 0.92981H4.07721C3.99537 0.92981 3.91618 0.962896 3.85662 1.02025L0.598307 4.28055C0.476986 4.40187 0.476986 4.59819 0.598307 4.71951Z" fill="currentColor"/>
+            </svg>
+          {% else %}
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16.5441 12L21 2L2 12L21 22L16.5441 12Z" fill="currentcolor"/>
+            </svg>
+          {% endif %}
+        </div>
+        <div class="swiper-next swiper-next-{{ section.id }} main-next z-3 m-0  d-inline-flex bottom-0 {% if settings.pagination_style != 'artistic' %} bg-arrow-style {% endif %}">
+          {% if settings.pagination_style == 'artistic' or settings.navigation_style == 'artistic' %}
+            <svg
+              width="60"
+              height="19"
+              viewBox="0 0 84 19"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon_one"
+            >
+              <path d="M0.0040741 8.57675C18.2471 8.57675 36.486 8.58075 54.7289 8.58476C55.2626 8.58476 55.6945 8.14399 55.6619 7.61907C55.2626 1.66061 59.8743 -1.85756 65.4963 1.02349C71.5705 4.13295 74.8785 7.60304 82.8837 8.38842C83.1852 8.42047 83.4337 8.53667 83.6496 8.74905C83.8819 8.97745 84 9.25794 84 9.58251C84 10.1074 83.6008 10.5482 83.0671 10.6123C78.1743 11.1693 73.583 12.9524 69.2891 15.9817C63.4471 20.0729 55.5926 21.267 55.6089 11.3496C55.6089 10.8567 55.2097 10.4641 54.7086 10.4641C36.4737 10.4641 18.2348 10.46 0 10.456V8.57274L0.0040741 8.57675ZM70.7516 9.41822L70.7028 9.99123C70.6702 10.3679 70.4705 10.5482 70.0876 10.5482L58.9047 10.6283C58.2895 10.6283 57.9066 10.9249 57.7722 11.5299C56.4889 17.4243 62.0986 18.3058 65.9444 15.7854C69.338 13.5575 72.7682 11.6782 76.2473 10.1235C76.7647 9.91109 76.781 9.66666 76.2962 9.38617L63.6304 2.24965C62.0335 1.33204 59.9843 1.69267 58.7866 3.09914C57.6866 4.42546 57.324 5.84796 57.6866 7.38666C57.8536 8.0919 58.5014 8.59678 59.251 8.61281L70.0672 8.67692C70.5479 8.69295 70.7842 8.93738 70.7476 9.41421L70.7516 9.41822Z" fill="currentColor"/>
+            </svg>
+          {% elsif settings.pagination_style == 'bold' or settings.navigation_style == 'bold' %}
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 15 9"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon_two"
+            >
+              <path d="M13.9754 4.71951L10.7171 7.97982C10.6576 8.03716 10.5784 8.07025 10.4965 8.07025H8.44528C8.16733 8.07025 8.02814 7.73496 8.22469 7.53864L10.0181 5.74525H0.391597C0.219538 5.74525 0.0805664 5.60407 0.0805664 5.43202V3.56805C0.0805664 3.39598 0.219538 3.25702 0.391597 3.25702H10.0181L8.22469 1.46143C8.02814 1.26511 8.16733 0.92981 8.44528 0.92981H10.4965C10.5784 0.92981 10.6576 0.962896 10.7171 1.02025L13.9754 4.28055C14.0967 4.40187 14.0967 4.59819 13.9754 4.71951Z" fill="currentColor"/>
+            </svg>
+          {% else %}
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7.45586 12L3 22L22 12L3 2L7.45586 12Z" fill="currentcolor"/>
+            </svg>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="cart-upsell__slider-wrap">
+      </div>
+  </div>
+  <script src="{{ 'cart-upsell.js' | asset_url }}" defer></script>
+{%- endif -%} 
+<script>
+  window.cartUpsellConfig = {
+    enabled:            {{ upsell_enabled | json }},
+    maxProducts:        {{ max_products | json }},
+    fallbackCollection: {{ fallback_collection_handle | json }},
+    showVendor:         {{ show_vendor | default: false | json }},
+    showRating:         {{ show_rating | default: false | json }},
+    showComparePrice:   {{ show_compare_price | json }},
+    heading:            {{ upsell_heading | json }}
+  };
+  window.cartUpsellStrings = {
+  addToCart: {{ 'products.product.add_to_cart' | t | json }},
+  soldOut: {{ 'products.product.sold_out' | t | json }},
+  selectOptions: {{ 'products.product.select_options' | t | json }},
+  tryAgain: {{ 'general.try_again' | t | json }},
+  previousProducts: {{ 'accessibility.previous' | t | json }},
+  nextProducts: {{ 'accessibility.next' | t | json }}
+};
+  console.log('[CartUpsell] Config loaded:', window.cartUpsellConfig);
+</script>
+  

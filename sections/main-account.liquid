@@ -1,0 +1,168 @@
+{% render 'spacing' %}
+{%- style -%}
+   table thead tr th, tbody tr td{
+    background:none !important;
+    padding:10px !important;
+    text-align:center;
+  }
+  .main-order-header .order_history, .main-order .main_address{ background: rgba(var(--color-primary-button-text)); padding: 10px; }
+   .order_history thead tr th:first-child, .order_history tbody tr td:first-child {
+    text-align: left;
+}
+  .order_history tbody tr td{ font-size:16px; padding:25px 20px !important;}
+  table thead tr{
+    background:rgba(var(--color-primary-button-text));
+}
+.main-order .order-empty .empty{
+    background: rgba(var(--color-primary-button-text));
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    align-items: start;
+}
+    .custom-scroll::-webkit-scrollbar-track{
+	-webkit-box-shadow: inset 0 0 6px rgba(var(--color-background),0.3);
+	background-color: rgba(var(--color-background));
+}
+
+.custom-scroll::-webkit-scrollbar{
+	height: 6px;
+	background-color: rgba(var(--color-background));
+}
+
+.custom-scroll::-webkit-scrollbar-thumb{
+	background-color: rgba(var(--color-foreground));
+}
+
+{% endstyle %}
+
+<div class="color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"> 
+  <div class="main-order container">
+    <div class="mb-5">   
+      <h1 class="mb-3">{{ 'customer.order.title' | t }}</h1> 
+      <a href="{{ routes.account_logout_url }}" class="btn btn-primary rounded-pill ">{{ 'customer.logout' | t }}</a>
+    </div>
+      <div class="row g-0">
+                      
+              {% if customer %}
+                {% if customer.orders.size > 0 %}
+                  <div class="main-order-header col-12 col-xl-8 ps-0 pe-xl-5">
+                    <div>
+                    {% for order in customer.orders %}
+                      <div class="order_history">
+                      <div class="table-responsive custom-scroll">
+                        <table class="table table-borderless text-center m-0">
+                          <thead class="text-nowrap">
+                            <tr>
+                              <th>{{ 'customer.order.order_title' | t }}</th>
+                              <th>{{ 'customer.order.order_date' | t }}</th>
+                              <th>{{ 'customer.order.order_price' | t }}</th>
+                              <th>{{ 'customer.order.order_item' | t }}</th>
+                            </tr>
+                          </thead>
+                          <tbody class="text-nowrap">
+                            <tr>
+                              <td>
+                                <a href="{{ order.customer_url }}">
+                                  {{ order.name }}
+                                </a>
+                              </td>
+                              <td>{{ order.created_at | date: "%B %d, %Y" }}</td>
+                              <td>{{ order.total_price | money }}</td>
+                              <td>
+                                <ul class="list-group">
+                                  {% for line_item in order.line_items %}
+                                    <li class="list-group-item border-0 bg-transparent p-0">{{ line_item.title }} - {{ line_item.quantity }} x {{ line_item.price | money }} <span>{{ line_item.unit_price | money }}</span>
+                                    {%- unless line_item.selling_plan_allocation == null -%}
+                        <p>
+                          {{ line_item.selling_plan_allocation.selling_plan.name }}
+                        </p>
+                                      
+                      {%- endunless -%}
+                                      
+                                    </li>
+                                    
+                                  {% endfor %}
+                                </ul>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      </div>
+                    {% endfor %}
+                  </div>
+                  </div> 
+                {% else %}
+                  <div class="order-empty col-12 col-xl-8 ps-0 pe-xl-5">
+                  <div class="empty p-5 py-xl-0">
+                     <p>{{ 'customer.order.empty_order' | t }}</p>
+                     <a href="{{ routes.all_products_collection_url }}" class="btn btn-primary rounded-pill ">{{ 'sections.cart.continue_shopping' | t }}</a>
+                  </div>
+                  </div>
+                {% endif %}
+                {% else %}
+                  <p>{{ 'customer.order.order_detail' | t }}</p>
+                {% endif %}
+          <div class="pt-3 pt-xl-0 col-12 col-xl-4 sticky-top h-100">     
+            <div class="main_address main-order-header p-5">
+               {% if customer %}
+                  {% assign address_count = customer.addresses | size %} 
+                    {% if address_count > 0 %}
+                      <h2 class="h4">{{ customer.default_address.first_name }}</h2>
+                     <div> {{ customer.default_address.address1 }} {{ customer.default_address.address2 }} {{ customer.default_address.city }} {{ customer.default_address.zip }} {{ customer.default_address.country }} </div>
+                    {% else %}
+                      <p>{{ 'customer.order.empty_address' | t }}</p>
+                    {% endif %}
+                    {% else %}
+                      <p>{{ 'customer.order.address_detail' | t }}</p>
+                {% endif %} 
+                      <a href="{{ routes.account_addresses_url }}" class="btn btn-primary rounded-pill  mt-5">
+                          <span> {{ 'customer.order.view_address' | t }} ({{ address_count }}) </span>  
+                      </a>
+            </div> 
+          </div>
+      </div>
+  </div>
+</div>
+
+
+{% schema %}
+{
+  "name": "t:sections.main-account.name",
+  "class": "main-account ",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "top_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "bot_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 140
+    }
+  ]
+}
+{% endschema %}

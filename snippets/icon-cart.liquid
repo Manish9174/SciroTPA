@@ -1,0 +1,40 @@
+{% if settings.cart_icon == "bag" %}
+
+<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M15.0543 16.1818H3.84202C3.33646 16.1818 2.94604 15.7413 3.00611 15.2408L4.26246 5.02462C4.31252 4.60416 4.67293 4.28882 5.0984 4.28882H13.8029C14.2284 4.28882 14.5838 4.60416 14.6388 5.02462L15.8952 15.2408C15.9553 15.7413 15.5648 16.1818 15.0593 16.1818H15.0543Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M7.11328 6.01546V3.32754C7.11328 2.04114 8.15443 1 9.44084 1C10.7273 1 11.7684 2.04114 11.7684 3.32754V6.01546" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+{% elsif settings.cart_icon == "cart" %}
+
+<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_6339_600)">
+<path d="M6.77097 15.4792C6.77097 16.1021 6.26615 16.6069 5.6433 16.6069C5.02045 16.6069 4.51562 16.1021 4.51562 15.4792C4.51562 14.8564 5.02045 14.3511 5.6433 14.3511C6.26615 14.3511 6.77097 14.8559 6.77097 15.4792Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M14.6147 15.4792C14.6147 16.1021 14.1099 16.6069 13.487 16.6069C12.8642 16.6069 12.3594 16.1021 12.3594 15.4792C12.3594 14.8564 12.8642 14.3511 13.487 14.3511C14.1099 14.3511 14.6147 14.8559 14.6147 15.4792Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M14.6144 12.5244H5.64376C5.02091 12.5244 4.51562 12.0195 4.51562 11.3962C4.51562 10.7729 5.02045 10.2686 5.64376 10.2686" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1.5 1.39307H3.75581L5.64234 10.2683H15.0911L16.4982 3.64888H6.50538" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_6339_600">
+<rect width="18" height="18" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+
+{% else %}
+
+<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_6339_617)">
+<path d="M14.3991 7.46216V12.1904C14.3991 13.6035 13.2535 14.748 11.8414 14.748H6.31163C4.89849 14.748 3.75391 13.6024 3.75391 12.1904V7.46216" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M2 7.46216H16.0034" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M10.8867 4.1543L12.8506 7.46205" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M7.11616 4L4.6875 7.46197" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_6339_617">
+<rect width="18" height="18" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+
+{% endif %}

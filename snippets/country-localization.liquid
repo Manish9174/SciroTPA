@@ -1,0 +1,180 @@
+{% liquid
+  assign dropside = ''
+  if dropblock != blank
+  assign dropside = dropblock
+   else
+  assign dropside = 'dropdown'
+  endif
+%}
+{% style %}
+  .disclosure .dropdown-toggle:hover{
+    color:rgb(var(--color-primary-button-bg));
+  }
+  .dropdown button,
+  .disclosure .dropdown-item{
+    text-wrap-mode: wrap;
+  }
+  .disclosure .btn.show{
+    color:rgb(var(--color-primary-button-bg));
+  }
+  .disclosure .dropdown-menu{
+  max-height: 15rem;
+  overflow: auto;
+  scrollbar-width:thin;
+  padding: 0px;
+  }
+#LanguageSelect,
+#CountrySelect{
+  font-size:var(--bs-font-sm);
+  min-width: 11rem;
+}
+
+{% endstyle %}
+
+{% if localization.available_languages.size > 1 or localization.available_countries.size > 1 %}
+  <localization-form class="w-100">
+    {% form 'localization' %}
+      <div class="disclosure d-flex align-items-center column-gap-3 justify-content-center justify-content-lg-{{ placement | default:'start' }} text-center flex-wrap text-sm-start">
+        {% if section.settings.enable_language_selector %}
+          {% if localization.available_languages.size > 1 %}
+            <div class="{{ dropside }}">
+              <button
+                class="rounded-0 btn btn-outline-primary px-0 py-2 dropdown-toggle bg-transparent border-0 d-flex"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                {{ localization.language.endonym_name | capitalize }}
+              </button>
+              <ul class="dropdown-menu" id="LanguageSelect" name="language_code" >
+                {% for language in localization.available_languages %}
+                  <li tabindex="0"
+                    data-value="{{ language.iso_code }}"
+                      class="dropdown-item {% if language.iso_code == localization.language.iso_code %}selected {% endif %}"
+                  >
+                    {{ language.endonym_name | capitalize }} 
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+        {% endif %}
+        {% if section.settings.enable_country_selector %}
+          {% if localization.available_countries.size > 1 %}
+            <div class="{{ dropside }}">
+              <button
+                class="rounded-0 btn btn-outline-primary py-2 px-0 bg-transparent dropdown-toggle border-0 d-flex"
+                type="button"
+                id="CountryDropdown"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+               {{ localization.country.currency.iso_code }} ({{ localization.country.currency.symbol }})
+              </button>
+              <ul class="dropdown-menu" id="CountrySelect" aria-labelledby="CountryDropdown" name="country_code">
+                {% for country in localization.available_countries %}
+                  <li tabindex="0" data-value="{{ country.iso_code }}" data-currency="{{ country.currency.iso_code }}" class="dropdown-item {% if country.iso_code == localization.country.iso_code %}selected{% endif %}">
+                   {{ country.name }}
+                    ({{ country.currency.iso_code }}
+                    {{ country.currency.symbol }})
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+        {% endif %}
+      </div>
+    {% endform %}
+  </localization-form>
+{% endif %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    if (!customElements.get('localization-form')) {
+    class LocalizationForm extends HTMLElement {
+      constructor() {
+        super();
+        this.elements = {
+          languageDropdown: this.querySelector('#LanguageSelect'),
+          countryDropdown: this.querySelector('#CountrySelect'),
+        };
+
+        // if (this.elements.languageDropdown) {
+        //   this.elements.languageDropdown.addEventListener('click', this.onLanguageSelect.bind(this));
+        // }
+if (this.elements.languageDropdown) { 
+  this.elements.languageDropdown.addEventListener('click', this.onLanguageSelect.bind(this)); 
+  this.elements.languageDropdown.addEventListener('keydown', (event) => {
+    if ((event.key === 'Enter' || event.keyCode === 13)) {
+      const targetLi = event.target.closest('li');
+      if (targetLi) {
+        event.preventDefault();
+        targetLi.click();  
+      }
+    }
+  });
+}
+        
+
+        // if (this.elements.countryDropdown) {
+        //   this.elements.countryDropdown.addEventListener('click', this.onCountrySelect.bind(this));
+        // }
+if (this.elements.countryDropdown) { 
+  this.elements.countryDropdown.addEventListener('click', this.onCountrySelect.bind(this)); 
+  this.elements.countryDropdown.addEventListener('keydown', (event) => {
+    if ((event.key === 'Enter' || event.keyCode === 13)) {
+      const targetLi = event.target.closest('li');
+      if (targetLi) {
+        event.preventDefault();
+        targetLi.click();  
+      }
+    }
+  });
+}
+
+
+
+        
+      }
+      onLanguageSelect(event) {
+        const selectedItem = event.target.closest('li');
+        if (selectedItem && selectedItem.dataset.value) {
+          const button = this.querySelector('.dropdown-toggle');
+          if (button) {
+            button.textContent = selectedItem.textContent.trim();
+          }
+          const form = this.querySelector('form');
+          if (form) {
+            const languageCode = selectedItem.dataset.value;
+            const input = form.querySelector('input[name="language_code"]') || document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'language_code';
+            input.value = languageCode;
+            form.appendChild(input);
+            form.submit();
+          }
+        }
+      }
+      onCountrySelect(event) {
+        const selectedItem = event.target.closest('li');
+        if (selectedItem && selectedItem.dataset.value) {
+          const button = this.querySelector('#CountryDropdown');
+          if (button) {
+            button.textContent = selectedItem.textContent.trim();
+          }
+          const form = this.querySelector('form');
+          if (form) {
+            const countryCode = selectedItem.dataset.value;
+            const input = form.querySelector('input[name="country_code"]') || document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'country_code';
+            input.value = countryCode;
+            form.appendChild(input);
+            form.submit();
+          }
+        }
+      }
+    }
+    customElements.define('localization-form', LocalizationForm);
+  }
+  });
+</script>

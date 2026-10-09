@@ -1,0 +1,737 @@
+{% style %}
+    .line-decor .container > div {width:100%; margin:auto; }
+    .line-right, .line-left{ width:40% !important; }
+    div#cart-items-list1 .cart-item:last-child {
+    border: none !important;
+    }
+    .btn-close:focus-visible{
+    outline: 2px dotted;
+    outline-offset:2px;
+    }
+    .cart-items-list .cart-img.card_product_detail:focus-within {
+    outline: 2px dotted;
+    }
+    .cart-items-list .cart-img.card_product_detail {
+    width:170px;
+    height:100%;
+    }
+    .cart-items-list .card .card-body{
+    width:calc(100% - 170px);
+    }
+    @media (max-width: 767.98px) {
+    .cartDrawer .offcanvas-body #cart-details1, .cartDrawer .offcanvas-footer .form-text {
+    width:100% !important;
+    margin:0 !important;
+    }
+    .offcanvas-footer > div { width:100% !important; }
+    }
+    @media (max-width: 575.98px) {
+    .cartDrawer .offcanvas-body #cart-details1 .cart-items-list .card .cart-img {
+    width:150px;
+    }
+    .cartDrawer .offcanvas-body #cart-details1 .cart-items-list .card .card-body{ width:calc(100% - 150px);}
+    }
+    @media (max-width: 425px) {
+    .cartDrawer .offcanvas-body #cart-details1 .cart-items-list .card .cart-img {
+    width:100px;
+    }
+    .cartDrawer .offcanvas-body #cart-details1 .cart-items-list .card .card-body{ width:calc(100% - 100px);}
+    .cartDrawer .offcanvas-body #cart-details1 .cart-items-list .card .cart-img { height: 100%; border-radius: calc(var(--bs-radius) / 2);}
+    }
+    @media screen and (max-width:480px){
+    .cart-img .cart-remove-button{
+    background-image:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle {{ class }}" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg>');
+    width:18px;
+    height:18px;
+    background-repeat:no-repeat;
+    }
+    .card .card-body .card-title cart_item_name, .product-option, .cart-remove-button{ font-size:1rem; }
+    .cart-items-list .card{ gap:10px !important; }
+    .cart-item__quantity{ width:120px; }
+    .cart-item__quantity button { padding: 3px 12px; }
+    .cart-item__quantity .decrement-item, .cart-item__quantity .increment-item{ padding: 18px 20px !important; }
+    }
+
+    .cart-item__quantity .decrement-item, .cart-item__quantity .increment-item{
+    position:relative;
+    }
+    .cartDrawer :is(.cart-item__quantity, textarea){ background:var(--bs-bg-input);}
+    .cartDrawer :is(.card-body .variants), .cartDrawer :is(.card-body .discount, .product-priceoption, .subscription_minicart) {
+    font-size: var(--bs-font-md);
+    }
+    .cartDrawer :is(.card-body .vendor) { font-size: var(--bs-font-xs); }
+    .cart-item__quantity .decrement-item::before{
+    content:"";
+    position:absolute;
+    mask-image:url('data:image/svg+xml,<svg width="10" height="11" viewBox="0 0 9 2" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8.888 0.64V1.888H0.776V0.64H8.888Z" fill="currentColor"/></svg>');
+    mask-position: center;
+    mask-repeat:no-repeat;
+    width:20px;
+    height:20px;
+    background-color:currentcolor;
+    }
+    .cart-item__quantity .increment-item::before{
+    content:"";
+    position:absolute;
+    mask-image:url('data:image/svg+xml,<svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.576 4.64H9.704V5.888H5.576V10.016H4.328V5.888H0.224V4.64H4.328V0.752H5.576V4.64Z" fill="%233E382C"/></svg>');
+    mask-position: center;
+    mask-repeat:no-repeat;
+    width:20px;
+    height:20px;
+    background-color:currentcolor;
+    }
+    .form-message1{
+    display:flex;
+    align-items:baseline;
+    gap:4px;
+    padding:0px 8px;
+    font-size: var(--bs-font-md);
+    }
+    .form-message1 >*{margin-top:8px;}
+    #cart_totalinfo .cart_total{ font-size: var(--h5);}
+    .cartDrawer .cart-items-list .cart-item:last-child{padding-bottom:0 !important;}
+    .cartDrawer .cart-items-list .cart-item:first-child{padding-top: 0 !important;}
+    .cleared-items:empty {display:none}
+    .cartDrawer .offcanvas-body #cart-details1 .cart-items-list .card .cart-img img{width:100%;}
+{% endstyle %}
+
+
+
+
+
+{% liquid
+  assign decorator_canvas = settings.seperator_line
+%}
+
+<script>
+  window.cartNestedLabel = "cart" ;
+</script>
+<div
+  class="offcanvas offcanvas-end cartDrawer color-{{ settings.canvas_color_scheme }} gradient"
+  data-bs-scroll="false"
+  tabindex="-1"
+  id="cartOffCanvas"
+  aria-labelledby="cartDrawer"
+  role="dialog"
+  aria-modal="true"
+>
+  <div class="offcanvas-header  text-center justify-content-center position-relative">
+    <h2 class="offcanvas-title h1 offcanvas-title" id="cartDrawer">{{ 'sections.cart.title' | t }}</h2>
+    <div class="close m-3  position-absolute d-flex top-0 end-0 shadow-none">
+    <button type="button" class="btn-close m-0" data-bs-dismiss="offcanvas" aria-label="{{ 'accessibility.close' | t }}"></button>
+    </div>
+  </div>
+  {% render 'line-decor', decorator_canvas: decorator_canvas %}
+  <div class="offcanvas-body pt-sm-5 pb-0 {{ decorator_canvas }}">
+    <div id="custom-div1" class="body-container " style="display: block;">
+      <div id="cart-details1" style="display: block;" class="m-auto">
+        <div class="d-flex">
+        </div>
+        <div id="cart-items-list1" class="cart-items-list">
+          <!-- Cart items will be dynamically inserted here -->
+        </div>
+        <!-- Section to show cleared cart items -->
+        <div id="cleared-items" style="margin-top: 10px;"></div>
+      </div>
+      <div class="collections_info">
+        <div class="text-center">
+          <h3 class="cart__empty-text mb-1">{{ 'sections.cart.empty' | t }}</h3>
+          <p class="my-5 mt-4"> {{ 'sections.cart.sub_title' | t }}</p>
+          <div class="d-flex flex-wrap justify-content-center align-items-center">
+             {% if settings.cart_drawer_list != blank %}
+            {% for collection in settings.cart_drawer_list %}
+              <div>
+                <a href="{{ routes.collections_url }}/{{ collection.handle }}" class="btn btn-secondary m-2 d-flex align-items-center column-gap-1">
+                  {% if collection.all_products_count > 10 %}
+                  {{ collection.all_products_count  }}
+                  {% else %}
+                  {% assign count = collection.all_products_count %}
+                  <span class="text-nowrap">{{ count | prepend:'0' }}</span>
+                  {% endif %}
+                  {% render 'collection_count' %}
+                  {{ collection.title | escape }}
+                </a>
+              </div>
+            {%- endfor -%}
+        {% else %}
+            <a href="{{ routes.all_products_collection_url }}" class="btn btn-primary rounded-pill ">{{ 'sections.cart.continue_shopping' | t }}</a>
+             {% comment %}
+                 {% for collection in collections %}
+                    <a href="{{ routes.collections_url }}" class="text-decoration-none btn btn-secondary m-2 ">
+                      {{ collection.all_products_count }}  {% render 'collection_count' %}  {{ collection.title | escape }}
+                    </a>
+                {%- endfor -%} {% endcomment %}
+             {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <div class="offcanvas-footer p-3" id="cart_totalinfo">
+    <div class="body-container border-top border-1">
+       {%- if settings.cart_upsell_enable -%}
+        {%- render 'cart-upsell' -%}
+      {%- endif -%}
+      <div class="d-flex justify-content-between align-items-center my-4">
+        <p class="m-0 h4 text-box-trim"> {{ 'sections.cart.sub_total' | t }} : </p>
+        <p  class="m-0 cart_total fw-medium "> <span id="cart-total1"></span> <span>{% if settings.currency_code_enabled %}{{ cart.currency.iso_code }}{% endif %} </span></p>
+      </div>
+      <div class="mb-3 px-1">
+        {% if settings.cart_note %}
+        <label class="visually-hidden" for="cart-note">{{ 'sections.cart.order_notes' | t }}</label>
+        <textarea class="cart-note form-control rounded-4 mb-3 px-4" rows="3" placeholder="{{ 'sections.cart.note' | t }}" name="note" id="cart-note"></textarea>
+        {% endif %}
+        <div class="d-flex flex-wrap gap-3">
+          <a href="{{ routes.cart_url }}" class="btn btn-secondary flex-grow-1">
+            {{ 'sections.cart.cart-page' | t }}
+          </a>
+          <a href="/checkout" class="btn btn-primary flex-grow-1">
+            {{ 'sections.cart.checkout' | t }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var collections_info = document.querySelector('.collections_info');
+
+  $('#cart_totalinfo').hide();
+  if (collections_info) {
+    collections_info.style.display = 'none';
+  }
+
+  const cart_totalinfo = document.querySelector('.cart_totalinfo');
+  if (cart_totalinfo) {
+    cart_totalinfo.style.display = 'none';
+  }
+
+  showPopup();
+
+  function showPopup() {
+    var popup = document.getElementById('custom-div1');
+    if (popup) {
+      fetchCart();
+    }
+  }
+
+  function hidePopup() {
+    var popup = document.getElementById('custom-div1');
+    if (popup) {
+      // reserved for future use
+    }
+  }
+
+  var getLocale = () => {
+    var lang =
+      (window.Shopify && Shopify.language) ||
+      (window.Shopify && Shopify.locale) ||
+      (typeof navigator !== 'undefined' && navigator.language.split('-')[0]) ||
+      'en';
+    var country = (window.Shopify && Shopify.country) || '';
+    return country ? `${lang}-${country}` : lang;
+  };
+
+  var formatPrice = (price) => {
+    var value = price / 100;
+    var currency =
+      (window.Shopify && Shopify.currency && Shopify.currency.active) || 'USD';
+    var locale = getLocale();
+    return new Intl.NumberFormat(locale, {
+      style: 'currency',
+      currency: currency,
+      currencyDisplay: 'symbol'
+    }).format(value);
+  };
+
+  function fetchCart() {
+    fetch(`${window.Shopify.routes.root}cart.js`)
+      .then(response => response.json())
+      .then(cart => {
+        const cartItemsList = document.getElementById('cart-items-list1');
+        const totalElement = document.getElementById('cart-total1');
+        console.log("fetch",`${window.Shopify.routes.root}`);
+        if (!cartItemsList || !totalElement) return;
+
+        collections_info.style.display = 'block';
+        cartItemsList.innerHTML = '';
+        let total = 0;
+
+        if (cart.items.length === 0) {
+          var cartTotalInfo = document.getElementById('cart_totalinfo');
+          var collectionsInfo = document.getElementById('collections_info');
+
+          if (cartTotalInfo) cartTotalInfo.style.display = 'none';
+          if (collectionsInfo) collectionsInfo.style.display = 'block';
+          collections_info.style.display = 'block';
+
+        } else {
+          collections_info.style.display = 'none';
+          document.getElementById('cart_totalinfo').style.display = 'block';
+
+          // Nested cart
+          const parents = [];
+          const childrenByParentKey = {};
+
+         cart.items.forEach(function (item) {
+          if (item.parent_relationship && item.parent_relationship.parent_key) {
+            const parentKey = item.parent_relationship.parent_key;
+            if (!childrenByParentKey[parentKey]) {
+              childrenByParentKey[parentKey] = [];
+            }
+            childrenByParentKey[parentKey].push(item);
+          } else {
+            parents.push(item);
+          }
+        });
+
+          parents.forEach(function (item) { 
+            total += item.line_price;
+
+            var recipientEmail =
+              item.properties && item.properties['Recipient email']
+                ? `<p class="mb-1">{{ 'products.gift_card.recipient_form.email' | t }}: ${item.properties['Recipient email']}</p>`
+                : '';
+            var recipientName =
+              item.properties && item.properties['Recipient name']
+                ? `<p class="mb-1">{{ 'products.gift_card.recipient_form.name' | t }}: ${item.properties['Recipient name']}</p>`
+                : '';
+            var giftMessage =
+              item.properties && item.properties['Message']
+                ? `<p class="mb-1">{{ 'products.gift_card.recipient_form.message' | t }}: ${item.properties['Message']}</p>`
+                : '';
+            var sendOnDate =
+              item.properties && item.properties['Send on']
+                ? `<p class="mb-1">{{ 'products.gift_card.recipient_form.date' | t }}: ${item.properties['Send on']}</p>`
+                : '';
+
+            const hasOnlyDefaultVariant =
+              item.options_with_values.length === 1 &&
+              item.variant_title === 'Default Title';
+            const visibleOptions = hasOnlyDefaultVariant
+              ? []
+              : item.options_with_values.filter(function (option) {
+                  return (
+                    option.value !== 'Default Title' && option.name !== 'Title'
+                  );
+                });
+ 
+            const children = childrenByParentKey[item.key] || [];
+            children.forEach(function (child) {
+              total += child.line_price;
+            });
+
+            // nested child HTML
+           const childHtml = children
+            .map(function (child) {
+              const childHasOnlyDefaultVariant =
+                child.options_with_values.length === 1 &&
+                child.variant_title === 'Default Title';
+              const childVisibleOptions = childHasOnlyDefaultVariant
+                ? []
+                : child.options_with_values.filter(function (option) {
+                    return option.value !== 'Default Title' && option.name !== 'Title';
+                  });
+
+              return `
+                <div class="cart-item cart-item--nested py-3  ps-5 border-1 border-bottom" id="CartItem-${child.key}">
+                  <div class="card flex-row gap-4">
+                    <div class="cart-img card_product_detail common_card_details">
+                      <a href="${child.url}" class="cart-item__link" aria-hidden="true" tabindex="0">
+                        ${child.image
+                          ? `<img src="${child.image}&width=200" srcset="
+                              ${child.image}&width=100 100w,
+                              ${child.image}&width=200 200w,
+                              ${child.image}&width=300 300w
+                            " class="cart-item__image object-fit-cover" alt="${child.title}" loading="lazy">`
+                          : `<svg class="placeholder-svg h-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 525.5 525.5"></svg>`
+                        }
+                      </a>
+                    </div>
+                    <div class="card-body cart-item__details py-0 px-1 position-relative">
+                      <div class="d-flex flex-column flex-sm-row justify-content-between mb-2 gap-2">
+                        <div class="h5 m-0 card-title">
+                          <a href="${child.url}" class="cart_item_name text-break text-decoration-none">${child.product_title}</a>
+                        </div>
+                      </div>
+                     <div class="mb-2 d-flex gap-1 flex-wrap variants">
+                            ${child.options_with_values.map((option, index) => `
+                              <span class="d-flex align-items-center gap-2 flex-wrap">
+                                ${option.value}${index < child.options_with_values.length - 1 ? ' /' : ''}
+                              </span>
+                            `).join('')}
+                      </div> 
+                      <div class="product-priceoption d-flex flex-wrap gap-2 mb-2 justify-content-between">
+                        ${child.original_price !== child.final_price
+                          ? `<div class="d-flex gap-2 flex-wrap">
+                              <s class="cart-item__original-price product-option opacity-50">${formatPrice(child.original_price)}</s>
+                              <strong class="cart-item__final-price product-option fw-medium">
+                                ${formatPrice(child.final_price)} {% if settings.currency_code_enabled %}{{ cart.currency.iso_code }}{% endif %}
+                              </strong>
+                            </div>`
+                          : `<div class="product-option default-price">
+                              ${formatPrice(child.final_price)} {% if settings.currency_code_enabled %}{{ cart.currency.iso_code }}{% endif %}
+                            </div>`
+                        }
+                        <div class="product-option">
+                          <p class="mb-0 fw-bold text-nowrap">
+                            ${formatPrice(child.final_price * child.quantity)} {% if settings.currency_code_enabled %}{{ cart.currency.iso_code }}{% endif %}
+                          </p>
+                        </div>
+                      </div>
+
+                       <div class="discount">
+                      ${child.line_level_discount_allocations && child.line_level_discount_allocations.length > 0
+                        ? `<span class="cart-product-discounts">
+                            <ul class="cart-product-discounts-list p-0" role="list" aria-label="{{ 'customer.order.discount' | t }}">
+                              ${child.line_level_discount_allocations.map(discount_allocation => `
+                                <li class="cart-product-discounts-list-item list-unstyled">
+                                  <span class="badges sale_badge d-flex align-items-center gap-2">
+                                    <span class="discount_tag">
+                                      <svg class="icon icon-discount" width="10" height="10" viewBox="0 0 12 12">
+                                        <path fill="currentColor" fill-rule="evenodd" d="M7 0h3a2 2 0 0 1 2 2v3a1 1 0 0 1-.3.7l-6 6a1 1 0 0 1-1.4 0l-4-4a1 1 0 0 1 0-1.4l6-6A1 1 0 0 1 7 0m2 2a1 1 0 1 0 2 0 1 1 0 0 0-2 0" clip-rule="evenodd"></path>
+                                      </svg>
+                                    </span>
+                                    <span class="cart-product-discounts-list-item__title">
+                                      <span class="fw-bold text-uppercase">${discount_allocation.discount_application.title}</span>
+                                    </span>
+                                  </span>
+                                </li>
+                              `).join('')}
+                            </ul>
+                          </span>`
+                        : ''
+                      }
+                    </div>
+
+                      <div class="d-flex flex-wrap justify-content-between row-gap-2 align-items-center">
+                        <div class="cart-item__quantity d-flex justify-content-between align-items-center">
+                          <button aria-label="{{ 'accessibility.decrement' | t }}" class="align-items-center border-0 btn d-flex decrement-item fs-5 justify-content-center p-4 py-sm-4 quanity_descrement rounded-0" data-line="${child.key}" data-quantity="${child.quantity - 1}"></button>
+                          <div class="visually-hidden label">Order note</div>
+                          <input type="number" aria-label="Quantity for item" min="0" id="input_quantity${child.key}" name="input_quantity_${child.key}" class="input_quantity mt-1 w-100 text-center border-0" value="${child.quantity}" data-line="${child.key}" data-quantity="${child.quantity}" />
+                          <button aria-label="{{ 'accessibility.increment' | t }}" class="align-items-center border-0 btn d-flex fs-5 increment-item justify-content-center p-4 py-sm-4 quanity_increment rounded-0" data-line="${child.key}" data-quantity="${child.quantity + 1}"></button>
+                        </div>
+                        <button aria-label="{{ 'products.product.remove.remove' | t }}" class="cart-remove-button border-0 bg-transparent p-1 text-decoration-underline btn h-auto rounded-0" data-line="${child.key}">
+                          {{ 'sections.cart.remove' | t }}
+                        </button>
+                      </div>
+                      <div class="form-message1 d-flex align-items-baseline gap-1"></div>
+                    </div>
+                  </div>
+                </div>`;
+            })
+            .join('');
+
+            // Child html
+            cartItemsList.innerHTML += `
+              <div class="cart-item py-3 border-1 border-bottom" id="CartItem-${item.key}">
+                <div class="card flex-row gap-4">
+                  <div class="cart-img card_product_detail common_card_details">
+                    <a href="${item.url}" class="cart-item__link" aria-hidden="true" tabindex="0">
+                      ${item.image
+                        ? `<img src="${item.image}&width=200" srcset="
+                            ${item.image}&width=100 100w,
+                            ${item.image}&width=200 200w,
+                            ${item.image}&width=300 300w
+                          " class="cart-item__image object-fit-cover" alt="${item.title}" loading="lazy">`
+                        : `<svg class="placeholder-svg h-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 525.5 525.5">
+                            <path d="M375.5 345.2c0-.1 0-.1 0 0 0-.1 0-.1 0 0-1.1-2.9-2.3-5.5-3.4-7.8-1.4-4.7-2.4-13.8-.5-19.8 3.4-10.6 3.6-40.6 1.2-54.5-2.3-14-12.3-29.8-18.5-36.9-5.3-6.2-12.8-14.9-15.4-17.9 8.6-5.6 13.3-13.3 14-23 0-.3 0-.6.1-.8.4-4.1-.6-9.9-3.9-13.5-2.1-2.3-4.8-3.5-8-3.5h-54.9c-.8-7.1-3-13-5.2-17.5-6.8-13.9-12.5-16.5-21.2-16.5h-.7c-8.7 0-14.4 2.5-21.2 16.5-2.2 4.5-4.4 10.4-5.2 17.5h-48.5c-3.2 0-5.9 1.2-8 3.5-3.2 3.6-4.3 9.3-3.9 13.5 0 .2 0 .5.1.8.7 9.8 5.4 17.4 14 23-2.6 3.1-10.1 11.7-15.4 17.9-6.1 7.2-16.1 22.9-18.5 36.9-2.2 13.3-1.2 47.4 1 54.9 1.1 3.8 1.4 14.5-.2 19.4-1.2 2.4-2.3 5-3.4 7.9-4.4 11.6-6.2 26.3-5 32.6 1.8 9.9 16.5 14.4 29.4 14.4h176.8c12.9 0 27.6-4.5 29.4-14.4 1.2-6.5-.5-21.1-5-32.7zm-97.7-178c.3-3.2.8-10.6-.2-18 2.4 4.3 5 10.5 5.9 18h-5.7zm-36.3-17.9c-1 7.4-.5 14.8-.2 18h-5.7c.9-7.5 3.5-13.7 5.9-18zm4.5-6.9c0-.1.1-.2.1-.4 4.4-5.3 8.4-5.8 13.1-5.8h.7c4.7 0 8.7.6 13.1 5.8 0 .1 0 .2.1.4 3.2 8.9 2.2 21.2 1.8 25h-30.7c-.4-3.8-1.3-16.1 1.8-25zm-70.7 42.5c0-.3 0-.6-.1-.9-.3-3.4.5-8.4 3.1-11.3 1-1.1 2.1-1.7 3.4-2.1l-.6.6c-2.8 3.1-3.7 8.1-3.3 11.6 0 .2 0 .5.1.8.3 3.5.9 11.7 10.6 18.8.3.2.8.2 1-.2.2-.3.2-.8-.2-1-9.2-6.7-9.8-14.4-10-17.7 0-.3 0-.6-.1-.8-.3-3.2.5-7.7 3-10.5.8-.8 1.7-1.5 2.6-1.9h155.7c1 .4 1.9 1.1 2.6 1.9 2.5 2.8 3.3 7.3 3 10.5 0 .2 0 .5-.1.8-.3 3.6-1 13.1-13.8 20.1-.3.2-.5.6-.3 1 .1.2.4.4.6.4.1 0 .2 0 .3-.1 13.5-7.5 14.3-17.5 14.6-21.3 0-.3 0-.5.1-.8.4-3.5-.5-8.5-3.3-11.6l-.6-.6c1.3.4 2.5 1.1 3.4 2.1 2.6 2.9 3.5 7.9 3.1 11.3 0 .3 0 .6-.1.9-1.5 20.9-23.6 31.4-65.5 31.4h-43.8c-41.8 0-63.9-10.5-65.4-31.4zm91 89.1h-7c0-1.5 0-3-.1-4.2-.2-12.5-2.2-31.1-2.7-35.1h3.6c.8 0 1.4-.6 1.4-1.4v-14.1h2.4v14.1c0 .8.6 1.4 1.4 1.4h3.7c-.4 3.9-2.4 22.6-2.7 35.1v4.2zm65.3 11.9h-16.8c-.4 0-.7.3-.7.7 0 .4.3.7.7.7h16.8v2.8h-62.2c0-.9-.1-1.9-.1-2.8h33.9c.4 0 .7-.3.7-.7 0-.4-.3-.7-.7-.7h-33.9c-.1-3.2-.1-6.3-.1-9h62.5v9zm-12.5 24.4h-6.3l.2-1.6h5.9l.2 1.6zm-5.8-4.5l1.6-12.3h2l1.6 12.3h-5.2zm-57-19.9h-62.4v-9h62.5c0 2.7 0 5.8-.1 9zm-62.4 1.4h62.4c0 .9-.1 1.8-.1 2.8H194v-2.8zm65.2 0h7.3c0 .9.1 1.8.1 2.8H259c.1-.9.1-1.8.1-2.8zm7.2-1.4h-7.2c.1-3.2.1-6.3.1-9h7c0 2.7 0 5.8.1 9zm-7.7-66.7v6.8h-9v-6.8h9zm-8.9 8.3h9v.7h-9v-.7zm0 2.1h9v2.3h-9v-2.3zm26-1.4h-9v-.7h9v.7zm-9 3.7v-2.3h9v2.3h-9zm9-5.9h-9v-6.8h9v6.8zm-119.3 91.1c-2.1-7.1-3-40.9-.9-53.6 2.2-13.5 11.9-28.6 17.8-35.6 5.6-6.5 13.5-15.7 15.7-18.3 11.4 6.4 28.7 9.6 51.8 9.6h6v14.1c0 .8.6 1.4 1.4 1.4h5.4c.3 3.1 2.4 22.4 2.7 35.1 0 1.2.1 2.6.1 4.2h-63.9c-.8 0-1.4.6-1.4 1.4v16.1c0 .8.6 1.4 1.4 1.4H256c-.8 11.8-2.8 24.7-8 33.3-2.6 4.4-4.9 8.5-6.9 12.2-.4.7-.1 1.6.6 1.9.2.1.4.2.6.2.5 0 1-.3 1.3-.8 1.9-3.7 4.2-7.7 6.8-12.1 5.4-9.1 7.6-22.5 8.4-34.7h7.8c.7 11.2 2.6 23.5 7.1 32.4.2.5.8.8 1.3.8.2 0 .4 0 .6-.2.7-.4 1-1.2.6-1.9-4.3-8.5-6.1-20.3-6.8-31.1H312l-2.4 18.6c-.1.4.1.8.3 1.1.3.3.7.5 1.1.5h9.6c.4 0 .8-.2 1.1-.5.3-.3.4-.7.3-1.1l-2.4-18.6H333c.8 0 1.4-.6 1.4-1.4v-16.1c0-.8-.6-1.4-1.4-1.4h-63.9c0-1.5 0-2.9.1-4.2.2-12.7 2.3-32 2.7-35.1h5.2c.8 0 1.4-.6 1.4-1.4v-14.1h6.2c23.1 0 40.4-3.2 51.8-9.6 2.3 2.6 10.1 11.8 15.7 18.3 5.9 6.9 15.6 22.1 17.8 35.6 2.2 13.4 2 43.2-1.1 53.1-1.2 3.9-1.4 8.7-1 13-1.7-2.8-2.9-4.4-3-4.6-.2-.3-.6-.5-.9-.6h-.5c-.2 0-.4.1-.5.2-.6.5-.8 1.4-.3 2 0 0 .2.3.5.8 1.4 2.1 5.6 8.4 8.9 16.7h-42.9v-43.8c0-.8-.6-1.4-1.4-1.4s-1.4.6-1.4 1.4v44.9c0 .1-.1.2-.1.3 0 .1 0 .2.1.3v9c-1.1 2-3.9 3.7-10.5 3.7h-7.5c-.4 0-.7.3-.7.7 0 .4.3.7.7.7h7.5c5 0 8.5-.9 10.5-2.8-.1 3.1-1.5 6.5-10.5 6.5H210.4c-9 0-10.5-3.4-10.5-6.5 2 1.9 5.5 2.8 10.5 2.8h67.4c.4 0 .7-.3.7-.7 0-.4-.3-.7-.7-.7h-67.4c-6.7 0-9.4-1.7-10.5-3.7v-54.5c0-.8-.6-1.4-1.4-1.4s-1.4.6-1.4 1.4v43.8h-43.6c4.2-10.2 9.4-17.4 9.5-17.5.5-.6.3-1.5-.3-2s-1.5-.3-2 .3c-.1.2-1.4 2-3.2 5 .1-4.9-.4-10.2-1.1-12.8zm221.4 60.2c-1.5 8.3-14.9 12-26.6 12H174.4c-11.8 0-25.1-3.8-26.6-12-1-5.7.6-19.3 4.6-30.2H197v9.8c0 6.4 4.5 9.7 13.4 9.7h105.4c8.9 0 13.4-3.3 13.4-9.7v-9.8h44c4 10.9 5.6 24.5 4.6 30.2z"></path>
+                            <path d="M286.1 359.3c0 .4.3.7.7.7h14.7c.4 0 .7-.3.7-.7 0-.4-.3-.7-.7-.7h-14.7c-.3 0-.7.3-.7.7zm5.3-145.6c13.5-.5 24.7-2.3 33.5-5.3.4-.1.6-.5.4-.9-.1-.4-.5-.6-.9-.4-8.6 3-19.7 4.7-33 5.2-.4 0-.7.3-.7.7 0 .4.3.7.7.7zm-11.3.1c.4 0 .7-.3.7-.7 0-.4-.3-.7-.7-.7H242c-19.9 0-35.3-2.5-45.9-7.4-.4-.2-.8 0-.9.3-.2.4 0 .8.3.9 10.8 5 26.4 7.5 46.5 7.5h38.1zm-7.2 116.9c.4.1.9.1 1.4.1 1.7 0 3.4-.7 4.7-1.9 1.4-1.4 1.9-3.2 1.5-5-.2-.8-.9-1.2-1.7-1.1-.8.2-1.2.9-1.1 1.7.3 1.2-.4 2-.7 2.4-.9.9-2.2 1.3-3.4 1-.8-.2-1.5.3-1.7 1.1s.2 1.5 1 1.7z"></path>
+                          </svg>`
+                      }
+                    </a>
+                  </div>
+                  <div class="card-body cart-item__details py-0 px-1 position-relative">
+                    {% if settings.Show_vendor_cart %}
+                      <div class="vendor text-uppercase mb-2">
+                        <p class="mb-0">${item.vendor}</p>
+                      </div>
+                    {% endif %}
+                    <div class="d-flex flex-column flex-sm-row justify-content-between mb-2 gap-2">
+                      <div class="h5 m-0 card-title">
+                        <a href="${item.url}" class="cart_item_name text-break text-decoration-none">${item.product_title}</a>
+                      </div>
+                    </div>
+                    ${item.unit_price && item.unit_price_measurement
+                      ? `<p class="unit_price mb-1 fs-6">${formatPrice(item.unit_price)} / ${item.unit_price_measurement.reference_value} ${item.unit_price_measurement.reference_unit}</p>`
+                      : ''
+                    }
+                     <div class="mb-2 d-flex d-sm-flex gap-1 flex-wrap variants">
+                          ${item.options_with_values.map((option, index) => `
+                            <span class="d-flex align-items-center gap-2 flex-wrap">
+                              ${option.value}${index < item.options_with_values.length - 1 ? ' /' : ''}
+                            </span>
+                          `).join('')}
+                        </div> 
+                    
+                    <div class="product-priceoption d-flex flex-wrap gap-2 mb-2 justify-content-between">
+                      ${item.original_price !== item.final_price
+                        ? `<div class="d-flex gap-2 flex-wrap">
+                            <s class="cart-item__original-price product-option opacity-50">${formatPrice(item.original_price)}</s>
+                            <strong class="cart-item__final-price product-option fw-medium">
+                              ${formatPrice(item.final_price)} {% if settings.currency_code_enabled %}{{ cart.currency.iso_code }}{% endif %}
+                            </strong>
+                          </div>`
+                        : `<div class="product-option default-price">
+                            ${formatPrice(item.final_price)} {% if settings.currency_code_enabled %}{{ cart.currency.iso_code }}{% endif %}
+                          </div>`
+                      }
+                      <div class="product-option">
+                        <p class="mb-0 fw-bold text-nowrap">
+                          ${formatPrice(item.final_price * item.quantity)} {% if settings.currency_code_enabled %}{{ cart.currency.iso_code }}{% endif %}
+                        </p>
+                      </div>
+                    </div>
+                    <span class="subscription_minicart mb-2">
+                      ${item.selling_plan_allocation ? item.selling_plan_allocation.selling_plan.name : ''}
+                    </span>
+                    ${item.gift_card
+                      ? `<div class="gift-card-details mt-2">
+                          ${recipientEmail}${recipientName}${giftMessage}${sendOnDate}
+                        </div>`
+                      : ''
+                    }
+                    <div class="discount">
+                      ${item.line_level_discount_allocations && item.line_level_discount_allocations.length > 0
+                        ? `<span class="cart-product-discounts">
+                            <ul class="cart-product-discounts-list p-0" role="list" aria-label="{{ 'customer.order.discount' | t }}">
+                              ${item.line_level_discount_allocations.map(discount_allocation => `
+                                <li class="cart-product-discounts-list-item list-unstyled">
+                                  <span class="badges sale_badge d-flex align-items-center gap-2">
+                                    <span class="discount_tag">
+                                      <svg class="icon icon-discount" width="10" height="10" viewBox="0 0 12 12">
+                                        <path fill="currentColor" fill-rule="evenodd" d="M7 0h3a2 2 0 0 1 2 2v3a1 1 0 0 1-.3.7l-6 6a1 1 0 0 1-1.4 0l-4-4a1 1 0 0 1 0-1.4l6-6A1 1 0 0 1 7 0m2 2a1 1 0 1 0 2 0 1 1 0 0 0-2 0" clip-rule="evenodd"></path>
+                                      </svg>
+                                    </span>
+                                    <span class="cart-product-discounts-list-item__title">
+                                      <span class="fw-bold text-uppercase">${discount_allocation.discount_application.title}</span>
+                                    </span>
+                                  </span>
+                                </li>
+                              `).join('')}
+                            </ul>
+                          </span>`
+                        : ''
+                      }
+                    </div>
+                    <div class="d-flex flex-wrap justify-content-between row-gap-2 align-items-center">
+                      <div class="cart-item__quantity d-flex justify-content-between align-items-center">
+                        <button aria-label="{{ 'accessibility.decrement' | t }}" class="align-items-center border-0 btn d-flex decrement-item fs-5 justify-content-center p-4 py-sm-4 quanity_descrement rounded-0" data-line="${item.key}" data-quantity="${item.quantity - 1}"></button>
+                        <div class="visually-hidden label">Order note</div>
+                        <input type="number" aria-label="Quantity for item" min="0" id="input_quantity${item.key}" name="input_quantity_${item.key}" class="input_quantity mt-1 w-100 text-center border-0" value="${item.quantity}" data-line="${item.key}" data-quantity="${item.quantity}" />
+                        <button aria-label="{{ 'accessibility.increment' | t }}" class="align-items-center border-0 btn d-flex fs-5 increment-item justify-content-center p-4 py-sm-4 quanity_increment rounded-0" data-line="${item.key}" data-quantity="${item.quantity + 1}"></button>
+                      </div>
+                      <button aria-label="{{ 'products.product.remove.remove' | t }}" class="cart-remove-button border-0 bg-transparent p-1 text-decoration-underline btn h-auto rounded-0" data-line="${item.key}">
+                        {{ 'sections.cart.remove' | t }}
+                      </button>
+                    </div>
+                    <div class="form-message1 d-flex align-items-baseline gap-1"></div>
+                   
+                  </div>
+                </div>
+              </div> ${childHtml}`;
+          });
+        }
+
+        totalElement.textContent = formatPrice(total);
+      })
+      .catch(() => {});
+  }
+
+  window.cartStrings = {
+    lowQuantity: {{ 'Only [quantity] item was added to your cart due to availability.' | json }}
+  };
+
+  function updateQuantity(line, quantity) {
+    const lineElement = document.getElementById(`CartItem-${line}`);
+    if (!lineElement) return;
+
+    const messageContainer = lineElement.querySelector('.form-message1');
+    if (!messageContainer) return;
+
+    fetch(`{{ routes.cart_url }}/change.js`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      body: JSON.stringify({ id: line, quantity: quantity })
+    })
+    .then(response => response.json().then(data => {
+      if (!response.ok) {
+        throw new Error(data.message || data.description || 'An unexpected error occurred.');
+      }
+      return data;
+    }))
+    .then((data) => {
+      const updatedItem = data.items.find(item => item.key === line);
+      $.getJSON('/cart.js', function (cart) {
+        let cartItemCount = cart.item_count;
+        $('.open-cart-drawer a > span:last-child').html(cartItemCount);
+      });
+
+      if (!updatedItem) {
+        messageContainer.innerHTML = '';
+        messageContainer.classList.add('d-none');
+        fetchCart();
+        return;
+      }
+
+      const updatedQuantity = updatedItem.quantity;
+      if (updatedQuantity < quantity) {
+        let lowQuantity = window.cartStrings.lowQuantity.replace('[quantity]', updatedQuantity);
+        messageContainer.classList.remove('d-none');
+        messageContainer.innerHTML = `<span class="d-flex gap-2 pro_error">
+          <span class="lh-sm">
+            <svg width="14px" height="14px" viewBox="0 0 24 24" fill="red" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12ZM10.0586 6.05547C10.0268 5.48227 10.483 5 11.0571 5H12.9429C13.517 5 13.9732 5.48227 13.9414 6.05547L13.5525 13.0555C13.523 13.5854 13.0847 14 12.554 14H11.446C10.9153 14 10.477 13.5854 10.4475 13.0555L10.0586 6.05547ZM14 17C14 18.1046 13.1046 19 12 19C10.8954 19 10 18.1046 10 17C10 15.8954 10.8954 15 12 15C13.1046 15 14 15.8954 14 17Z"/>
+            </svg>
+          </span>
+          <span>${lowQuantity}</span>
+        </span>`;
+      } else {
+        messageContainer.classList.add('d-none');
+        messageContainer.innerHTML = '';
+        fetchCart();
+      }
+    })
+    .catch(error => {
+      messageContainer.classList.remove('d-none');
+      messageContainer.innerHTML = `<div class="d-flex gap-1 align-items-baseline">
+        <div class="error_icon">
+          <svg width="14px" height="14px" viewBox="0 0 24 24" fill="red" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12ZM10.0586 6.05547C10.0268 5.48227 10.483 5 11.0571 5H12.9429C13.517 5 13.9732 5.48227 13.9414 6.05547L13.5525 13.0555C13.523 13.5854 13.0847 14 12.554 14H11.446C10.9153 14 10.477 13.5854 10.4475 13.0555L10.0586 6.05547ZM14 17C14 18.1046 13.1046 19 12 19C10.8954 19 10 18.1046 10 17C10 15.8954 10.8954 15 12 15C13.1046 15 14 15.8954 14 17Z"/>
+          </svg>
+        </div>
+        <div class="pro_error">${error.message || 'An unexpected error occurred.'}</div>
+      </div>`;
+    });
+  }
+
+  function removeItem(line) {
+    updateQuantity(line, 0);
+    {% if cart.empty %}
+      collections_info.style.display = 'block';
+    {% else %}
+      collections_info.style.display = 'none';
+    {% endif %}
+  }
+
+  var checkoutButton = document.getElementById('checkout-button');
+  if (checkoutButton) {
+    checkoutButton.addEventListener('click', function () {
+      window.location.href = '/checkout';
+    });
+  }
+
+  var cartButton = document.getElementById('cart-button');
+  if (cartButton) {
+    cartButton.addEventListener('click', function () {
+      window.location.href = '{{ routes.cart_url }}';
+    });
+  }
+
+  // Refresh cart drawer when items are added (e.g. from quick order section)
+    document.addEventListener('cart:refresh', function () {
+      fetchCart();
+    });
+
+    // Also handle the custom quick-order event as a fallback
+    document.addEventListener('quick-order:items-added', function () {
+      fetchCart();
+    });
+
+  var cartIcon = document.getElementById('cart-icon');
+  if (cartIcon) {
+    cartIcon.addEventListener('click', function (event) {
+      event.preventDefault();
+      fetchCart();
+      showPopup();
+
+      var modalElement = document.querySelector('.modal.show');
+      if (modalElement) {
+        var modalInstance = bootstrap.Modal.getInstance(modalElement);
+        if (modalInstance) {
+          modalInstance.hide();
+        }
+      }
+    });
+  }
+
+  document.addEventListener('change', function (event) {
+    event.preventDefault();
+    if (event.target && event.target.matches('.input_quantity')) {
+      const line = event.target.getAttribute('data-line');
+      const newQuantity = parseInt(event.target.value);
+      if (line) {
+        updateQuantity(line, newQuantity);
+      }
+    }
+  });
+
+  document.addEventListener('click', function (event) {
+    scrollPreventc();
+    function scrollPreventc() {
+      const scrollPosition = window.scrollY;
+      document.getElementById('cartOffCanvas').addEventListener('hidden.bs.offcanvas', function () {
+        window.scrollTo(0, scrollPosition);
+      });
+    }
+    if (event.target && event.target.matches('.btn-close')) {
+      scrollPreventc();
+      hidePopup();
+    }
+    if (event.target && event.target.matches('.increment-item')) {
+      event.preventDefault();
+      const line = event.target.getAttribute('data-line');
+      const newQuantity = parseInt(event.target.getAttribute('data-quantity'));
+      if (line) {
+        updateQuantity(line, newQuantity);
+      }
+    }
+    if (event.target && event.target.matches('.decrement-item')) {
+      event.preventDefault();
+      const line = event.target.getAttribute('data-line');
+      const newQuantity = parseInt(event.target.getAttribute('data-quantity'));
+      if (line && newQuantity >= 0) {
+        updateQuantity(line, newQuantity);
+      }
+    }
+    if (event.target && event.target.matches('.cart-remove-button')) {
+      event.preventDefault();
+      const line = event.target.getAttribute('data-line');
+      removeItem(line);
+    }
+    if (event.target && event.target.matches('#clear-cart')) {
+      event.preventDefault();
+      clearCart();
+    }
+  });
+
+  const observer = new MutationObserver(() => {
+    if (jQuery('#cart-note').length) {
+      observer.disconnect();
+      jQuery(document).on('input', '#cart-note', function () {
+        var note = jQuery(this).val();
+        jQuery.ajax({
+          url: '{{ routes.cart_url }}/update.js',
+          type: 'POST',
+          dataType: 'json',
+          data: { note: note },
+          success: function (cart) {
+            console.log('Order note updated:', cart.note);
+          },
+          error: function () {}
+        });
+      });
+    }
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+
+});
+</script>

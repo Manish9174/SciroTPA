@@ -1,0 +1,519 @@
+{% render 'spacing' %}
+{% style %}
+    @media screen and (min-width:480px){
+    .product-showcase .swiper .swiper-slide img, .product-showcase .swiper .swiper-slide .placeholder-svg { transform: scale(0.6); transition:all .5s linear; transform-origin: bottom; }
+    .product-showcase .swiper .swiper-slide.swiper-slide-active img, .product-showcase .swiper .swiper-slide.swiper-slide-active .placeholder-svg{ transform: scale(1); }
+    }
+    .product-showcase .swiper .swiper-next, .product-showcase .swiper .swiper-prev{
+    position: absolute;
+    top: 50%;
+    bottom: unset;
+    margin: auto;
+    z-index: 1;
+    }
+    .product-showcase .swiper .swiper-next{right:38%;}
+    .product-showcase .swiper .swiper-prev{left:38%;}
+    .product-showcase :is(.quantity-selector button){
+    border: 1px solid rgba(var(--color-foreground));
+    width: clamp(2.8125rem, 2.625rem + 0.9375vw, 3.75rem);
+    height: clamp(2.8125rem, 2.625rem + 0.9375vw, 3.75rem);
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    }
+    .product-showcase :is(.quantity-selector button > svg){
+    color: rgba(var(--color-foreground));
+    width: 20px;
+    height: 20px;
+    }
+    .product-showcase :is(.quantity .varinant-select select){
+    background: rgba(var(--color-primary-button-bg)) !important;
+    color: rgba(var(--color-primary-button-text));
+    }
+    .product-showcase :is(input:focus-visible){ outline:0; }
+    .product-showcase :is(input){
+    width: 100%;
+    max-width: 60px;
+    text-align: center;
+    color: currentColor;
+    background: rgba(var(--color-background));
+    }
+    .product-showcase .divider{
+      height: 1px;
+    background:rgba(var(--color-foreground));
+    }
+
+    .product-container #product-details{ max-width: 55%; }
+    @media (max-width: 1399.98px) {
+    .product-showcase .swiper .swiper-next{right:31%;}
+    .product-showcase .swiper .swiper-prev{left:31%;}
+    }
+    @media (max-width: 1199.98px) { .product-container #product-details{ max-width: 75%; } }
+    @media (max-width: 991.98px)  {
+    .product-container #product-details{ max-width: 85%; }
+    /* .product-showcase .swiper .swiper-next{right:22%;}
+    .product-showcase .swiper .swiper-prev{left:22%;} */
+    }
+    @media (max-width: 767.98px)  { .product-container #product-details{ max-width: 100%; } }
+    @media (max-width: 575.98px)  {
+    .product-showcase :is(.quantity-selector button), .product-showcase .swiper .swiper-next, .product-showcase .swiper .swiper-prev{
+    display:inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    }
+    .product-showcase :is(.quantity-selector button > svg), .product-showcase .swiper .swiper-next svg, .product-showcase .swiper .swiper-prev svg{
+    width:15px;
+    height:15px;
+    }
+    .product-showcase :is(.product__quantity-cart .quantity):before{ display:none; }
+    .product-showcase .swiper .swiper-prev, .product-showcase .swiper .swiper-next{display:none;}
+    }
+    /* .product-showcase :is(.product__quantity-cart .quantity .varinant-select select){ padding: 1rem 2.9rem 1rem 1rem; }   */
+    .product-showcase .swiper:not(.swiper-initialized) .swiper-slide {
+    width: calc(100% / 5);
+    }
+    @media screen and (max-width:576px){
+     .product-showcase .swiper:not(.swiper-initialized) .swiper-slide {
+    width: 100%;
+    }
+  }
+    input#quantity[type="number"] {
+    -moz-appearance: textfield;
+    }
+    input#quantity[type="number"]::-webkit-outer-spin-button,
+    input#quantity[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+    @media screen and (min-width:1400px){
+   .product-showcase .product_showcase-{{ section.id }} .product_showcase .swiper-slide-prev{
+    transform: translateX(-10%) !important;
+    }
+    .product-showcase .product_showcase-{{ section.id }} .product_showcase .swiper-slide-next{
+    transform:translateX(10%) !important;
+    }
+    }
+    /* Firefox */
+    input#quantity[type="number"][type=number] {
+    -moz-appearance: textfield;
+    }
+    .varinant-select select {
+    cursor:pointer;
+    }
+    .varinant-select::after {
+    content: '';
+    mask-image:url('data:image/svg+xml,<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.29289 8.29289C4.68342 7.90237 5.31658 7.90237 5.70711 8.29289L12 14.5858L18.2929 8.29289C18.6834 7.90237 19.3166 7.90237 19.7071 8.29289C20.0976 8.68342 20.0976 9.31658 19.7071 9.70711L12.7071 16.7071C12.3166 17.0976 11.6834 17.0976 11.2929 16.7071L4.29289 9.70711C3.90237 9.31658 3.90237 8.68342 4.29289 8.29289Z" fill="%23000000"/></svg>');
+    width:24px;
+    height:24px;
+    margin:auto;
+    mask-position: center;
+    mask-repeat: no-repeat;
+    background-color:rgb(var(--color-background));
+    position: absolute;
+    right: 8%;
+    top: 0;
+    bottom: 0;
+    pointer-events: none;
+    }
+    .quantity-selector button{ background: var(--bs-body-bg); }
+    .product_showcase .variant-selection {
+    font-weight: var(--font-body-weight-bold);
+    background: rgba(var(--color-secondary-button-bg));
+    display: inline-flex;
+    color: rgba(var(--color-secondary-button-text));
+    /* border-radius: 50rem; */
+    border-radius:var(--btn-border-radius);
+    /* padding: .5em 2.2em .5em 1em; */
+    padding:15px 20px;
+    /* border: 0; */
+    appearance: none;
+    -webkit-appearance: none;
+    position: relative;
+    background-image: linear-gradient(45deg, transparent 50%,  rgba(var(--color-secondary-button-text)) 50%), linear-gradient(135deg,  rgba(var(--color-secondary-button-text)) 50%, transparent 50%), radial-gradient(#ddd 0%, transparent 0%);
+    background-position: calc(100% - 20px) calc(1em + 10px), calc(100% - 15px) calc(1em + 10px), calc(100% - .5em) .5em;
+    background-size: 5px 5px, 5px 5px, 1.5em 1.5em;
+    background-repeat: no-repeat;
+    /* height:100%; */
+    }
+   .product_showcase select.variant-selection option.disabled {
+    color: rgba(var(--color-foreground), 0.5);
+    }
+  @media screen and (min-width:576px){
+  .product_showcase .product__quantity-cart .product_price{
+    max-width: 60%;
+    width: 60%;
+    align-items: start !important;
+  }
+  .product_showcase .product__quantity-cart .quantity-selector{
+    width: 40%;
+    max-width: 40%;
+    }
+  }
+  .product_showcase .variant-select-container > * {
+    flex-grow: 1;
+    width:100%;
+    flex-basis:40%;
+    /* height:100%; */
+  }
+  .product_showcase .quantity.row{padding:0 !important;}
+  .product-showcase .product_showcase .swiper-wrapper.product_showcase .swiper-slide {display:flex; align-items:center; justify-content:center;}
+  /* .product_showcase .variant-select-container:has(select[hidden="hidden"]){ display: none !important; } */
+  .product_compare_price:has(.pro_profit:empty){display:none !important;}
+    @media screen and (max-width:400px){
+  .quantity_block{flex-direction:column; gap:1rem;}
+  .product__quantity-cart .variant-select-container{flex-direction:column;}
+  .product_showcase .variant-select-container > *{flex-basis:unset;}
+    }
+    .product-showcase .swiper .swiper-slide:not(.swiper-slide-active) {
+    opacity: .3;
+}
+ .product-showcase:has(.swiper:not(.swiper-initialized)) .variant-select-container select:not(:first-of-type) {display:none;}
+{% endstyle %}
+
+{% assign currency_symbol = shop.money_format | remove: '{{amount}}' %}
+<div class="product_showcase product_showcase-{{ section.id }} section-{{ section.id }}-padding color-{{ section.settings.color_scheme }} gradient ele {{ settings.animation_effect }}"
+data-sectionId="{{ section.id }}" data-currency={{ currency_symbol }} data-delay="{{ section.settings.autoplay_delay | times:1000 }}"  data-slideCount = "5" data-space="1">
+<div class="{% if section.settings.full_width %}container-fluid{% else %}container-sm gx-5 gx-sm-4{% endif %}">
+  {% render 'title-container' %}
+  <div class="product-container">
+    <div class="row">
+      {% if section.settings.collection != blank %}
+       <div class="swiper product_showcase-swiper-{{ section.id }}" {% if settings.animation != 'none' %} data-aos="{{ settings.animation}}" {% endif %}>
+        <div class="swiper-wrapper product_showcase">
+          {%- assign first_available_product = section.settings.collection.products | where: "available", true | first -%}
+          {%- for product in section.settings.collection.products -%}
+            {%- if product.available -%}
+            <div class="swiper-slide {{ settings.animation_effect }}" data-productid="{{ product.id }}" data-producthandle="{{ product.handle }}" tabindex="-1">
+               {%- if product.featured_media -%}
+                  {%- assign loading = 'lazy' -%}
+               {% endif %}
+               {%- if product.id == first_available_product.id -%}
+                  {%- assign loading = 'eager' -%}
+               {%- endif -%}
+             {% if product.featured_media %}
+             <a href="{{ product.url }}" class="card-img h-100 ratio ratio-1x1"  tabindex="-1">
+              {{
+                product.featured_media
+                | image_url: width: 1280
+                | image_tag:
+                  aria_hidden: 'true',
+                  loading: loading,
+                  width: product.featured_media.width,
+                  height: product.featured_media.height,
+                  sizes: '(min-width: 1200px) 600px, (min-width: 992px) calc((100vw - 130px) / 3), (min-width: 768px) calc((100vw - 120px) / 2), calc((100vw - 35px) / 2)',
+                  class: 'product-image img-fluid card_product_detail w-100 h-100',
+                  alt: product.featured_media.alt
+                | escape
+              }}</a>
+              {% else %}
+                {{ 'product-1' | placeholder_svg_tag:'placeholder-svg' }}
+              {% endif %}
+            </div>
+           {% endif %}
+          {%- endfor -%}
+        </div>
+         {% if section.settings.pagination == 'arrow' %}
+         <div>
+         <div class="swiper-prev main-prev product_showcase_prev-{{ section.id }} rounded-0 {% if section.settings.pagination == 'arrow' and section.settings.pagination_style != 'artistic' %} bg-arrow-style {% endif %}">{% render 'arrow-left' %}</div>
+          <div class="swiper-next main-next product_showcase_next-{{ section.id }} rounded-0 {% if section.settings.pagination == 'arrow' and section.settings.pagination_style != 'artistic' %} bg-arrow-style {% endif %}">{% render 'arrow-right' %}</div>
+        </div>
+        {% endif %}
+      </div>
+      {% else %}
+         <div class="swiper product_showcase-swiper-{{ section.id }}" {% if settings.animation != 'none' %} data-aos="{{ settings.animation}}" {% endif %}>
+            <div class="swiper-wrapper">
+               {% for i in (1..6) %}
+                <div class="swiper-slide">
+                    {%- assign placeholder_image_index = forloop.index0 | modulo: 6 | plus: 1 -%}
+                    {%- assign placeholder_image = 'product-' | append: placeholder_image_index -%}
+                     {{ placeholder_image | placeholder_svg_tag: 'placeholder-svg card_product_detail' }}
+                </div>
+              {% endfor %}
+            </div>
+           {% if section.settings.pagination == 'arrow' %}
+             <div>
+              <div class="swiper-next main-next product_showcase_next-{{ section.id }} rounded-0 {% if section.settings.pagination == 'arrow' and section.settings.pagination_style != 'artistic' %} bg-arrow-style {% endif %}">{% render 'arrow-right' %}</div>
+              <div class="swiper-prev main-prev product_showcase_prev-{{ section.id }} rounded-0 {% if section.settings.pagination == 'arrow' and section.settings.pagination_style != 'artistic' %} bg-arrow-style {% endif %}">{% render 'arrow-left' %}</div>
+            </div>
+            {% endif %}
+         </div>
+      {% endif %}
+    </div>
+    <div id="product-details" class="m-auto text-{{ section.settings.text_alignment }} mt-5">
+     <h2 class="pro_title h1 mb-3">{{ 'onboarding.product_title' | t }}</h2>
+    <p class="pro_description"></p>
+    <form
+      method="post"
+      action="{{ routes.cart_url }}/add"
+      accept-charset="UTF-8"
+      class="showcase-add-to-cart-form product-showcaseform product-options-form product-summary__product-options-form"
+      enctype="multipart/form-data"
+      data-sectionid = "{{ section.id }}"
+      novalidate="novalidate"
+    >
+      <input type="hidden" name="form_type" value="product"><input type="hidden" name="utf8" value="✓">
+
+      <div class="product__quantity-cart">
+                 <div class="quantity d-flex flex-wrap gap-4 ">
+          <div class="quantity_block w-100 d-flex align-items-center justify-content-between">
+         <div class="align-items-start align-items-sm-end d-flex flex-column  flex-wrap gap-2 justify-content-start product_price text-sm-start">
+            <div class="price d-flex gap-2 align-items-end">
+            <h2 class="pro_price h3 m-0">
+              {{ 'sections.cart.price' | t }}
+            </h2>
+            {% if settings.currency_code_enabled %}
+            <span>{{ cart.currency.iso_code }}</span>
+            {% endif %}
+            <div class="compare_price d-flex gap-2 align-items-center">
+              <p class="cmp_price m-0 text-decoration-line-through"></p>
+              {% if settings.currency_code_enabled %}
+              <span>{{ cart.currency.iso_code }}</span>
+              {% endif %}
+            </div>
+          </div>
+           <div class="product_compare_price d-flex gap-1 flex-column align-items-start">
+            
+            <p class="pro_profit m-0"></p>
+           </div>
+          </div>
+         <div class="quantity-selector position-relative text-sm-end d-flex align-items-center justify-content-center justify-content-sm-end">
+          <label for="quantity" class="visually-hidden">{{ 'products.product.quantity.label' | t }}</label>
+          <button type="button" id="decrement" class="quantity-btn" name='minus' aria-label="{{ 'accessibility.decrement' | t }}">
+            {% render 'icon-minus' %}
+          </button>
+          <input type="number" id="quantity"  name="quantity" value="1" min="1" class="border-0 h6 mb-0" >
+          <button type="button" id="increment" class="quantity-btn" name='plus' aria-label="{{ 'accessibility.increment' | t }}">
+           {% render 'icon-plus' %}
+          </button>
+        </div>
+      </div>
+        <div class="divider w-100"></div>
+         <div class="variant-select-container position-relative d-flex align-items-center justify-content-between gap-3 flex-wrap w-100">
+           <input id="variant-selectitem-{{ section.id }}"  class="variant-select" aria-label="variant" name="id" hidden >
+           {%- for product in section.settings.collection.products -%}
+              {%- if product.available -%}
+
+          {% for option in product.options_with_values %}
+            <label for="variant-select-{{ product.id }}" class="mb-3 h4 visually-hidden">{{ option.name }}:</label>
+                 <select class="variant-selection form-select-lg text-uppercase" id="variant-select-{{ product.id }}" name="variant" data-producthandle="{{  product.handle }}" data-sectionId= "{{ section.id }}">
+                     {% for value in option.values %}
+                        <option
+                        data-id="{{ value.id }}"
+                        data-value="{{ value.id }}"
+                        value="{{ value.id }}"
+                        class="{% if value.available %} available {% else %}disabled{% endif %}"
+                        data-available ="{% if value.available %} available {% else %} Sold out {% endif %}"
+                        data-price = "{{ product.price | money }}"
+                        >
+                        {{ value }}
+                        </option>
+                     {% endfor %}
+                </select>
+            {% endfor %}
+                {% endif %}
+            {% endfor %}
+
+
+
+         <div>
+   <button type="submit" class="add-to-cart-button {% if section.settings.collection.products.size > 1 %}available {% else %}disabled {% endif %} btn btn-primary rounded-pill w-100 h-100" disabled>
+            {% if section.settings.collection.products.size > 1 %}
+            {{ 'general.card.add_to_cart' | t }}
+            {%  else %}
+            {{ 'products.product.sold_out' | t }}
+             {% endif %}
+          </button>
+          </div>
+          </div>
+        </div>
+      </div>
+      <input type="hidden" class="product-id" name="product-id">
+      <input type="hidden" name="section-id" value="{{ section.id }}">
+      <div class="showcase-message"></div>
+    </form>
+  </div>
+  </div>
+</div>
+</div>
+ {% assign currency_symbol = shop.money_format | remove: '{{amount}}' %}
+
+
+
+{% schema %}
+{
+  "name": "t:sections.product-showcase.name",
+  "tag": "section",
+  "class": "product-showcase new-section",
+  "disabled_on": {
+    "groups": ["header", "footer","custom.overlay"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "t:sections.all.full_width.label",
+      },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+     {
+      "type": "text",
+      "id": "title",
+      "default": "t:sections.product-showcase.settings.title.default",
+      "label": "t:sections.all.heading.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "default": "t:sections.all.content_description.default",
+      "label": "t:sections.all.description.label"
+    },
+         {
+      "type": "select",
+      "id": "column_alignment",
+      "options": [
+        {
+          "value": "left",
+           "label": "t:sections.all.content_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.all.content_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.all.content_alignment.options__3.label"
+        },
+      ],
+      "default": "center",
+      "label": "t:sections.all.content_alignment.label"
+    },
+    {
+      "type": "header",
+      "content": "t:settings_schema.colors.settings.headers.layout"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "t:sections.product-showcase.settings.collection_list.label"
+    },
+     {
+      "type": "select",
+      "id": "text_alignment",
+      "options": [
+        {
+          "value": "left",
+           "label": "t:sections.all.content_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.all.content_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.all.content_alignment.options__3.label"
+        },
+      ],
+      "default": "center",
+      "label": "t:sections.all.content_alignment.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.swiper.heading"
+    },
+    {
+    "type": "select",
+    "id":"pagination",
+    "label": "t:sections.all.pagination.label",
+    "default":"arrow",
+    "options": [
+    {
+    "label": "t:sections.all.pagination.option_2.label",
+    "value": "arrow"
+    },
+    {
+    "label": "t:sections.all.pagination.option_3.label",
+    "value": "none",
+    },
+    ],
+    },
+    {
+    "type": "select",
+    "id":"pagination_style",
+    "label": "t:sections.all.pagination_style.label",
+    "default":"artistic",
+    "options": [
+    {
+    "label": "t:sections.all.pagination_style.option_1.label",
+    "value": "artistic"
+    },{
+    "label": "t:sections.all.pagination_style.option_2.label",
+    "value": "bold"
+    },
+    {
+    "label": "t:sections.all.pagination_style.option_3.label",
+    "value": "regular",
+    },
+    ],
+      "visible_if": "{{ section.settings.pagination != 'none' }}"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.spacing.spacing_heading"
+    },
+    {
+      "type": "range",
+      "id": "top_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.top_space",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "bot_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.bot_space",
+      "default": 120
+    },
+  ],
+  "presets": [
+    {
+      "name": "t:sections.product-showcase.name",
+      "blocks":[
+
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,259 @@
+{% render 'spacing' %}
+{{ 'curve-seperator.css' | asset_url | stylesheet_tag }}
+{% liquid
+  assign has_curve = section.settings.curve
+%}
+
+<div class="featuredCollection section-{{ section.id }}-padding">
+  <div class="curvy color-{{ section.settings.color_scheme }} gradient {% unless has_curve == 'none' %} seperator{% endunless %} position-relative">
+    {% render 'curve-marquee', curve_class: has_curve %}
+    {% unless has_curve == 'none' %}
+      {% render 'curve-seperator', curve_class: has_curve %}
+    {% endunless %}
+
+    <div class="container-fluid product_slider position-relative">
+      <div class="my-carousel product-recommendations-{{ section.id }}" data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&intent=complementary">
+        <div class="swiper my-carousel__swiper-{{ section.id }} position-relative pt-5">
+          <div class="text-center mt-3">
+            <h2 class="{{ section.settings.heading_size }} mb-3">{{ section.settings.heading }}</h2>
+            <p>{{ section.settings.description }}</p>
+          </div>
+          <div class="swiper-wrapper">
+            {%- if recommendations.performed? and recommendations.products_count > 0 -%}
+              {%- for i in (1..2) -%}
+                {%- for product in recommendations.products -%}
+                  <div class="swiper-slide">
+                    <div class="main-card swiper-card mx-3 mx-sm-5 mx-md-0 swiper-card--{{ forloop.index }} d-flex flex-column text-center">
+                      {% render 'card-product', card_product: product, section_id: section.id %}
+                      
+                    </div>
+                  </div>
+                {%- endfor -%}
+              {%- endfor -%}
+            {%- endif -%}
+          </div>
+          <div class="my-carousel__actions position-md-absolute bottom-50 translate-middle-y mb-5 mb-md-0 z-3">
+            <button class="btn btn--subtle my-carousel__control my-carousel__control--prev " aria-label="prev">
+              {% render 'prev-icon' %}
+            </button>
+            <button class="btn btn--subtle my-carousel__control my-carousel__control--next" aria-label="next">
+              {% render 'next-icon' %}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+ document.addEventListener("DOMContentLoaded", function () {
+  var swiperInstance = null; 
+
+  const initializeSwiper = () => {
+    swiperInstance = new Swiper(".my-carousel__swiper-{{ section.id }}", {
+      loop: true,
+      grabCursor: true,
+      effect: "creative",
+      centeredSlides: true,
+      slideToClickedSlide: true,
+      spaceBetween: 0,
+      navigation: {
+        nextEl: ".my-carousel__control--next",
+        prevEl: ".my-carousel__control--prev",
+      },
+      creativeEffect: {
+        perspective: true,
+        limitProgress: 3,
+        prev: {
+          translate: ["-150%", "0%", 0],
+          rotate: [0, 0, -30],
+          scale: 0.8,
+          origin: "top",
+        },
+        next: {
+          translate: ["150%", "0%", 0],
+          rotate: [0, 0, 30],
+          scale: 0.8,
+          origin: "top",
+        },
+      },
+      
+      breakpoints: {
+        767: {
+          slidesPerView: 1,
+          spaceBetween: 30,
+        },
+        768: {
+          slidesPerView: 3,
+        }
+      },
+      on: {
+        slideChange: function () {
+          if (swiperInstance && swiperInstance.slides.length > 0) {
+            var activeSlide = swiperInstance.slides[swiperInstance.activeIndex];
+            var activeSlideId = activeSlide.getAttribute('data-id');
+            if (activeSlideId) {
+              var matchingElement = document.querySelector(`.thumb-slider .swiper-slide[data-id="${activeSlideId}"]`);
+              if (matchingElement) {
+                document.querySelectorAll('.thumb-slider .swiper-slide.wdt-active').forEach(function (elem) {
+                  elem.classList.remove('wdt-active');
+                });
+                matchingElement.classList.add('wdt-active');
+              }
+            }
+          }
+          
+        }
+      }
+    });
+  };
+
+  const handleIntersection = (entries, observer) => {
+    if (!entries[0].isIntersecting) return;
+    observer.unobserve(productRecommendationsSection);
+    const url = productRecommendationsSection.dataset.url;
+    fetch(url)
+      .then(response => response.text())
+      .then(text => {
+        const html = document.createElement('div');
+        html.innerHTML = text;
+        const recommendations = html.querySelector('.product-recommendations-{{ section.id }}');
+        if (recommendations && recommendations.innerHTML.trim().length) {
+          productRecommendationsSection.innerHTML = recommendations.innerHTML; 
+          initializeSwiper();
+        }
+      })
+      .catch(() => {});
+  };
+
+  const productRecommendationsSection = document.querySelector('.product-recommendations-{{ section.id }}');
+  const observer = new IntersectionObserver(handleIntersection, { rootMargin: '0px 0px 200px 0px' });
+  observer.observe(productRecommendationsSection);
+  initializeSwiper(); 
+});
+</script>
+
+{% schema %}
+  {
+  "name": "t:sections.product-details.blocks.product_complementary.name",
+  "tag": "section",
+  "class": "section section-hero-slider",
+  "enabled_on": {"templates": ["product"]},
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-3"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Complementory product",
+      "label": "t:sections.all.heading.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__3.label"
+        },
+        {
+          "value": "display-1",
+          "label": "t:sections.all.heading_size.options__4.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "default": "Use This Text To Share The Information Which You Like!.",
+      "label": "t:sections.all.description.label"
+    },
+    {
+      "type": "select",
+      "id":"curve",
+      "label": "t:sections.all.curve.label",
+      "options": [
+        {
+          "label": "t:sections.all.curve.settings.options_1.label",
+          "value": "none"
+        },{
+          "label": "t:sections.all.curve.settings.options_2.label",
+          "value": "top"
+        },
+        {
+          "label": "t:sections.all.curve.settings.options_3.label",
+          "value": "bottom",
+        },{
+          "label": "t:sections.all.curve.settings.options_4.label",
+          "value": "both"
+        },
+      ],
+      "default":"both"
+    },
+    {
+      "type": "select",
+      "id": "card_aspect_ratio",
+      "options": [
+        {
+          "value": "square",
+           "label": "t:settings_schema.cards.settings.card_aspect_ratio.options__1.label",
+        },
+        {
+          "value": "portrait",
+          "label": "t:settings_schema.cards.settings.card_aspect_ratio.options__2.label",
+        },
+         {
+          "value": "landscape",
+          "label": "t:settings_schema.cards.settings.card_aspect_ratio.options__3.label",
+        },
+        {
+          "value": "adapt",
+          "label": "t:settings_schema.cards.settings.card_aspect_ratio.options__4.label"
+        }
+      ],
+      "default": "landscape",
+     "label": "t:settings_schema.cards.settings.card_aspect_ratio.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme_block",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-2"
+    },{
+      "type": "range",
+      "id": "top_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.top_space",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "bot_space",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.spacing.bot_space",
+      "default": 60
+    }
+  ]
+}
+{% endschema %}

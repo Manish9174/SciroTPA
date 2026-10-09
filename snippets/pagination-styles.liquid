@@ -1,0 +1,43 @@
+{% style %}
+  {% if section.settings.pagination_style == 'artistic' %}
+ .{{ swiper-class }} .swiper-pagination:has(.swiper-pagination-bullet){
+   background:rgba(var(--color-foreground));
+   border-radius:10rem;
+   width:fit-content
+}
+    {% endif %}
+  {% if section.settings.pagination_style != 'regular' %}
+    .{{ swiper-class }} .swiper-pagination-bullet-active {
+    opacity: var(--swiper-pagination-bullet-opacity, 1);
+    animation: circle-to-rectangle-{{ swiper-class }} 0.2s forwards;
+    width: 30px;
+    height: 10px;
+   {% if section.settings.pagination_style == "bold" %} border-radius: 0; {% elsif section.settings.pagination_style == 'artistic' %} border-radius: 15px;{% endif %}
+    background: rgba(var(--color-foreground));
+}
+.{{ swiper-class }} span.swiper-pagination-bullet {
+    --swiper-pagination-bullet-width: 10px;
+    --swiper-pagination-bullet-height: 10px;
+    {% if section.settings.pagination_style == 'artistic' %}background: rgb(var(--color-background));{% endif %}
+    margin: 6px 10px;
+    clip-path: none;
+    {% if section.settings.pagination_style == "bold" %} border-radius: 0; {% elsif section.settings.pagination_style == 'artistic' %} border-radius: 50%;{% endif %}
+}
+
+ @keyframes circle-to-rectangle-{{ swiper-class }} {
+  0% {
+    width: 10px;
+    height: 10px;
+    {% if section.settings.pagination_style == "bold" %} border-radius: 0; {% elsif section.settings.pagination_style == 'artistic' %} border-radius: 50%;{% endif %}
+  }
+  100% {
+    width: 40px;
+    height: 10px;
+   {% if section.settings.pagination_style == "bold" %} border-radius: 0; {% elsif section.settings.pagination_style == 'artistic' %} border-radius: 15px;{% endif %}
+  }
+}
+    {% endif %}
+{% endstyle %}
+
+
+   <div class="swiper-pagination mx-auto start-0 end-0 swiper-pagination-{{ section.id }} pagination-style-{{ section.settings.pagination_style }}  {% if section.settings.pagination_style == "artistic" %} p-2 {% else %} px-2 {% endif %} mb-1 position-relative"></div>

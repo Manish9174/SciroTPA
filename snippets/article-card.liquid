@@ -1,0 +1,97 @@
+ <div class="{% if desktop_column == '2' and blog_alignment == "stepped" and enable_slider == blank %} col-12 col-sm-11 col-md-12 col-lg-11 {% elsif desktop_column == '3' and blog_alignment == "stepped" and enable_slider == blank %} col-12 col-sm-11 col-md-12 col-lg-11{% else %} col-12 h-100{% endif %}{% unless enable_slider %}{% if is_even == 0 and blog_alignment == "stepped" %} ms-auto{% endif %}{% else %} ms-next-auto{% endunless %}">
+  <div class="blog_card card color-{{ settings.blog_card_background }}{% if settings.blog_card_align == "card" %} blog-article{% else %} bg-transparent{% endif %}{% if blog_alignment == "normal" %} h-100{% endif %}">
+
+      {% if show_image != blank %}
+        <div class="card-img{% if settings.blog_card_align == "standard" %} blog-article{% endif %}">
+         <div class="ratio {{ aspect_ratio }} overflow-hidden" style="{% if article.image != blank %}--aspect-ratio: {{ 1 | divided_by: article.image.aspect_ratio | times: 100 }}%;{% else %}--aspect-ratio:100%{% endif %}">
+          {% if article.image != blank %}
+                <a href="{{ article.url }}" class="text-decoration-none article_img card-img">
+                  {% if article.image %}
+                   {{
+                      article.image
+                      | image_url: width: 1500
+                      | image_tag:
+                        aria_hidden: 'true',
+                        loading: 'lazy',
+                        width: article.image.width,
+                        height: article.image.height,
+                        sizes: '(min-width: 750px) 50vw, 100vw',
+                        alt: article.image.alt
+                      | escape
+                    -}}
+                   {% endif %}
+                </a>
+             {% else %}
+               <a href="{{ article.url }}" class="text-decoration-none">
+                {{ 'image' | placeholder_svg_tag : 'placeholder_svg' }}
+               </a>
+          {% endif %}
+      </div>
+      </div>
+      {% endif %}
+
+      <div class="card-body {% if settings.blog_card_align != "card" %}px-0 pb-0{% endif %}{% if settings.blog_text_align == "center" %} text-center{% elsif settings.blog_text_align == "right" %} text-end{% endif %}">
+          {% if section.settings.show_date or section.settings.show_author or section.settings.show_comments %}
+        <div class="blog_details d-flex flex-wrap align-items-center mb-2 gap-3 row-gap-1 {% if settings.blog_text_align == "center" %} justify-content-center{% elsif settings.blog_text_align == "right" %} justify-content-end{% endif %}">
+              {% if section.settings.show_date %}
+                <div class="meta-item blog_date">
+                  <span class="seperator-circle"></span>
+                  <span>{{ article.published_at | date: '%d %B, %Y' }}</span>
+                </div>
+              {% endif %}
+
+              {% if section.settings.show_author %}
+                <div class="meta-item author_name">
+                  <span class="seperator-circle"></span>
+                  <span class="author">{{ article.author }}</span>
+                </div>
+              {% endif %}
+
+              {% if section.settings.show_comments %}
+                {% assign count = article.comments_count %}
+                <div class="meta-item comment">
+                  <span class="seperator-circle"></span>
+                  <span>
+                    {% if count == 1 %}
+                      {{ 'sections.blogs.article.comments.one' | t: count: count }}
+                    {% else %}
+                      {{ 'sections.blogs.article.comments.other' | t: count: count }}
+                    {% endif %}
+                  </span>
+                </div>
+              {% endif %}
+          </div>
+          {% endif %}
+          <h3 class="card-title ">
+            <a href="{{ article.url }}" class="text-decoration-none {{ settings.blog_card_text_size }}">{{ article.title }}</a>
+          </h3>
+
+          {% if section.settings.show_excerpts %}
+          <p class="article-description {% if section.settings.readmore_button %} mb-2 {% endif %}m-0 ">
+            {{ article.excerpt_or_content | strip_html | truncatewords: 15 }}
+          </p>
+          {% endif %}
+
+          {% if section.settings.show_tag and article.tags.size >= 1 %}
+          <ul class="ps-0 tags d-flex gap-2 flex-wrap my-3{% if settings.blog_text_align == "center" %} justify-content-center{% elsif settings.blog_text_align == "right" %} justify-content-end{% endif %}">
+              {% for tag in article.tags %}
+               {% if current_tags contains tag %}
+                      <li class="tag-item list-unstyled text-break d-inline-flex active">{{ tag | link_to_add_tag: tag }}</li>
+                    {% else %}
+                      <li class="tag-item list-unstyled text-break d-inline-flex">
+                       {{ tag | link_to_add_tag: tag }}
+                      </li>
+                    {% endif %}
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+           {% if section.settings.readmore_button %}
+             <div class="read_more">
+               <a href="{{ article.url }}">{{ 'sections.blogs.article.read_more' | t }}</a>
+             </div>
+           {% endif %}
+     </div>
+  </div>
+
+ </div>

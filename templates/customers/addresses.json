@@ -1,0 +1,25 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-address",
+      "settings": {
+        "section_color_scheme": "scheme-1",
+        "color_scheme": "scheme-3",
+        "top_space": 92,
+        "bot_space": 120
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

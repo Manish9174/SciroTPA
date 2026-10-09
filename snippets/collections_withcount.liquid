@@ -1,0 +1,11 @@
+<div class="d-flex flex-column justify-content-center align-items-center gap-4">
+  {% for collection in collections %}
+    <div>
+      <a href="{{ routes.collections_url }}" class="btn btn-secondary rounded-pill mb-2">
+        {{ collection.all_products_count }}
+        {% render 'collection_count' %}
+        {{ collection.title | escape }}
+      </a>
+    </div>
+  {%- endfor -%}
+</div>

@@ -1,0 +1,125 @@
+{% style %}
+.search .offcanvas-body .search-bar #header-search{max-width:100%;}
+/* .search .svg-circle{
+    margin:0 0.3rem;
+} */
+.search .line-decor{ padding-bottom:1.8rem;}
+ @media (min-width: 576px) {
+   .search .line-decor{ padding-bottom:2.7rem;}
+ }
+{% comment %} {% if settings.canvas_style == "none" %}
+.offcanvas .search-bar .search_clear_btn{
+  right: 120px;
+}
+{% endif %}   {% endcomment %}
+.search_clear_btn{
+  width:12px !important;
+  height:12px !important;
+  right:min( var(--email-btn-width) + 15px, 100%) !important;
+  display: inline-flex;
+  align-self: center;
+}
+@media (min-width:1025px){
+  {% if settings.canvas_style == "default" %}
+  /* .offcanvas .search-bar .search_clear_btn{
+  right:max(30%, 230px);
+  }
+.offcanvas .search-bar .search-btn-group{
+    width: max(30%, 230px);
+} */
+ /* .offcanvas .search-bar .form-control{
+ padding-right: clamp(60px, 31%, 200px) !important;
+}    */
+{% endif %}
+}
+/* .offcanvas .search-bar .form-control{
+ padding-right: clamp(60px, 41%, 160px) !important;
+}   */
+.offcanvas .search-bar .search-btn-group{
+    /* width: max(25%, 100px); */
+    /* text-wrap-mode: nowrap;
+    padding: 0; */
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+input[type='search']::-webkit-search-cancel-button{
+  -webkit-appearance: none;
+  display: inline-block;
+  cursor:pointer;
+  width: 12px;
+  height: 12px;
+  margin-left: 10px;
+  background:
+    linear-gradient(45deg, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 43%,#000 45%,#000 55%,rgba(0,0,0,0) 57%,rgba(0,0,0,0) 100%),
+    linear-gradient(135deg, transparent 0%,transparent 43%,#000 45%,#000 55%,transparent 57%,transparent 100%);
+}
+ input[type="search"]::-webkit-search-cancel-button{
+  display:none;
+  -webkit-appearance: none;
+}
+input[type="search"]::-ms-clear {
+  display: none;
+}
+ .search .search-btn-group{
+   top: 2px;
+   bottom: 2px;
+   right: 2px;
+ }
+
+ @media (max-width: 575.98px){
+   .predictive-search .form-control {
+    padding: .75rem 1rem;
+}
+.predictive-search .search-btn-group{ padding: 20px; }
+ }
+ .search-bar.body-container{ padding: 0; }
+{% endstyle %}
+
+{% liquid
+  assign decorator_canvas = settings.seperator_line
+%}
+<div class="search offcanvas offcanvas-end color-{{ settings.canvas_color_scheme }} gradient" data-bs-scroll="false" tabindex="-1" id="searchOffCanvas" aria-labelledby="searchDrawer">
+  <div class="offcanvas-header text-center  justify-content-center position-relative">
+    <h2 class="offcanvas-title h1" id="searchDrawer"> {{ 'general.search.search' | t }} </h2>
+    <div class="close m-3 my-md-4 position-absolute d-flex top-0 end-0 shadow-none">
+    <button type="button" class="btn-close m-0" data-bs-dismiss="offcanvas" aria-label="{{ 'accessibility.close' | t }}"></button>
+    </div>
+  </div>
+  {% render 'line-decor', decorator_canvas: decorator_canvas %}
+  <div class="offcanvas-body pt-0">
+      <div class="search-bar body-container">
+            <predictive-search class="predictive-search" data-locale="{{ localization.language.iso_code }}" data-locales="{{ localization.available_languages | map: 'iso_code' | join: ',' }}">
+                 <!--pre>{{ routes.search_url }}</pre-->
+              <form action="{{ routes.search_url }}">
+              <div class="position-relative m-1 form_input">
+                <label for="Search" class="visually-hidden">{{ 'general.search.search' | t }}</label>
+                <input id="Search" type="search" class="form-control input_control"
+                  name="q"
+                  placeholder="{{ 'general.search.search-placeholder' | t }}"
+                  value="{{ search.terms | escape }}"
+                  role="combobox"
+                  autofocus="autofocus"
+                  autocomplete="off"
+                  aria-owns="predictive-search-results"
+                  aria-controls="predictive-search-results"
+                  aria-haspopup="listbox"
+                  tabindex="0"
+                  aria-autocomplete="list"
+                  aria-label="{{ 'general.search.search' | t }}">
+                  <button aria-label="{{ 'products.facets.clear' | t }}" type="button" class="position-absolute search_clear_btn btn btn-close rounded-0 top-0 bottom-0 d-none"></button>
+                  <button class="btn btn-secondary flex-grow-1 input_button search-btn-group position-absolute" type="submit">
+                     <span class="d-none d-lg-block lh-0"> {{ 'general.search.search' | t }} </span>
+                     <span class="d-lg-none menu-as-icon" aria-hidden="true">{% render 'icon-search' %}</span>
+                  </button>
+
+              </div>
+                  <input name="options[prefix]" type="hidden" value="last"> <div id="header-search" tabindex="-1" class="mx-1 mx-sm-3 mt-5"></div>
+              </form>
+          </predictive-search>
+        <div class="mt-5 search-collectionbase">
+              {% render 'search-collection' %}
+           </div>
+        </div>
+    </div>
+</div>

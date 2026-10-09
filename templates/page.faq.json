@@ -1,0 +1,126 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "column_alignment": "center",
+        "top_space": 140,
+        "bot_space": 140
+      }
+    },
+    "collapsible_content_CNM8HX": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_JawLPJ": {
+          "type": "collapsible_row",
+          "settings": {
+            "icon": "none",
+            "heading": "Collapse heading",
+            "row_content": "This is the first item's accordion content. It’s hidden by default but smoothly expands on click. You can also include content from a page for a clean and organized look.",
+            "page": ""
+          }
+        },
+        "collapsible_row_rJ6Gqd": {
+          "type": "collapsible_row",
+          "settings": {
+            "icon": "none",
+            "heading": "Collapse heading",
+            "row_content": "This is the first item's accordion content. It’s hidden by default but smoothly expands on click. You can also include content from a page for a clean and organized look.",
+            "page": ""
+          }
+        },
+        "collapsible_row_QgNLf7": {
+          "type": "collapsible_row",
+          "settings": {
+            "icon": "none",
+            "heading": "Collapse heading",
+            "row_content": "This is the first item's accordion content. It’s hidden by default but smoothly expands on click. You can also include content from a page for a clean and organized look.",
+            "page": ""
+          }
+        },
+        "collapsible_row_Tgkrix": {
+          "type": "collapsible_row",
+          "settings": {
+            "icon": "none",
+            "heading": "Collapse heading",
+            "row_content": "This is the first item's accordion content. It’s hidden by default but smoothly expands on click. You can also include content from a page for a clean and organized look.",
+            "page": ""
+          }
+        },
+        "collapsible_row_Gj7DgE": {
+          "type": "collapsible_row",
+          "settings": {
+            "icon": "none",
+            "heading": "Collapse heading",
+            "row_content": "This is the first item's accordion content. It’s hidden by default but smoothly expands on click. You can also include content from a page for a clean and organized look.",
+            "page": ""
+          }
+        },
+        "collapsible_row_H4rXGz": {
+          "type": "collapsible_row",
+          "settings": {
+            "icon": "none",
+            "heading": "Collapse heading",
+            "row_content": "This is the first item's accordion content. It’s hidden by default but smoothly expands on click. You can also include content from a page for a clean and organized look.",
+            "page": ""
+          }
+        },
+        "collapsible_row_w6E7Pt": {
+          "type": "collapsible_row",
+          "settings": {
+            "icon": "none",
+            "heading": "Collapse heading",
+            "row_content": "This is the first item's accordion content. It’s hidden by default but smoothly expands on click. You can also include content from a page for a clean and organized look.",
+            "page": ""
+          }
+        },
+        "collapsible_row_xXMc4B": {
+          "type": "collapsible_row",
+          "settings": {
+            "icon": "none",
+            "heading": "Collapse heading",
+            "row_content": "This is the first item's accordion content. It’s hidden by default but smoothly expands on click. You can also include content from a page for a clean and organized look.",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_JawLPJ",
+        "collapsible_row_rJ6Gqd",
+        "collapsible_row_QgNLf7",
+        "collapsible_row_Tgkrix",
+        "collapsible_row_Gj7DgE",
+        "collapsible_row_H4rXGz",
+        "collapsible_row_w6E7Pt",
+        "collapsible_row_xXMc4B"
+      ],
+      "settings": {
+        "full_width": true,
+        "color_scheme": "scheme-0c4e4ae4-dfc4-4f20-8628-bb0485be0a13",
+        "title": "Collapsible content",
+        "heading_size": "h1",
+        "description": "Use this text to share the information which you like!.",
+        "column_alignment": "center",
+        "first_row": true,
+        "blog_aspect_ratio": "square",
+        "image_placement": "left",
+        "top_space": 160,
+        "bot_space": 160
+      }
+    }
+  },
+  "order": [
+    "main",
+    "collapsible_content_CNM8HX"
+  ]
+}

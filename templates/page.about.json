@@ -1,0 +1,241 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "column_alignment": "center",
+        "top_space": 140,
+        "bot_space": 140
+      }
+    },
+    "number_counter_gjbKdm": {
+      "type": "number-counter",
+      "blocks": {
+        "icon_RAVgfp": {
+          "type": "icon",
+          "settings": {
+            "title": "Counter block",
+            "heading_size": "h6",
+            "text": "",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary",
+            "value": "50",
+            "value_text": "K",
+            "column_alignment": "center"
+          }
+        },
+        "icon_A4WVeY": {
+          "type": "icon",
+          "settings": {
+            "title": "Counter block",
+            "heading_size": "h6",
+            "text": "",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary",
+            "value": "50",
+            "value_text": "K",
+            "column_alignment": "center"
+          }
+        },
+        "icon_ji7VmF": {
+          "type": "icon",
+          "settings": {
+            "title": "Counter block",
+            "heading_size": "h6",
+            "text": "",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary",
+            "value": "50",
+            "value_text": "K",
+            "column_alignment": "center"
+          }
+        },
+        "icon_ebtV4G": {
+          "type": "icon",
+          "settings": {
+            "title": "Counter block",
+            "heading_size": "h6",
+            "text": "",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary",
+            "value": "50",
+            "value_text": "K",
+            "column_alignment": "center"
+          }
+        }
+      },
+      "block_order": [
+        "icon_RAVgfp",
+        "icon_A4WVeY",
+        "icon_ji7VmF",
+        "icon_ebtV4G"
+      ],
+      "settings": {
+        "full_width": false,
+        "color_scheme": "",
+        "title": "",
+        "heading_size": "h1",
+        "description": "",
+        "column_alignment": "center",
+        "hide_image": true,
+        "top_space": 140,
+        "bot_space": 140
+      }
+    },
+    "revealing_text_img_UEMMzm": {
+      "type": "revealing-text-img",
+      "blocks": {
+        "column_aJxNC6": {
+          "type": "column",
+          "settings": {}
+        },
+        "column_HrVw3K": {
+          "type": "column",
+          "settings": {}
+        },
+        "column_4dgHnU": {
+          "type": "column",
+          "settings": {}
+        },
+        "column_JW4pKq": {
+          "type": "column",
+          "settings": {}
+        },
+        "column_Y86WDV": {
+          "type": "column",
+          "settings": {}
+        },
+        "column_abYjAA": {
+          "type": "column",
+          "settings": {}
+        },
+        "column_ECRHe9": {
+          "type": "column",
+          "settings": {}
+        },
+        "column_rFenUT": {
+          "type": "column",
+          "settings": {}
+        },
+        "column_iKgPiA": {
+          "type": "column",
+          "settings": {}
+        },
+        "column_46QeHN": {
+          "type": "column",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "column_aJxNC6",
+        "column_HrVw3K",
+        "column_4dgHnU",
+        "column_JW4pKq",
+        "column_Y86WDV",
+        "column_abYjAA",
+        "column_ECRHe9",
+        "column_rFenUT",
+        "column_iKgPiA",
+        "column_46QeHN"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "heading": "This section includes a scroll based animation where the text is revealed as you scroll down",
+        "heading_size": "h1",
+        "enable_img": true,
+        "author_name": "Creator name",
+        "author_profession": "Profession",
+        "rotate_img": false,
+        "curve": "both",
+        "curve_opacity": 30,
+        "top_space": 0,
+        "bot_space": 0
+      }
+    },
+    "icons_with_text_tG4CPW": {
+      "type": "icons-with-text",
+      "blocks": {
+        "icon_kjExCH": {
+          "type": "Icon",
+          "settings": {
+            "svg_icons": "",
+            "title": "Icon heading",
+            "text": "Add short description for this block.",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary"
+          }
+        },
+        "icon_TR3A3J": {
+          "type": "Icon",
+          "settings": {
+            "svg_icons": "",
+            "title": "Icon heading",
+            "text": "Add short description for this block.",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary"
+          }
+        },
+        "icon_hL46Bb": {
+          "type": "Icon",
+          "settings": {
+            "svg_icons": "",
+            "title": "Icon heading",
+            "text": "Add short description for this block.",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "icon_kjExCH",
+        "icon_TR3A3J",
+        "icon_hL46Bb"
+      ],
+      "name": "t:sections.icons-with-text.presets.name",
+      "settings": {
+        "full_width": true,
+        "color_scheme": "",
+        "title": "",
+        "heading_size": "h1",
+        "description": "",
+        "column_alignment": "center",
+        "image_hide": true,
+        "block_styles": "grid__items",
+        "vertical_alignment": "center",
+        "block_column_alignment": "center",
+        "mobile_column_alignment": "center",
+        "desktop": "3",
+        "enable_slider": false,
+        "pagination": "none",
+        "pagination_style": "regular",
+        "autoplay_delay": 2,
+        "space": 20,
+        "top_space": 160,
+        "bot_space": 160
+      }
+    }
+  },
+  "order": [
+    "main",
+    "number_counter_gjbKdm",
+    "revealing_text_img_UEMMzm",
+    "icons_with_text_tG4CPW"
+  ]
+}
