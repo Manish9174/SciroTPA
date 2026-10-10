@@ -83,8 +83,8 @@
 
   #sr-{{ sid }} .sr__badge {
     flex: 0 0 auto;
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     margin-bottom: 14px;
     border-radius: 50%;
     background: var(--sr-badge-bg);
@@ -127,6 +127,7 @@
     font-size: .6em;
     line-height: 0;
     margin-left: 1px;
+    display:none;
   }
 
   #sr-{{ sid }} .sr__text {
@@ -267,13 +268,13 @@
 
                 {%- if block.settings.title != blank -%}
                   <h3 class="sr__title">
-                    {{- block.settings.title -}}
+                    {{- block.settings.title | truncate: 50 -}}
                     {%- if block.settings.ref != blank -%}<sup>{{ block.settings.ref }}</sup>{%- endif -%}
                   </h3>
                 {%- endif -%}
 
                 {%- if block.settings.text != blank -%}
-                  <p class="sr__text">{{ block.settings.text }}</p>
+                  <p class="sr__text">{{ block.settings.text | truncate: 150 }}</p>
                 {%- endif -%}
 
                 {%- if block.settings.link_label != blank and block.settings.link != blank -%}
@@ -384,7 +385,7 @@
   "name": "Sciro – Research Slider",
   "tag": "section",
   "class": "section-sciro-research",
-  "max_blocks": 15,
+  "max_blocks": 40,
   "settings": [
     {
       "type": "header",
@@ -696,8 +697,7 @@
         {
           "type": "text",
           "id": "ref",
-          "label": "Reference number (superscript)",
-          "default": "1"
+          "label": "Reference number (superscript)"
         },
         {
           "type": "textarea",

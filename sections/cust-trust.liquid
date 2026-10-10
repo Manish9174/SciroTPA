@@ -1,0 +1,396 @@
+{%- comment -%}
+  Certification Logo Marquee
+  File: sections/certification-marquee.liquid
+{%- endcomment -%}
+
+{%- liquid
+  assign logo_count = section.blocks.size
+-%}
+
+<style>
+  #cm-{{ section.id }} {
+    --cm-bg: {{ section.settings.bg_color }};
+    --cm-gap: {{ section.settings.gap_desktop }}px;
+    --cm-logo-h: {{ section.settings.logo_height_desktop }}px;
+    --cm-speed: {{ section.settings.speed }}s;
+    background: var(--cm-bg);
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    overflow: hidden;
+  }
+
+  #cm-{{ section.id }} .cm__heading {
+    text-align: center;
+    margin: 0 0 24px;
+    padding: 0 16px;
+    color: {{ section.settings.heading_color }};
+  }
+
+  #cm-{{ section.id }} .cm__subheading {
+    text-align: center;
+    margin: -12px auto 24px;
+    padding: 0 16px;
+    max-width: 640px;
+    font-size: {{ section.settings.subheading_size }}px;
+    line-height: 1.5;
+    color: {{ section.settings.subheading_color }};
+  }
+
+  #cm-{{ section.id }} .cm__heading + .cm__subheading {
+    margin-top: 8px;
+  }
+
+  #cm-{{ section.id }} .cm__viewport {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    {% if section.settings.fade_edges %}
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+    {% endif %}
+  }
+
+  #cm-{{ section.id }} .cm__track {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    animation: cm-scroll-{{ section.id }} var(--cm-speed) linear infinite;
+    animation-direction: {% if section.settings.direction == 'right' %}reverse{% else %}normal{% endif %};
+    will-change: transform;
+  }
+
+  /* Hover par pause */
+  {% if section.settings.pause_on_hover %}
+  #cm-{{ section.id }} .cm__viewport:hover .cm__track {
+    animation-play-state: paused;
+  }
+  {% endif %}
+
+  /* Har group me logos ke baad gap, taaki loop seamless rahe */
+  #cm-{{ section.id }} .cm__group {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: var(--cm-gap);
+    padding-right: var(--cm-gap);
+  }
+
+  #cm-{{ section.id }} .cm__item {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #cm-{{ section.id }} .cm__item img,
+  #cm-{{ section.id }} .cm__item svg {
+    height: var(--cm-logo-h);
+    width: auto;
+    max-width: none;
+    display: block;
+    object-fit: contain;
+    {% if section.settings.grayscale %}
+    filter: grayscale(1);
+    opacity: 0.8;
+    transition: filter .25s ease, opacity .25s ease;
+    {% endif %}
+  }
+
+  {% if section.settings.grayscale %}
+  #cm-{{ section.id }} .cm__item:hover img {
+    filter: none;
+    opacity: 1;
+  }
+  {% endif %}
+
+  @keyframes cm-scroll-{{ section.id }} {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @media (max-width: 749px) {
+    #cm-{{ section.id }} {
+      --cm-gap: {{ section.settings.gap_mobile }}px;
+      --cm-logo-h: {{ section.settings.logo_height_mobile }}px;
+      --cm-speed: {{ section.settings.speed_mobile }}s;
+      padding-top: {{ section.settings.padding_top | times: 0.6 | round }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.6 | round }}px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #cm-{{ section.id }} .cm__track {
+      animation: none;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+    }
+    #cm-{{ section.id }} .cm__group[aria-hidden="true"] {
+      display: none;
+    }
+  }
+</style>
+
+<section id="cm-{{ section.id }}" class="cm" aria-label="{{ section.settings.heading | default: 'Certifications' | escape }}">
+  {%- if section.settings.heading != blank -%}
+    <h2 class="cm__heading {{ section.settings.heading_size }}">{{ section.settings.heading | escape }}</h2>
+  {%- endif -%}
+
+  {%- if section.settings.subheading != blank -%}
+    <p class="cm__subheading">{{ section.settings.subheading | escape }}</p>
+  {%- endif -%}
+
+  {%- if logo_count > 0 -%}
+    <div class="cm__viewport">
+      <div class="cm__track">
+        {%- comment -%}
+          Logos 2 baar render hote hain (2nd group decorative hai) taaki
+          scroll bina gap ke loop ho. Agar logos kam hain to repeat badha diya jata hai.
+        {%- endcomment -%}
+        {%- assign repeat = 1 -%}
+        {%- if logo_count < 5 -%}{%- assign repeat = 2 -%}{%- endif -%}
+        {%- if logo_count < 3 -%}{%- assign repeat = 3 -%}{%- endif -%}
+
+        {%- for copy in (1..2) -%}
+          <div class="cm__group"{% if copy == 2 %} aria-hidden="true"{% endif %}>
+            {%- for r in (1..repeat) -%}
+              {%- for block in section.blocks -%}
+                {%- if block.settings.image != blank -%}
+                  <div class="cm__item" {{ block.shopify_attributes }}>
+                    {%- if block.settings.link != blank -%}
+                      <a href="{{ block.settings.link }}"{% if copy == 2 or r > 1 %} tabindex="-1"{% endif %}>
+                    {%- endif -%}
+                    {{
+                      block.settings.image
+                      | image_url: width: 400
+                      | image_tag:
+                        loading: 'lazy',
+                        widths: '150, 250, 400',
+                        sizes: '(max-width: 749px) 120px, 200px',
+                        alt: block.settings.alt
+                    }}
+                    {%- if block.settings.link != blank -%}</a>{%- endif -%}
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endfor -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- else -%}
+    <p style="text-align:center;padding:20px;">Logos add karne ke liye "Add block" par click karein.</p>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Certification Marquee",
+  "tag": "div",
+  "class": "section-certification-marquee",
+  "max_blocks": 20,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading (optional)",
+      "default": "Our Certifications"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h3", "label": "Small" },
+        { "value": "h2", "label": "Medium" },
+        { "value": "h1", "label": "Large" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#111111"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Sub heading (optional)",
+      "default": "Trusted quality standards behind every product."
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "label": "Sub heading size (px)",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Sub heading color",
+      "default": "#555555"
+    },
+    {
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Duration, desktop (seconds, kam = fast)",
+      "min": 5,
+      "max": 80,
+      "step": 1,
+      "default": 25
+    },
+    {
+      "type": "range",
+      "id": "speed_mobile",
+      "label": "Duration, mobile (seconds, kam = fast)",
+      "min": 5,
+      "max": 80,
+      "step": 1,
+      "default": 18
+    },
+    {
+      "type": "select",
+      "id": "direction",
+      "label": "Direction",
+      "options": [
+        { "value": "left", "label": "Right to left" },
+        { "value": "right", "label": "Left to right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Hover par pause",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "fade_edges",
+      "label": "Left/right edges par fade",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Logo size & spacing"
+    },
+    {
+      "type": "range",
+      "id": "logo_height_desktop",
+      "label": "Logo height, desktop (px)",
+      "min": 30,
+      "max": 200,
+      "step": 5,
+      "default": 90
+    },
+    {
+      "type": "range",
+      "id": "logo_height_mobile",
+      "label": "Logo height, mobile (px)",
+      "min": 24,
+      "max": 150,
+      "step": 2,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "gap_desktop",
+      "label": "Logos ke beech gap, desktop (px)",
+      "min": 0,
+      "max": 150,
+      "step": 2,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "gap_mobile",
+      "label": "Logos ke beech gap, mobile (px)",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "default": 24
+    },
+    {
+      "type": "checkbox",
+      "id": "grayscale",
+      "label": "Logos grayscale (hover par color)",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Section style"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding (px)",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding (px)",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Logo image"
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Alt text",
+          "default": "Certification logo"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Certification Marquee",
+      "blocks": [
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" }
+      ]
+    }
+  ]
+}
+{% endschema %}

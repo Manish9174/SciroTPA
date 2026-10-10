@@ -47,9 +47,9 @@
             "widget_style": "card",
             "widget_style_card_selector": "radio_button",
             "subscription_policy_url": "",
-            "color_text_body": "#232F63",
-            "dividers_color": "#232F63",
-            "background_color": "#FFFFFF",
+            "color_text_body": "#232f63",
+            "dividers_color": "#232f63",
+            "background_color": "#ffffff",
             "border_thickness": 2,
             "border_radius": 9,
             "product": "{{product}}"
@@ -122,116 +122,44 @@
         "bot_space": 60
       }
     },
-    "cust_research_N9436D": {
-      "type": "cust-research",
+    "slideshow_LAEGJY": {
+      "type": "slideshow",
       "blocks": {
-        "study_dFfByE": {
-          "type": "study",
+        "slide_b7mT9U": {
+          "type": "slide",
           "settings": {
-            "badge_text": "Gut",
-            "year": "Study Year | 2024",
-            "title": "Journal name goes here",
-            "ref": "1",
-            "text": "Add a short, plain-language summary of a published study on probiotic strains and digestive comfort.",
-            "link_label": "Evidence",
+            "image": "shopify://shop_images/PPage_Guava1.jpg",
+            "mobile_image": "shopify://shop_images/PPage_Guava1.jpg",
+            "color_scheme": "scheme-1",
+            "heading": "",
+            "heading_size": "h2",
+            "text": "",
+            "button_label": "",
             "link": "",
-            "new_tab": true
-          }
-        },
-        "study_PXmUtM": {
-          "type": "study",
-          "settings": {
-            "badge_text": "Immune",
-            "year": "Study Year | 2023",
-            "title": "Journal name goes here",
-            "ref": "2",
-            "text": "Add a short, plain-language summary of a published study on vitamins and everyday immune support.",
-            "link_label": "Evidence",
-            "link": "",
-            "new_tab": true
-          }
-        },
-        "study_LWJqXD": {
-          "type": "study",
-          "settings": {
-            "badge_text": "Greens",
-            "year": "Study Year | 2022",
-            "title": "Journal name goes here",
-            "ref": "3",
-            "text": "Add a short, plain-language summary of a published study on leafy greens and antioxidant intake.",
-            "link_label": "Evidence",
-            "link": "",
-            "new_tab": true
-          }
-        },
-        "study_h38Cpn": {
-          "type": "study",
-          "settings": {
-            "badge_text": "Enzymes",
-            "year": "Study Year | 2021",
-            "title": "Journal name goes here",
-            "ref": "4",
-            "text": "Add a short, plain-language summary of a published study on digestive enzymes and nutrient absorption.",
-            "link_label": "Evidence",
-            "link": "",
-            "new_tab": true
-          }
-        },
-        "study_JEpUbP": {
-          "type": "study",
-          "settings": {
-            "badge_text": "Minerals",
-            "year": "Study Year | 2020",
-            "title": "Journal name goes here",
-            "ref": "5",
-            "text": "Add a short, plain-language summary of a published study on minerals and daily energy levels.",
-            "link_label": "Evidence",
-            "link": "",
-            "new_tab": true
+            "target": false,
+            "content_alignment": "center",
+            "box_align": "justify-content-center align-items-center",
+            "desktop_content_width": 1000,
+            "transparent": 1,
+            "mobile_transparent": 1,
+            "image_transparent": 0
           }
         }
       },
       "block_order": [
-        "study_dFfByE",
-        "study_PXmUtM",
-        "study_LWJqXD",
-        "study_h38Cpn",
-        "study_JEpUbP"
+        "slide_b7mT9U"
       ],
-      "name": "Sciro – Research Slider",
+      "name": "t:sections.slideshow.name",
       "settings": {
-        "eyebrow": "Backed by research",
-        "heading": "The Research Behind Every Formula",
-        "heading_size": 32,
-        "heading_gap": 30,
-        "desktop_slides": 3,
-        "tablet_slides": 2,
-        "mobile_slides": "1.1",
-        "desktop_gap": 30,
-        "tablet_gap": 20,
-        "mobile_gap": 12,
-        "speed": 500,
-        "loop": false,
-        "autoplay": false,
-        "autoplay_delay": 4,
-        "arrow_align": "flex-start",
-        "card_min_height": 370,
-        "card_radius": 0,
-        "max_width": 1200,
-        "padding_top": 40,
-        "padding_bottom": 50,
-        "bg_color": "#ffffff",
-        "eyebrow_color": "#111111",
-        "heading_color": "#111111",
-        "card_bg": "#eeeeee",
-        "badge_bg": "#b8c0c4",
-        "badge_text_color": "#2a2f33",
-        "year_color": "#4a6b7a",
-        "title_color": "#111111",
-        "text_color": "#1a1a1a",
-        "link_color": "#111111",
-        "arrow_bg": "#dcecf8",
-        "arrow_color": "#111111"
+        "full_width": true,
+        "height": "adapt",
+        "mobile_height": "adapt",
+        "bottom_placement": false,
+        "animation": "slide",
+        "pagination": "arrow",
+        "pagination_style": "artistic",
+        "autoplay_delay": 0,
+        "mobile_navigation": false
       }
     },
     "feature_showcase_rXxtnp": {
@@ -271,7 +199,7 @@
       "name": "t:sections.feature_showcase.presets",
       "settings": {
         "full_width": false,
-        "color_scheme": "scheme-2",
+        "color_scheme": "scheme-d319f50a-f4a4-4a15-ba5e-8b9c15da1ba4",
         "title": "Feature showcase",
         "heading_size": "h1",
         "description": "Use this text to share the information which you like!.",
@@ -308,8 +236,9 @@
       "settings": {
         "full_width": false,
         "color_scheme": "",
+        "image": "shopify://shop_images/target_3.jpg",
         "image_placement": "left",
-        "image_width": "medium",
+        "image_width": "large",
         "aspect_ratio": "adapt",
         "column_alignment": "center",
         "mobile_column_alignment": "center",
@@ -318,12 +247,14 @@
         "bot_space": 8
       }
     },
-    "slideshow_d8GPbP": {
+    "slideshow_cUMNfY": {
       "type": "slideshow",
       "blocks": {
-        "slide_bzpzQ3": {
+        "slide_NTKiqW": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/AllPPage.jpg",
+            "mobile_image": "shopify://shop_images/AllPPage.jpg",
             "color_scheme": "scheme-1",
             "heading": "",
             "heading_size": "h2",
@@ -333,20 +264,20 @@
             "target": false,
             "content_alignment": "center",
             "box_align": "justify-content-center align-items-center",
-            "desktop_content_width": 580,
+            "desktop_content_width": 1000,
             "transparent": 1,
             "mobile_transparent": 1,
-            "image_transparent": 0.3
+            "image_transparent": 0
           }
         }
       },
       "block_order": [
-        "slide_bzpzQ3"
+        "slide_NTKiqW"
       ],
       "name": "t:sections.slideshow.name",
       "settings": {
         "full_width": true,
-        "height": "medium",
+        "height": "adapt",
         "mobile_height": "adapt",
         "bottom_placement": false,
         "animation": "slide",
@@ -356,89 +287,519 @@
         "mobile_navigation": false
       }
     },
-    "testimonial_fmDAdi": {
-      "type": "testimonial",
+    "icons_with_text_JgJ4PV": {
+      "type": "icons-with-text",
       "blocks": {
-        "column_L7Vnfh": {
-          "type": "column",
+        "icon_eTDxYn": {
+          "type": "Icon",
           "settings": {
-            "title": "Heading",
-            "text": "Add customer reviews and testimonials to showcase your store's happy customers",
-            "enable_profile": true,
-            "author_radius": 0,
-            "name": "Author name",
-            "designation": "Add client's role",
-            "rating_value": 3,
-            "product": ""
+            "image": "shopify://shop_images/Layer_3.png",
+            "svg_icons": "",
+            "title": "",
+            "text": "",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary"
           }
         },
-        "column_VhA7GH": {
-          "type": "column",
+        "icon_iF6AyK": {
+          "type": "Icon",
           "settings": {
-            "title": "Heading",
-            "text": "Add customer reviews and testimonials to showcase your store's happy customers",
-            "enable_profile": true,
-            "author_radius": 0,
-            "name": "Author name",
-            "designation": "Add client's role",
-            "rating_value": 3,
-            "product": ""
+            "image": "shopify://shop_images/Vector_Smart_Object-2.png",
+            "svg_icons": "",
+            "title": "",
+            "text": "",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary"
           }
         },
-        "column_Y4c8kz": {
-          "type": "column",
+        "icon_WmMrAz": {
+          "type": "Icon",
           "settings": {
-            "title": "Heading",
-            "text": "Add customer reviews and testimonials to showcase your store's happy customers",
-            "enable_profile": true,
-            "author_radius": 0,
-            "name": "Author name",
-            "designation": "Add client's role",
-            "rating_value": 3,
-            "product": ""
+            "image": "shopify://shop_images/Vector_Smart_Object-1.png",
+            "svg_icons": "",
+            "title": "",
+            "text": "",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary"
           }
         },
-        "column_Hj6pWQ": {
-          "type": "column",
+        "icon_YJqDMh": {
+          "type": "Icon",
           "settings": {
-            "title": "Heading",
-            "text": "Add customer reviews and testimonials to showcase your store's happy customers",
-            "enable_profile": true,
-            "author_radius": 0,
-            "name": "Author name",
-            "designation": "Add client's role",
-            "rating_value": 3,
-            "product": ""
+            "image": "shopify://shop_images/Vector_Smart_Object-3.png",
+            "svg_icons": "",
+            "title": "",
+            "text": "",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary"
           }
         }
       },
       "block_order": [
-        "column_L7Vnfh",
-        "column_VhA7GH",
-        "column_Y4c8kz",
-        "column_Hj6pWQ"
+        "icon_eTDxYn",
+        "icon_iF6AyK",
+        "icon_WmMrAz",
+        "icon_YJqDMh"
       ],
-      "name": "t:sections.testimonial.presets.name",
+      "name": "t:sections.icons-with-text.presets.name",
       "settings": {
-        "full_width": false,
+        "full_width": true,
         "color_scheme": "",
-        "title": "Scitific Evidence",
+        "title": "",
         "heading_size": "h1",
-        "description": "Use this text to share the information which you like!.",
+        "description": "",
         "column_alignment": "center",
-        "color_scheme_block": "",
-        "block_alignment": "start",
-        "border-width": 1,
-        "radius": 5,
-        "product_position": "bottom",
-        "desktop": "3",
+        "image_hide": true,
+        "image_width": 70,
+        "block_styles": "list__item",
+        "vertical_alignment": "center",
+        "block_column_alignment": "center",
+        "mobile_column_alignment": "center",
+        "desktop": "4",
         "enable_slider": false,
+        "pagination": "none",
+        "pagination_style": "artistic",
+        "autoplay_delay": 2,
+        "space": 20,
+        "top_space": 16,
+        "bot_space": 16
+      }
+    },
+    "cust_research_nAVJcy": {
+      "type": "cust-research",
+      "blocks": {
+        "study_mQNrzk": {
+          "type": "study",
+          "settings": {
+            "badge_text": "Recharge",
+            "year": "Study Feb|  2007 ",
+            "title": "American College of Sports Medicine position stand. Exercise and fluid replacement",
+            "ref": "1",
+            "text": "This Position Stand provides guidance on fluid replacement to sustain appropriate hydration of individuals performing physical activity.",
+            "link_label": "Evidence",
+            "link": "",
+            "new_tab": true
+          }
+        },
+        "study_gtcm49": {
+          "type": "study",
+          "settings": {
+            "badge_text": "Immune",
+            "year": "Study Year | 2023",
+            "title": "Journal name goes here",
+            "ref": "2",
+            "text": "Add a short, plain-language summary of a published study on vitamins and everyday immune support.",
+            "link_label": "Evidence",
+            "link": "",
+            "new_tab": true
+          }
+        },
+        "study_6Exdci": {
+          "type": "study",
+          "settings": {
+            "badge_text": "Greens",
+            "year": "Study Year | 2022",
+            "title": "Journal name goes here",
+            "ref": "3",
+            "text": "Add a short, plain-language summary of a published study on leafy greens and antioxidant intake.",
+            "link_label": "Evidence",
+            "link": "",
+            "new_tab": true
+          }
+        },
+        "study_apk3fk": {
+          "type": "study",
+          "settings": {
+            "badge_text": "Enzymes",
+            "year": "Study Year | 2021",
+            "title": "Journal name goes here",
+            "ref": "4",
+            "text": "Add a short, plain-language summary of a published study on digestive enzymes and nutrient absorption.",
+            "link_label": "Evidence",
+            "link": "",
+            "new_tab": true
+          }
+        },
+        "study_xntbWX": {
+          "type": "study",
+          "settings": {
+            "badge_text": "Minerals",
+            "year": "Study Year | 2020",
+            "title": "Journal name goes here",
+            "ref": "5",
+            "text": "Add a short, plain-language summary of a published study on minerals and daily energy levels.",
+            "link_label": "Evidence",
+            "link": "",
+            "new_tab": true
+          }
+        }
+      },
+      "block_order": [
+        "study_mQNrzk",
+        "study_gtcm49",
+        "study_6Exdci",
+        "study_apk3fk",
+        "study_xntbWX"
+      ],
+      "disabled": true,
+      "name": "Sciro – Research Slider",
+      "settings": {
+        "eyebrow": "Backed by research",
+        "heading": "The Research Behind Every Formula",
+        "heading_size": 32,
+        "heading_gap": 30,
+        "desktop_slides": 3,
+        "tablet_slides": 2,
+        "mobile_slides": "1.1",
+        "desktop_gap": 30,
+        "tablet_gap": 20,
+        "mobile_gap": 12,
+        "speed": 500,
+        "loop": false,
+        "autoplay": false,
+        "autoplay_delay": 4,
+        "arrow_align": "flex-start",
+        "card_min_height": 370,
+        "card_radius": 0,
+        "max_width": 1200,
+        "padding_top": 40,
+        "padding_bottom": 50,
+        "bg_color": "#ffffff",
+        "eyebrow_color": "#111111",
+        "heading_color": "#111111",
+        "card_bg": "#eeeeee",
+        "badge_bg": "#b8c0c4",
+        "badge_text_color": "#2a2f33",
+        "year_color": "#4a6b7a",
+        "title_color": "#111111",
+        "text_color": "#1a1a1a",
+        "link_color": "#111111",
+        "arrow_bg": "#dcecf8",
+        "arrow_color": "#111111"
+      }
+    },
+    "cust_research_xP8xij": {
+      "type": "cust-research",
+      "blocks": {
+        "study_4XCeEe": {
+          "type": "study",
+          "settings": {
+            "badge_text": "Recharge",
+            "year": "Study Feb|  2007 ",
+            "title": "American College of Sports Medicine position stand. Exercise and fluid replacement",
+            "ref": "1",
+            "text": "This Position Stand provides guidance on fluid replacement to sustain appropriate hydration of individuals performing physical activity.",
+            "link_label": "Evidence",
+            "link": "https://pubmed.ncbi.nlm.nih.gov/17277604/",
+            "new_tab": true
+          }
+        },
+        "study_fWp3Pw": {
+          "type": "study",
+          "settings": {
+            "badge_text": "Recharge",
+            "year": "Study Jun | 1991",
+            "title": "Potassium regulation during exercise and recovery",
+            "ref": "2",
+            "text": "The concentrations of extracellular and intracellular potassium (K+) in skeletal muscle influence muscle cell function and are also important determinants of cardiovascular and respiratory function.",
+            "link_label": "Evidence",
+            "link": "https://pubmed.ncbi.nlm.nih.gov/1656509/",
+            "new_tab": true
+          }
+        },
+        "study_bh4Q7h": {
+          "type": "study",
+          "settings": {
+            "badge_text": "Recharge",
+            "year": "Study May | 2018",
+            "title": "The Effects of an Oral Taurine Dose and Supplementation Period on Endurance Exercise Performance in Humans: A Meta-Analysis",
+            "ref": "2",
+            "text": "Taurine is central to many physiological processes, some of which are augmented by exogenous supply and have the potential to facilitate endurance performance; however, its independent effects on performance have not been systematically analysed.",
+            "link_label": "Evidence",
+            "link": "https://pubmed.ncbi.nlm.nih.gov/29546641/",
+            "new_tab": true
+          }
+        },
+        "study_WCUzW3": {
+          "type": "study",
+          "settings": {
+            "badge_text": "Recharge",
+            "year": "Study  Oct |  2020 ",
+            "title": "Effects of vitamin C on oxidative stress, inflammation, muscle soreness, and strength following acute exercise: meta-analyses of randomized clinical trials",
+            "ref": "1",
+            "text": "Vitamin C (ascorbic acid) seems to attenuate the overproduction of reactive species during and after exercises. Yet, no meta-analysis has summarized the magnitude of this effect.",
+            "link_label": "Evidence",
+            "link": "https://pubmed.ncbi.nlm.nih.gov/32162041/",
+            "new_tab": true
+          }
+        },
+        "study_NGgfrp": {
+          "type": "study",
+          "settings": {
+            "badge_text": "Recharge",
+            "year": "Study  Apr | 2022",
+            "title": "Can Low-Dose of Dietary Vitamin E Supplementation Reduce Exercise-Induced Muscle Damage and Oxidative Stress? A Meta-Analysis of Randomized Controlled Trials",
+            "ref": "1",
+            "text": "Vitamin E plays an important role in attenuating muscle damage caused by oxidative stress and inflammation.",
+            "link_label": "Evidence",
+            "link": "https://pubmed.ncbi.nlm.nih.gov/35458161/",
+            "new_tab": true
+          }
+        },
+        "study_y4zHgy": {
+          "type": "study",
+          "settings": {
+            "badge_text": "Recharge",
+            "year": "Study Jul | 1984",
+            "title": "Water and electrolyte requirements during exercise",
+            "ref": "1",
+            "text": "These studies demonstrate the body's capacity to minimize electrolyte losses during acute and repeated bouts of exercise and dehydration.",
+            "link_label": "Evidence",
+            "link": "https://pubmed.ncbi.nlm.nih.gov/6571236/",
+            "new_tab": true
+          }
+        },
+        "study_JtDc3n": {
+          "type": "study",
+          "settings": {
+            "badge_text": "Recharge",
+            "year": "Study Mar |  2021 ",
+            "title": "What is the role of magnesium for skeletal muscle cramps? A Cochrane Review summary with commentary",
+            "ref": "1",
+            "text": "Department of Medical and Surgical Specialties and Dentistry, University of Campania \"Luigi Vanvitelli\", Naples, Italy.",
+            "link_label": "Evidence",
+            "link": "https://pubmed.ncbi.nlm.nih.gov/33657750/",
+            "new_tab": true
+          }
+        },
+        "study_FaDjR7": {
+          "type": "study",
+          "settings": {
+            "badge_text": "Recharge",
+            "year": "Study Apr | 2022",
+            "title": "Taurine in sports and exercise",
+            "ref": "1",
+            "text": "Taurine has become a popular supplement among athletes attempting to improve performance. While the effectiveness of taurine as an ergogenic aid remains controversial",
+            "link_label": "Evidence",
+            "link": "https://www.tandfonline.com/doi/full/10.1186/s12970-021-00438-0",
+            "new_tab": true
+          }
+        },
+        "study_DRbmwt": {
+          "type": "study",
+          "settings": {
+            "badge_text": "Recharge",
+            "year": "Study Nov | 2020",
+            "title": "Antioxidants and Exercise Performance: With a Focus on Vitamin E and C Supplementation",
+            "ref": "1",
+            "text": "Antioxidant supplementation, including vitamin E and C supplementation, has recently received recognition among athletes as a possible method for enhancing athletic performance.",
+            "link_label": "Evidence",
+            "link": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7697466/",
+            "new_tab": true
+          }
+        },
+        "study_ChnUE7": {
+          "type": "study",
+          "settings": {
+            "badge_text": "Recharge",
+            "year": "Study Nov | 2019",
+            "title": "Clinical evaluation of Emblica Officinalis Gatertn (Amla) in healthy human subjects: Health benefits and safety results from a randomized, double-blind, crossover placebo-controlled study",
+            "ref": "1",
+            "text": "The preventive efficacies and safety of Emblica Officinalis Gatertn (Amla), a most important and extensively studied plant in the traditional Indian Ayurvedic system of medicine, are presented. Eligible healthy adult subjects (n = 15) were randomized to receive either amla or placebo (500 mg per day) during an 18-week study.",
+            "link_label": "Evidence",
+            "link": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6926135/",
+            "new_tab": true
+          }
+        },
+        "study_PBmH9H": {
+          "type": "study",
+          "settings": {
+            "badge_text": "Recharge",
+            "year": "Study Apr | 2022",
+            "title": "Functional and Nutraceutical Significance of Amla (Phyllanthus emblica",
+            "ref": "1",
+            "text": "Phyllanthus emblica L. (also popularly known as amla) is a tree native to the India and Southeast Asia regions that produces fruits rich in bioactive compounds that could be explored as part of the increasing interest in naturally occurring compounds with biological activity.",
+            "link_label": "Evidence",
+            "link": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9137578/",
+            "new_tab": true
+          }
+        },
+        "study_Ctxma7": {
+          "type": "study",
+          "settings": {
+            "badge_text": "Recharge",
+            "year": "Study  June  |  2023 ",
+            "title": "Vitamin B6",
+            "ref": "1",
+            "text": "Vitamin B6 is a water-soluble vitamin that is naturally present in many foods, added to others, and available as a dietary supplement.",
+            "link_label": "Evidence",
+            "link": "https://ods.od.nih.gov/factsheets/VitaminB6-HealthProfessional/",
+            "new_tab": true
+          }
+        },
+        "study_J8Lbn9": {
+          "type": "study",
+          "settings": {
+            "badge_text": "Recharge",
+            "year": "Study Jan|  2018 ",
+            "title": "Metabolomic Analysis and Antioxidant Effect of Amla (Emblica officinalis) Extract in Preventing Oxidative Stress-Induced Red Cell Damage and Plasma Protein Alterations: An In Vitro Study",
+            "ref": "1",
+            "text": "Amla (Emblica officinalis) has antidiabetic, hypolipidemic, anti-inflammatory, and antioxidant properties",
+            "link_label": "Evidence",
+            "link": "https://pubmed.ncbi.nlm.nih.gov/29064307/",
+            "new_tab": true
+          }
+        },
+        "study_GzQtzj": {
+          "type": "study",
+          "settings": {
+            "badge_text": "Recharge",
+            "year": "Study Mar | 2026",
+            "title": "The Role of Electrolytes in Muscle Pain Syndromes: A Systematic Review and Meta-Analysis With Implications for Temporomandibular Disorder",
+            "ref": "1",
+            "text": "Temporomandibular disorders (TMDs) are a major cause of chronic orofacial pain, with myalgia of the masticatory muscles being central to symptom burden.",
+            "link_label": "Evidence",
+            "link": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12994056/",
+            "new_tab": true
+          }
+        },
+        "study_fYJ3gy": {
+          "type": "study",
+          "settings": {
+            "badge_text": "Recharge",
+            "year": "Study Dec |  2025",
+            "title": "Taurine in Sports: Impact on Athletic Performance, Muscle Recovery and Neurological Function in Athletes – A Narrative Review",
+            "ref": "1",
+            "text": "Purpose: This review examines the ergogenic potential of taurine in athletes, focusing on its effects on aerobic and anaerobic performance",
+            "link_label": "Evidence",
+            "link": "https://apcz.umk.pl/QS/article/view/66876",
+            "new_tab": true
+          }
+        },
+        "study_8B7rmA": {
+          "type": "study",
+          "settings": {
+            "badge_text": "Recharge",
+            "year": "Study May |  2025 ",
+            "title": "Effect of Emblica officinalis (Amla) Extract Versus Exercise on Lipid Levels in Participants With Abnormal Lipid Levels: An Open-Label Clinical Study",
+            "ref": "1",
+            "text": "Dyslipidemia, marked by abnormal lipid levels, significantly increases the risk of cardiovascular diseases.",
+            "link_label": "Evidence",
+            "link": "https://pubmed.ncbi.nlm.nih.gov/40621119/",
+            "new_tab": true
+          }
+        },
+        "study_69dYHD": {
+          "type": "study",
+          "settings": {
+            "badge_text": "Recharge",
+            "year": "Study Feb |  2016",
+            "title": "Low vitamin C values are linked with decreased physical performance and increased oxidative stress: reversal by vitamin C supplementation",
+            "ref": "",
+            "text": "Write a short, plain-language summary of the published study here.",
+            "link_label": "Evidence",
+            "link": "https://pubmed.ncbi.nlm.nih.gov/25526969/",
+            "new_tab": true
+          }
+        }
+      },
+      "block_order": [
+        "study_4XCeEe",
+        "study_fWp3Pw",
+        "study_bh4Q7h",
+        "study_WCUzW3",
+        "study_NGgfrp",
+        "study_y4zHgy",
+        "study_JtDc3n",
+        "study_FaDjR7",
+        "study_DRbmwt",
+        "study_ChnUE7",
+        "study_PBmH9H",
+        "study_Ctxma7",
+        "study_J8Lbn9",
+        "study_GzQtzj",
+        "study_fYJ3gy",
+        "study_8B7rmA",
+        "study_69dYHD"
+      ],
+      "name": "Sciro – Research Slider",
+      "settings": {
+        "eyebrow": "Backed by research",
+        "heading": "The Research Behind Every Formula",
+        "heading_size": 32,
+        "heading_gap": 30,
+        "desktop_slides": 3,
+        "tablet_slides": 2,
+        "mobile_slides": "1.1",
+        "desktop_gap": 30,
+        "tablet_gap": 20,
+        "mobile_gap": 12,
+        "speed": 500,
+        "loop": false,
+        "autoplay": false,
+        "autoplay_delay": 4,
+        "arrow_align": "flex-start",
+        "card_min_height": 370,
+        "card_radius": 0,
+        "max_width": 1200,
+        "padding_top": 40,
+        "padding_bottom": 50,
+        "bg_color": "#ffffff",
+        "eyebrow_color": "#111111",
+        "heading_color": "#111111",
+        "card_bg": "#eeeeee",
+        "badge_bg": "#b8c0c4",
+        "badge_text_color": "#2a2f33",
+        "year_color": "#4a6b7a",
+        "title_color": "#111111",
+        "text_color": "#1a1a1a",
+        "link_color": "#111111",
+        "arrow_bg": "#dcecf8",
+        "arrow_color": "#111111"
+      }
+    },
+    "slideshow_d8GPbP": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_bzpzQ3": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/SCIRO_Lychee_A__04.jpg",
+            "color_scheme": "scheme-1",
+            "heading": "",
+            "heading_size": "h2",
+            "text": "",
+            "button_label": "",
+            "link": "",
+            "target": false,
+            "content_alignment": "center",
+            "box_align": "justify-content-center align-items-center",
+            "desktop_content_width": 1000,
+            "transparent": 1,
+            "mobile_transparent": 1,
+            "image_transparent": 0
+          }
+        }
+      },
+      "block_order": [
+        "slide_bzpzQ3"
+      ],
+      "disabled": true,
+      "name": "t:sections.slideshow.name",
+      "settings": {
+        "full_width": true,
+        "height": "adapt",
+        "mobile_height": "adapt",
+        "bottom_placement": false,
+        "animation": "slide",
         "pagination": "arrow",
         "pagination_style": "artistic",
         "autoplay_delay": 0,
-        "space": 20,
-        "top_space": 28,
-        "bot_space": 28
+        "mobile_navigation": false
       }
     },
     "related_product_d6tyGJ": {
@@ -471,152 +832,18 @@
         "top_space": 40,
         "bot_space": 40
       }
-    },
-    "icons_with_text_JgJ4PV": {
-      "type": "icons-with-text",
-      "blocks": {
-        "icon_eTDxYn": {
-          "type": "Icon",
-          "settings": {
-            "svg_icons": "",
-            "title": "Icon heading",
-            "text": "Add short description for this block.",
-            "button_label": "",
-            "button_link": "",
-            "btn_style": "primary"
-          }
-        },
-        "icon_iF6AyK": {
-          "type": "Icon",
-          "settings": {
-            "svg_icons": "",
-            "title": "Icon heading",
-            "text": "Add short description for this block.",
-            "button_label": "",
-            "button_link": "",
-            "btn_style": "primary"
-          }
-        },
-        "icon_QGpN9R": {
-          "type": "Icon",
-          "settings": {
-            "svg_icons": "",
-            "title": "Icon heading",
-            "text": "Add short description for this block.",
-            "button_label": "",
-            "button_link": "",
-            "btn_style": "primary"
-          }
-        },
-        "icon_eqbAV9": {
-          "type": "Icon",
-          "settings": {
-            "svg_icons": "",
-            "title": "Icon heading",
-            "text": "Add short description for this block.",
-            "button_label": "",
-            "button_link": "",
-            "btn_style": "primary"
-          }
-        }
-      },
-      "block_order": [
-        "icon_eTDxYn",
-        "icon_iF6AyK",
-        "icon_QGpN9R",
-        "icon_eqbAV9"
-      ],
-      "name": "t:sections.icons-with-text.presets.name",
-      "settings": {
-        "full_width": true,
-        "color_scheme": "",
-        "title": "",
-        "heading_size": "h1",
-        "description": "",
-        "column_alignment": "center",
-        "image_hide": true,
-        "image_width": 100,
-        "block_styles": "grid__items",
-        "vertical_alignment": "center",
-        "block_column_alignment": "center",
-        "mobile_column_alignment": "center",
-        "desktop": "4",
-        "enable_slider": true,
-        "pagination": "none",
-        "pagination_style": "artistic",
-        "autoplay_delay": 2,
-        "space": 20,
-        "top_space": 16,
-        "bot_space": 16
-      }
-    },
-    "marquee_UqpgxV": {
-      "type": "marquee",
-      "blocks": {
-        "heading_thJrng": {
-          "type": "heading",
-          "settings": {
-            "block_heading": "Rooted in Science.",
-            "text": "Grown for life.",
-            "block_img_link": ""
-          }
-        },
-        "heading_j6G8Pm": {
-          "type": "heading",
-          "settings": {
-            "block_heading": "Rooted in Science.",
-            "text": "Grown for life.",
-            "block_img_link": ""
-          }
-        },
-        "heading_jdG7TQ": {
-          "type": "heading",
-          "settings": {
-            "block_heading": "Rooted in Science.",
-            "text": "Grown for life.",
-            "block_img_link": ""
-          }
-        },
-        "heading_qaa3Ae": {
-          "type": "heading",
-          "settings": {
-            "block_heading": "Rooted in Science.",
-            "text": "Grown for life.",
-            "block_img_link": ""
-          }
-        }
-      },
-      "block_order": [
-        "heading_thJrng",
-        "heading_j6G8Pm",
-        "heading_jdG7TQ",
-        "heading_qaa3Ae"
-      ],
-      "name": "t:sections.marquee.name",
-      "settings": {
-        "full_width": true,
-        "color_scheme": "scheme-2",
-        "content_reverse": false,
-        "enable_edgefade": false,
-        "pause_on_hover": true,
-        "speed": 70,
-        "marquee_padding": 3,
-        "heading_size": "h2",
-        "marquee_img_width": 100,
-        "top_space": 20,
-        "bot_space": 20
-      }
     }
   },
   "order": [
     "main",
-    "cust_research_N9436D",
+    "slideshow_LAEGJY",
     "feature_showcase_rXxtnp",
     "image_with_text_bjQDTG",
-    "slideshow_d8GPbP",
-    "testimonial_fmDAdi",
-    "related_product_d6tyGJ",
+    "slideshow_cUMNfY",
     "icons_with_text_JgJ4PV",
-    "marquee_UqpgxV"
+    "cust_research_nAVJcy",
+    "cust_research_xP8xij",
+    "slideshow_d8GPbP",
+    "related_product_d6tyGJ"
   ]
 }

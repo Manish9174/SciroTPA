@@ -30,7 +30,7 @@
           "type": "menu",
           "settings": {
             "menu_alignment": "center",
-            "menu": "",
+            "menu": "main-menu",
             "heading": false,
             "menu_secondary": "",
             "heading_secondary": false
@@ -40,7 +40,7 @@
           "type": "menu",
           "settings": {
             "menu_alignment": "center",
-            "menu": "",
+            "menu": "policies",
             "heading": false,
             "menu_secondary": "",
             "heading_secondary": false

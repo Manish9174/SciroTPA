@@ -366,7 +366,7 @@
     if (!section || !bottle) return;
 
     var startRotation = {{ section.settings.start_rotation }};
-    var straightAt = {{ section.settings.straight_at }} / 100;
+    var endPoint = "{{ section.settings.animation_length }}";
 
     function initBottleAnimation() {
 
@@ -385,29 +385,25 @@
 
       gsap.killTweensOf(bottle);
 
-      /* Sirf rotation, x/y movement nahi */
       gsap.set(bottle, {
+        x: -35,
+        y: 45,
         rotation: startRotation,
         transformOrigin: "50% 50%"
       });
 
       gsap.to(bottle, {
+        x: 0,
+        y: 0,
         rotation: 0,
         ease: "none",
 
         scrollTrigger: {
           id: "cherry-bottle-animation",
           trigger: section,
-
-          /* Section jaise hi screen ke neeche se dikhna shuru ho */
-          start: "top bottom",
-
-          /* Jab section ka straightAt% hissa screen par dikh jaye */
-          end: function () {
-            return "top " + (window.innerHeight - section.offsetHeight * straightAt) + "px";
-          },
-
-          scrub: 0.3,
+          start: "top 100%",
+          end: endPoint,
+          scrub: 0.5,
           invalidateOnRefresh: true
         }
       });
@@ -435,15 +431,18 @@
       "id": "bg_image",
       "label": "Background image"
     },
-     {
-      "type": "range",
-      "id": "straight_at",
-      "label": "Bottle seedhi ho jab section itna % screen par dikhe",
-      "min": 30,
-      "max": 100,
-      "step": 5,
-      "unit": "%",
-      "default": 90
+    {
+      "type": "select",
+      "id": "animation_length",
+      "label": "Bottle animation speed",
+      "options": [
+        { "value": "top 20%", "label": "Fast (purane jaisi)" },
+        { "value": "center center", "label": "Medium" },
+        { "value": "bottom 60%", "label": "Slow" },
+        { "value": "bottom 30%", "label": "Very slow" }
+      ],
+      "default": "bottom 60%",
+      "info": "Slow ka matlab bottle zyada scroll ke baad seedhi hogi"
     },
     {
       "type": "range",

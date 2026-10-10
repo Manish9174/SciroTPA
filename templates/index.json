@@ -16,6 +16,7 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/MainBanner_High_Lychee.jpg",
+            "mobile_image": "shopify://shop_images/MainBanner_High_Lychee.jpg",
             "color_scheme": "",
             "heading": "",
             "heading_size": "h2",
@@ -35,6 +36,7 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/MainBanner2.jpg",
+            "mobile_image": "shopify://shop_images/MainBanner2.jpg",
             "color_scheme": "",
             "heading": "",
             "heading_size": "h2",
@@ -54,6 +56,7 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/MainBanner11.jpg",
+            "mobile_image": "shopify://shop_images/MainBanner11.jpg",
             "color_scheme": "",
             "heading": "",
             "heading_size": "h2",
@@ -73,6 +76,7 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/MainBanner3.jpg",
+            "mobile_image": "shopify://shop_images/MainBanner3.jpg",
             "color_scheme": "",
             "heading": "",
             "heading_size": "h2",
@@ -108,19 +112,282 @@
         "mobile_navigation": false
       }
     },
+    "icons_with_text_dzWAUz": {
+      "type": "icons-with-text",
+      "blocks": {
+        "icon_GLdwEp": {
+          "type": "Icon",
+          "settings": {
+            "image": "shopify://shop_images/Daily_PERFORMANCE_1.png",
+            "svg_icons": "",
+            "title": "",
+            "text": "<strong>DAILY PERFORMACE</strong>",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary"
+          }
+        },
+        "icon_7VUcwN": {
+          "type": "Icon",
+          "settings": {
+            "image": "shopify://shop_images/blood-drop_18695202.svg",
+            "svg_icons": "",
+            "title": "",
+            "text": "<strong>ELECTROLYTES WITH IMUNITY</strong>",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary"
+          }
+        },
+        "icon_fLDV9w": {
+          "type": "Icon",
+          "settings": {
+            "image": "shopify://shop_images/no-sugar_18781225.svg",
+            "svg_icons": "",
+            "title": "",
+            "text": "<strong>NO SUGAR</strong>",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary"
+          }
+        },
+        "icon_adVbhe": {
+          "type": "Icon",
+          "settings": {
+            "image": "shopify://shop_images/EFFERVESCENT_FOR_FAST_ABSORPTION_ICON_1.png",
+            "svg_icons": "",
+            "title": "",
+            "text": "<strong>EFFERVESCENT FOR FAST ABSORPTION</strong>",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "icon_GLdwEp",
+        "icon_7VUcwN",
+        "icon_fLDV9w",
+        "icon_adVbhe"
+      ],
+      "name": "t:sections.icons-with-text.presets.name",
+      "settings": {
+        "full_width": true,
+        "color_scheme": "",
+        "title": "",
+        "heading_size": "h1",
+        "description": "",
+        "column_alignment": "center",
+        "image_hide": true,
+        "image_width": 50,
+        "block_styles": "list__item",
+        "vertical_alignment": "center",
+        "block_column_alignment": "center",
+        "mobile_column_alignment": "center",
+        "desktop": "4",
+        "enable_slider": true,
+        "pagination": "none",
+        "pagination_style": "artistic",
+        "autoplay_delay": 2,
+        "space": 5,
+        "top_space": 12,
+        "bot_space": 12
+      }
+    },
+    "nutrition_goal_ndRytW": {
+      "type": "nutrition-goal",
+      "blocks": {
+        "benefit_DDjEfw": {
+          "type": "benefit",
+          "settings": {
+            "text": "Want an easy way to support your daily nutrition"
+          }
+        },
+        "benefit_fTpUfB": {
+          "type": "benefit",
+          "settings": {
+            "text": "Are juggling a busy life and need to support your energy levels"
+          }
+        },
+        "benefit_WBtGba": {
+          "type": "benefit",
+          "settings": {
+            "text": "Care about improving gut health and digestion"
+          }
+        },
+        "benefit_tEwA6T": {
+          "type": "benefit",
+          "settings": {
+            "text": "Want to support muscle health without adding more to your routine"
+          }
+        },
+        "benefit_nARgbg": {
+          "type": "benefit",
+          "settings": {
+            "text": "Are optimizing for performance, strength, and longevity or on a GLP-1 journey"
+          }
+        }
+      },
+      "block_order": [
+        "benefit_DDjEfw",
+        "benefit_fTpUfB",
+        "benefit_WBtGba",
+        "benefit_tEwA6T",
+        "benefit_nARgbg"
+      ],
+      "name": "Nutrition Goals",
+      "settings": {
+        "heading": "Nutrition Built for Your Goals",
+        "description": "<p><strong>Nutrition designed to support the way you live, train and perform.<br/></strong><br/>SCIRO products are purpose-built to support different nutritional needs - from everyday hydration and<br/>active performance to recovery, focus and overall wellness</p>",
+        "button_label": "EXPLORE SCIRO",
+        "button_link": "#",
+        "show_button_arrow": true,
+        "desktop_image": "shopify://shop_images/Sec2_Reallife_copy.jpg",
+        "mobile_image": "shopify://shop_images/Sec2_Reallife_copy.jpg",
+        "image_alt": "Nutrition and wellness",
+        "background_color": "#f5f4f0",
+        "text_color": "#1d2855",
+        "description_color": "#1d2855",
+        "check_color": "#1d2855",
+        "button_background": "#6cb274",
+        "button_text": "#ffffff"
+      }
+    },
+    "shoppable_videos_9MVmbU": {
+      "type": "shoppable-videos",
+      "blocks": {
+        "text_CajBNy": {
+          "type": "text",
+          "settings": {
+            "product": "",
+            "media_type_video": "video_url",
+            "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+          }
+        },
+        "text_fXJ9kf": {
+          "type": "text",
+          "settings": {
+            "product": "",
+            "media_type_video": "video_url",
+            "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+          }
+        },
+        "text_6RTgaG": {
+          "type": "text",
+          "settings": {
+            "product": "",
+            "media_type_video": "video_url",
+            "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+          }
+        },
+        "text_nKdUiz": {
+          "type": "text",
+          "settings": {
+            "product": "",
+            "media_type_video": "video_url",
+            "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+          }
+        }
+      },
+      "block_order": [
+        "text_CajBNy",
+        "text_fXJ9kf",
+        "text_6RTgaG",
+        "text_nKdUiz"
+      ],
+      "name": "t:sections.video-grid.presets.name",
+      "settings": {
+        "full_width": false,
+        "color_scheme": "",
+        "title": "Shoppable videos",
+        "heading_size": "h2",
+        "description": "Use this text to share the information which you like!.",
+        "column_alignment": "center",
+        "show_product": true,
+        "pro_position": "overlay",
+        "block_color_scheme": "",
+        "aspect_ratio": "portrait",
+        "desktop": "4",
+        "enable_slider": true,
+        "pagination": "dots",
+        "pagination_style": "artistic",
+        "autoplay_delay": 0,
+        "space": 20,
+        "top_space": 100,
+        "bot_space": 100
+      }
+    },
     "tpa_scroll_p3xEVL": {
       "type": "tpa-scroll",
       "name": "TPA Scroll",
       "settings": {
         "product_image": "shopify://shop_images/Sciro_Guava2.png",
         "bg_image": "shopify://shop_images/cycling-speed-men-bicycle-with-motion-blur-adrenaline-extreme-sports-generative-ai_copy_jpg.jpg",
-        "straight_at": 90,
+        "animation_length": "bottom 60%",
         "start_rotation": -30,
         "small_text": "Guava, Lemon, Bitters, Bubbles",
         "heading": "Sciro Original",
         "flavor_text": "Special 'gin' botanicals",
         "button_text": "Shop now",
         "button_link": "shopify://collections/all"
+      }
+    },
+    "featured_collection_QTRDCX": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.name",
+      "settings": {
+        "full_width": false,
+        "color_scheme": "scheme-4",
+        "title": "",
+        "heading_size": "h1",
+        "description": "",
+        "column_alignment": "center",
+        "collection_list": "frontpage",
+        "products_to_show": 6,
+        "column_options": "4",
+        "mobile_post": "2",
+        "card_alignment": "normal",
+        "sticky_header": false,
+        "view_all": false,
+        "heading_url": "",
+        "card_aspect_ratio": "adapt",
+        "secondary_img": false,
+        "show_vendor": false,
+        "show_inventory": false,
+        "show_product_type": false,
+        "enable_quickview": true,
+        "show_swatches": false,
+        "enable_slider": true,
+        "pagination": "dots",
+        "pagination_style": "artistic",
+        "duration": 0,
+        "space": 20,
+        "curve": "none",
+        "curve_opacity": 50,
+        "top_space": 12,
+        "bot_space": 16
+      }
+    },
+    "video_banner_rfzhCy": {
+      "type": "video-banner",
+      "name": "t:sections.video_banner.name",
+      "settings": {
+        "color_scheme": "",
+        "title": "",
+        "heading_size": "h1",
+        "description": "",
+        "button_label": "",
+        "link": "",
+        "btn_style": "primary",
+        "target": false,
+        "column_alignment": "center",
+        "youtube": "",
+        "video": "shopify://files/videos/WhatsApp Video 2026-09-19 at 11.46.35 (1).mp4",
+        "controls": false,
+        "loop": true,
+        "video_height": "medium",
+        "top_space": 0,
+        "bot_space": 0
       }
     },
     "sciro_comparison_MyfQzh": {
@@ -214,10 +481,7 @@
         "column_3": "Probiotics",
         "column_4": "Greens",
         "feature_image": "shopify://shop_images/logosciro-08.png",
-        "column_1_image": "shopify://shop_images/fa54aa4c5a4d2fdd2b5f1fe61ac8911b016dea3e-862x548.png",
-        "column_2_image": "shopify://shop_images/fa54aa4c5a4d2fdd2b5f1fe61ac8911b016dea3e-862x548.png",
-        "column_3_image": "shopify://shop_images/fa54aa4c5a4d2fdd2b5f1fe61ac8911b016dea3e-862x548.png",
-        "column_4_image": "shopify://shop_images/fa54aa4c5a4d2fdd2b5f1fe61ac8911b016dea3e-862x548.png",
+        "column_1_image": "shopify://shop_images/scirologo_1.png",
         "image_height": 64,
         "mobile_image_height": 36,
         "max_width": 1560,
@@ -236,66 +500,717 @@
         "background": "#ffffff",
         "text_color": "#111111",
         "border_color": "#dddddd",
-        "brand_color": "#004d4a",
+        "brand_color": "#6cb274",
         "brand_text": "#ffffff",
-        "check_color": "#43d34a",
+        "check_color": "#f5f4f0",
         "cross_color": "#888888",
         "footnote": "Based on current available data for mass market dietary supplements."
+      }
+    },
+    "quality_ingredients_6XKzTW": {
+      "type": "quality-ingredients",
+      "blocks": {
+        "ingredient_BmfJCm": {
+          "type": "ingredient",
+          "settings": {
+            "image": "shopify://shop_images/Generative_Expand_2.png",
+            "label": "INGREDIENT",
+            "title": "Premium ingredient",
+            "description": "<p>Carefully selected ingredients designed for everyday wellness.</p>",
+            "link_label": "Learn more",
+            "link": ""
+          }
+        },
+        "ingredient_nxnejF": {
+          "type": "ingredient",
+          "settings": {
+            "image": "shopify://shop_images/Taurine.png",
+            "label": "INGREDIENT",
+            "title": "Premium ingredient",
+            "description": "<p>Carefully selected ingredients designed for everyday wellness.</p>",
+            "link_label": "Learn more",
+            "link": ""
+          }
+        },
+        "ingredient_MJk76a": {
+          "type": "ingredient",
+          "settings": {
+            "image": "shopify://shop_images/Orange_fbeef02a-719b-4349-8537-7a0e2cb150c9.png",
+            "label": "INGREDIENT",
+            "title": "Premium ingredient",
+            "description": "<p>Carefully selected ingredients designed for everyday wellness.</p>",
+            "link_label": "Learn more",
+            "link": ""
+          }
+        },
+        "ingredient_JakDEh": {
+          "type": "ingredient",
+          "settings": {
+            "image": "shopify://shop_images/Vitamin_b12.png",
+            "label": "INGREDIENT",
+            "title": "Premium ingredient",
+            "description": "<p>Carefully selected ingredients designed for everyday wellness.</p>",
+            "link_label": "Learn more",
+            "link": ""
+          }
+        },
+        "ingredient_GFyqe3": {
+          "type": "ingredient",
+          "settings": {
+            "image": "shopify://shop_images/Lemon_8e22b473-463d-4575-a5d6-9f9af83920d7.png",
+            "label": "INGREDIENT",
+            "title": "Premium ingredient",
+            "description": "<p>Carefully selected ingredients designed for everyday wellness.</p>",
+            "link_label": "Learn more",
+            "link": ""
+          }
+        },
+        "ingredient_BYxkYm": {
+          "type": "ingredient",
+          "settings": {
+            "image": "shopify://shop_images/Vitamin_E.png",
+            "label": "INGREDIENT",
+            "title": "Premium ingredient",
+            "description": "<p>Carefully selected ingredients designed for everyday wellness.</p>",
+            "link_label": "Learn more",
+            "link": ""
+          }
+        },
+        "ingredient_aEYQQR": {
+          "type": "ingredient",
+          "settings": {
+            "image": "shopify://shop_images/Guava.png",
+            "label": "INGREDIENT",
+            "title": "Premium ingredient",
+            "description": "<p>Carefully selected ingredients designed for everyday wellness.</p>",
+            "link_label": "Learn more",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "ingredient_BmfJCm",
+        "ingredient_nxnejF",
+        "ingredient_MJk76a",
+        "ingredient_JakDEh",
+        "ingredient_GFyqe3",
+        "ingredient_BYxkYm",
+        "ingredient_aEYQQR"
+      ],
+      "name": "Quality Ingredients",
+      "settings": {
+        "eyebrow": "QUALITY INGREDIENTS",
+        "heading": "Quality ingredients optimized for impact",
+        "description": "<p>Every serving contains carefully selected ingredients designed to work together to support your daily nutrition.</p>",
+        "alignment": "left",
+        "button_label": "View All Ingredients",
+        "button_link": "",
+        "heading_size": 42,
+        "mobile_heading_size": 34,
+        "desktop_columns": 4,
+        "tablet_columns": 2,
+        "mobile_slide_width": 90,
+        "card_gap": 16,
+        "card_height": 600,
+        "image_fit": "cover",
+        "image_position": "center center",
+        "glass_blur": 3,
+        "glass_opacity": 5,
+        "glass_height": 0,
+        "glass_fade": 0,
+        "card_radius": 8,
+        "enable_autoplay": true,
+        "autoplay_speed": 5,
+        "pause_on_hover": true,
+        "show_arrows": false,
+        "show_dots": false,
+        "padding_top": 20,
+        "padding_bottom": 15,
+        "background_color": "#000000",
+        "text_color": "#ffffff",
+        "card_text_color": "#ffffff",
+        "button_background": "#ffffff",
+        "button_text_color": "#0c4a4b",
+        "arrow_background": "#ffffff",
+        "arrow_color": "#111111",
+        "dot_color": "#ffffff"
+      }
+    },
+    "revealing_text_img_4BtWki": {
+      "type": "revealing-text-img",
+      "blocks": {
+        "column_xaH7Uf": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/fresh-orange-slice.png"
+          }
+        },
+        "column_X8wnhN": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/juicy-guava-slice-fresh-fruit-tropical-treat.png"
+          }
+        },
+        "column_6V4xJh": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/fresh-fruits-composition.png"
+          }
+        },
+        "column_LEYhb4": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/fresh-orange-slice.png"
+          }
+        },
+        "column_7YQVbV": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/juicy-guava-slice-fresh-fruit-tropical-treat.png"
+          }
+        },
+        "column_FCiaKi": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/fresh-fruits-composition.png"
+          }
+        },
+        "column_RFyTyQ": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/fresh-orange-slice.png"
+          }
+        },
+        "column_xmNLGi": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/juicy-guava-slice-fresh-fruit-tropical-treat.png"
+          }
+        },
+        "column_j4EQ89": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/fresh-orange-slice.png"
+          }
+        },
+        "column_gLhTjY": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/juicy-guava-slice-fresh-fruit-tropical-treat.png"
+          }
+        }
+      },
+      "block_order": [
+        "column_xaH7Uf",
+        "column_X8wnhN",
+        "column_6V4xJh",
+        "column_LEYhb4",
+        "column_7YQVbV",
+        "column_FCiaKi",
+        "column_RFyTyQ",
+        "column_xmNLGi",
+        "column_j4EQ89",
+        "column_gLhTjY"
+      ],
+      "name": "t:sections.reveal-text.presets.name",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "heading": "WHAT'S INSIDE SCIRO RECHARGE?",
+        "heading_size": "h1",
+        "enable_img": true,
+        "author_image": "shopify://shop_images/Sciro_Mockup2_copy_2.png",
+        "author_name": "",
+        "author_profession": "",
+        "rotate_img": true,
+        "curve": "none",
+        "curve_opacity": 50,
+        "top_space": 32,
+        "bot_space": 96
+      }
+    },
+    "collection_list_with_banner_baDei8": {
+      "type": "collection-list-with-banner",
+      "blocks": {
+        "text_M3MW3M": {
+          "type": "text",
+          "settings": {
+            "text": "TRAVEL ENERGETIC",
+            "description": "<p><strong>Stay ready for the journey.<br/><br/></strong>Hydration support for flights, road trips, long days and everything in between.</p>",
+            "collection": "",
+            "image": "shopify://shop_images/target_1.jpg",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary"
+          }
+        },
+        "text_6xGApE": {
+          "type": "text",
+          "settings": {
+            "text": "RECHARGE WHILE GYM",
+            "description": "<p><strong>Train hard. Recharge smart.<br/></strong><br/>Convenient electrolyte nutrition to complement your workout routine.</p>",
+            "collection": "",
+            "image": "shopify://shop_images/target_2.jpg",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary"
+          }
+        },
+        "text_m8KMrL": {
+          "type": "text",
+          "settings": {
+            "text": "DAILY IMMUNITY",
+            "description": "<p><strong>Everyday nutrition. Everyday support.<br/></strong><br/>A simple way to complement your daily routine with essential nutrients.</p>",
+            "collection": "",
+            "image": "shopify://shop_images/target_3_698ca5f4-0578-428b-8e38-f2cfe539e46f.jpg",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary"
+          }
+        },
+        "text_Rx6CnL": {
+          "type": "text",
+          "settings": {
+            "text": "SPORTS ESSENTIAL",
+            "description": "<p><strong>Built for movement. Made for the game.<br/><br/></strong>Purposeful hydration and nutrition for active days, training and sport.</p>",
+            "collection": "",
+            "image": "shopify://shop_images/target_4.jpg",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary"
+          }
+        },
+        "text_GHhpDW": {
+          "type": "text",
+          "settings": {
+            "text": "ELECTROLYTES HYDRATION",
+            "description": "<p><strong>Hydration, made simple.</strong><br/><br/>Essential electrolytes in a convenient format for everyday hydration needs.</p>",
+            "collection": "",
+            "image": "shopify://shop_images/target_5.jpg",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "text_M3MW3M",
+        "text_6xGApE",
+        "text_m8KMrL",
+        "text_Rx6CnL",
+        "text_GHhpDW"
+      ],
+      "name": "t:sections.collection-list-with-banner.presets.name",
+      "settings": {
+        "full_width": false,
+        "color_scheme": "scheme-4",
+        "title": "SHOP BY NEED",
+        "heading_size": "h2",
+        "description": "",
+        "column_alignment": "center",
+        "banner_background_opacity": 77,
+        "image_options": "first",
+        "collection_bottom": true,
+        "top_space": 44,
+        "bot_space": 48
+      }
+    },
+    "icons_with_text_h38Gwn": {
+      "type": "icons-with-text",
+      "blocks": {
+        "icon_cr4UUE": {
+          "type": "Icon",
+          "settings": {
+            "image": "shopify://shop_images/Layer_3.png",
+            "svg_icons": "",
+            "title": "",
+            "text": "",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary"
+          }
+        },
+        "icon_fdrggC": {
+          "type": "Icon",
+          "settings": {
+            "image": "shopify://shop_images/GMP_Certified_Good_Manufacturing_Practice_Logo_PNG_SVG_Vector.png",
+            "svg_icons": "",
+            "title": "",
+            "text": "",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary"
+          }
+        },
+        "icon_WNUiQt": {
+          "type": "Icon",
+          "settings": {
+            "image": "shopify://shop_images/Vector_Smart_Object-1.png",
+            "svg_icons": "",
+            "title": "",
+            "text": "",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary"
+          }
+        },
+        "icon_XjGCXH": {
+          "type": "Icon",
+          "settings": {
+            "image": "shopify://shop_images/Layer_1.png",
+            "svg_icons": "",
+            "title": "",
+            "text": "",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary"
+          }
+        },
+        "icon_QH4WP7": {
+          "type": "Icon",
+          "settings": {
+            "image": "shopify://shop_images/Vector_Smart_Object-2.png",
+            "svg_icons": "",
+            "title": "",
+            "text": "",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary"
+          }
+        },
+        "icon_bRNjVq": {
+          "type": "Icon",
+          "settings": {
+            "image": "shopify://shop_images/Vector_Smart_Object.png",
+            "svg_icons": "",
+            "title": "",
+            "text": "",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary"
+          }
+        },
+        "icon_yQELte": {
+          "type": "Icon",
+          "settings": {
+            "image": "shopify://shop_images/Vector_Smart_Object-3.png",
+            "svg_icons": "",
+            "title": "",
+            "text": "",
+            "button_label": "",
+            "button_link": "",
+            "btn_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "icon_cr4UUE",
+        "icon_fdrggC",
+        "icon_WNUiQt",
+        "icon_XjGCXH",
+        "icon_QH4WP7",
+        "icon_bRNjVq",
+        "icon_yQELte"
+      ],
+      "disabled": true,
+      "name": "t:sections.icons-with-text.presets.name",
+      "settings": {
+        "full_width": true,
+        "color_scheme": "scheme-1",
+        "title": "CERTIFICATIONS AND STANDARDS",
+        "heading_size": "h1",
+        "description": "Quality which every customer deserves. Trust which Sciro Give.",
+        "column_alignment": "center",
+        "image_hide": true,
+        "image_width": 100,
+        "block_styles": "grid__items",
+        "vertical_alignment": "center",
+        "block_column_alignment": "center",
+        "mobile_column_alignment": "center",
+        "desktop": "4",
+        "enable_slider": true,
+        "pagination": "none",
+        "pagination_style": "artistic",
+        "autoplay_delay": 2,
+        "space": 5,
+        "top_space": 32,
+        "bot_space": 32
+      }
+    },
+    "cust_trust_J8hRKD": {
+      "type": "cust-trust",
+      "blocks": {
+        "logo_F9Afyr": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/Layer_3.png",
+            "alt": "Certification logo",
+            "link": ""
+          }
+        },
+        "logo_JMYMaw": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/GMP_Certified_Good_Manufacturing_Practice_Logo_PNG_SVG_Vector.png",
+            "alt": "Certification logo",
+            "link": ""
+          }
+        },
+        "logo_BtXjqN": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/Vector_Smart_Object-1.png",
+            "alt": "Certification logo",
+            "link": ""
+          }
+        },
+        "logo_FzjeVX": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/Vector_Smart_Object-3.png",
+            "alt": "Certification logo",
+            "link": ""
+          }
+        },
+        "logo_kCih6W": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/Vector_Smart_Object-2.png",
+            "alt": "Certification logo",
+            "link": ""
+          }
+        },
+        "logo_jhVTCx": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/Vector_Smart_Object.png",
+            "alt": "Certification logo",
+            "link": ""
+          }
+        },
+        "logo_njMjyp": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/Layer_1.png",
+            "alt": "Certification logo",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "logo_F9Afyr",
+        "logo_JMYMaw",
+        "logo_BtXjqN",
+        "logo_FzjeVX",
+        "logo_kCih6W",
+        "logo_jhVTCx",
+        "logo_njMjyp"
+      ],
+      "name": "Certification Marquee",
+      "settings": {
+        "heading": "CERTIFICATIONS AND STANDARDS",
+        "heading_size": "h2",
+        "heading_color": "#232f63",
+        "subheading": "Quality which every customer deserves. Trust which Sciro Give.",
+        "subheading_size": 16,
+        "subheading_color": "#555555",
+        "speed": 25,
+        "speed_mobile": 18,
+        "direction": "left",
+        "pause_on_hover": true,
+        "fade_edges": true,
+        "logo_height_desktop": 90,
+        "logo_height_mobile": 60,
+        "gap_desktop": 40,
+        "gap_mobile": 24,
+        "grayscale": false,
+        "bg_color": "#ffffff",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "review_tab_CRLG7J": {
+      "type": "review-tab",
+      "blocks": {
+        "column_hwbtFf": {
+          "type": "column",
+          "settings": {
+            "rating_enable": true,
+            "rating_value": 4,
+            "description": "<p>A rating value is a numerical or categorical representation used to evaluate or measure the quality, performance, or suitability of an entity (such as a product, service, or experience). Here are the key details about rating values:</p>",
+            "svg_icons": ""
+          }
+        },
+        "column_enXVkb": {
+          "type": "column",
+          "settings": {
+            "rating_enable": true,
+            "rating_value": 3.5,
+            "description": "<p>A rating value is a numerical or categorical representation used to evaluate or measure the quality, performance, or suitability of an entity (such as a product, service, or experience). Here are the key details about rating values:</p>",
+            "svg_icons": ""
+          }
+        },
+        "column_JeNy9V": {
+          "type": "column",
+          "settings": {
+            "rating_enable": true,
+            "rating_value": 3,
+            "description": "<p>A rating value is a numerical or categorical representation used to evaluate or measure the quality, performance, or suitability of an entity (such as a product, service, or experience). Here are the key details about rating values:</p>",
+            "svg_icons": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_hwbtFf",
+        "column_enXVkb",
+        "column_JeNy9V"
+      ],
+      "name": "t:sections.review-tab.name",
+      "settings": {
+        "full_width": false,
+        "color_width": false,
+        "review": 12,
+        "color_scheme": "scheme-2",
+        "title": "Review tab",
+        "heading_size": "h1",
+        "description": "Use this text to share the information which you like!.",
+        "column_alignment": "center",
+        "slide_effect": "fade",
+        "pagination": "none",
+        "pagination_style": "artistic",
+        "autoplay_delay": 0,
+        "top_space": 40,
+        "bot_space": 40
+      }
+    },
+    "collapsible_content_xqwK3P": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_EBmNVc": {
+          "type": "collapsible_row",
+          "settings": {
+            "icon": "none",
+            "heading": "Collapse heading",
+            "row_content": "This is the first item's accordion content. It’s hidden by default but smoothly expands on click. You can also include content from a page for a clean and organized look.",
+            "page": ""
+          }
+        },
+        "collapsible_row_y8b3Xe": {
+          "type": "collapsible_row",
+          "settings": {
+            "icon": "none",
+            "heading": "Collapse heading",
+            "row_content": "This is the first item's accordion content. It’s hidden by default but smoothly expands on click. You can also include content from a page for a clean and organized look.",
+            "page": ""
+          }
+        },
+        "collapsible_row_B48P34": {
+          "type": "collapsible_row",
+          "settings": {
+            "icon": "none",
+            "heading": "Collapse heading",
+            "row_content": "This is the first item's accordion content. It’s hidden by default but smoothly expands on click. You can also include content from a page for a clean and organized look.",
+            "page": ""
+          }
+        },
+        "collapsible_row_3cVXTb": {
+          "type": "collapsible_row",
+          "settings": {
+            "icon": "none",
+            "heading": "Collapse heading",
+            "row_content": "This is the first item's accordion content. It’s hidden by default but smoothly expands on click. You can also include content from a page for a clean and organized look.",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_EBmNVc",
+        "collapsible_row_y8b3Xe",
+        "collapsible_row_B48P34",
+        "collapsible_row_3cVXTb"
+      ],
+      "name": "t:sections.collapsible-content.name",
+      "settings": {
+        "full_width": false,
+        "color_scheme": "scheme-1",
+        "title": "FREQUENTLY ASKED QUESTIONS",
+        "heading_size": "h1",
+        "description": "Use this text to share the information which you like!.",
+        "column_alignment": "center",
+        "first_row": false,
+        "blog_aspect_ratio": "adapt",
+        "image_placement": "right",
+        "top_space": 20,
+        "bot_space": 20
       }
     },
     "marquee_7jJDzP": {
       "type": "marquee",
       "blocks": {
-        "heading_PTg4tV": {
-          "type": "heading",
-          "settings": {
-            "block_heading": "Marquee Heading",
-            "text": "",
-            "block_img_link": ""
-          }
-        },
         "heading_MehrUt": {
           "type": "heading",
           "settings": {
-            "block_heading": "Marquee Heading",
+            "block_heading": "ROOTED IN SCIENCE. GROWN FOR LIFE.",
             "text": "",
+            "marquee_image": "shopify://shop_images/scirologo_1.png",
             "block_img_link": ""
           }
         },
-        "heading_TUJb6b": {
+        "heading_X3ck4f": {
           "type": "heading",
           "settings": {
-            "block_heading": "Marquee Heading",
+            "block_heading": "ROOTED IN SCIENCE. GROWN FOR LIFE.",
             "text": "",
+            "marquee_image": "shopify://shop_images/scirologo_1.png",
+            "block_img_link": ""
+          }
+        },
+        "heading_QtbTY8": {
+          "type": "heading",
+          "settings": {
+            "block_heading": "ROOTED IN SCIENCE. GROWN FOR LIFE.",
+            "text": "",
+            "marquee_image": "shopify://shop_images/scirologo_1.png",
             "block_img_link": ""
           }
         }
       },
       "block_order": [
-        "heading_PTg4tV",
         "heading_MehrUt",
-        "heading_TUJb6b"
+        "heading_X3ck4f",
+        "heading_QtbTY8"
       ],
       "name": "t:sections.marquee.name",
       "settings": {
         "full_width": false,
-        "color_scheme": "",
+        "color_scheme": "scheme-4",
         "content_reverse": false,
-        "enable_edgefade": true,
-        "pause_on_hover": true,
-        "speed": 70,
+        "enable_edgefade": false,
+        "pause_on_hover": false,
+        "speed": 60,
         "marquee_padding": 3,
         "heading_size": "h2",
-        "marquee_img_width": 100,
-        "top_space": 60,
-        "bot_space": 60
+        "marquee_img_width": 50,
+        "top_space": 40,
+        "bot_space": 40
       }
     }
   },
   "order": [
     "slideshow_UPRfk9",
+    "icons_with_text_dzWAUz",
+    "nutrition_goal_ndRytW",
+    "shoppable_videos_9MVmbU",
     "tpa_scroll_p3xEVL",
+    "featured_collection_QTRDCX",
+    "video_banner_rfzhCy",
     "sciro_comparison_MyfQzh",
+    "quality_ingredients_6XKzTW",
+    "revealing_text_img_4BtWki",
+    "collection_list_with_banner_baDei8",
+    "icons_with_text_h38Gwn",
+    "cust_trust_J8hRKD",
+    "review_tab_CRLG7J",
+    "collapsible_content_xqwK3P",
     "marquee_7jJDzP"
   ]
 }

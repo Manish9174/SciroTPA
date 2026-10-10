@@ -656,6 +656,25 @@ button.variant-gallery__thumb-arrow.variant-gallery__thumb-next {
 
   }
 
+
+
+  @media (max-width: 1024px) {
+
+
+
+    .cust-prd .com-p{
+
+      font-size:20px!important;
+    }
+
+    .cust-prd .sale-p{
+           font-size:20px!important;
+    }
+
+  }
+
+
+
 @media (max-width: 767px) {
 
 
@@ -1132,4 +1151,10 @@ display:block;
 
 .cust-prd .quantity-selector{
       width: 30%;
+}
+
+
+
+button.shopify-payment-button__button.shopify-payment-button__button--unbranded {
+    border-radius: 10px;
 }

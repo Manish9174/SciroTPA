@@ -10,9 +10,9 @@
 {
   "current": {
     "logo": "shopify://shop_images/logosciro-08.png",
-    "logo_width": 80,
+    "logo_width": 160,
     "favicon": "shopify://shop_images/scirologo_1.png",
-    "type_header_font": "m_plus_rounded_1c_n4",
+    "type_header_font": "petrona_n4",
     "header_size": 80,
     "heading_transform": "capitalize",
     "type_body_font": "anybody_n4",
@@ -163,12 +163,12 @@
     "blocks": {
       "1768834845299682660": {
         "type": "shopify://apps/subscriptions/blocks/app-embed-block/a3bfe9ec-96f8-4508-a003-df608a36d2ad",
-        "disabled": false,
+        "disabled": true,
         "settings": {
-          "color_text_title": "#232F63",
-          "color_text_body": "#6D7175",
-          "dividers_color": "#8F8D8D",
-          "bacgkround_color": "#FFFFFF",
+          "color_text_title": "#232f63",
+          "color_text_body": "#6d7175",
+          "dividers_color": "#8f8d8d",
+          "bacgkround_color": "#ffffff",
           "border_thickness": 1,
           "border_radius": 0,
           "subscription_policy_url": ""
@@ -179,11 +179,11 @@
       "scheme-1": {
         "settings": {
           "background": "#ffffff",
-          "color_heading": "#232f63",
+          "color_heading": "#1d2855",
           "text": "#232f63",
           "link_color": "#232f63",
-          "button": "#232f63",
-          "button_label": "#ffffff",
+          "button": "#f5f4f0",
+          "button_label": "#1d2855",
           "secondary_button": "#f5f4f1",
           "secondary_button_label": "#232f63",
           "color_border": "#232f63",
@@ -226,7 +226,7 @@
       },
       "scheme-4": {
         "settings": {
-          "background": "#f5f4f1",
+          "background": "#f5f4f0",
           "color_heading": "#232f63",
           "text": "#232f63",
           "link_color": "#232f63",
@@ -246,21 +246,21 @@
           "color_heading": "#161345",
           "text": "#161345",
           "link_color": "#161345",
-          "button": "#ffffff",
-          "button_label": "#161345",
+          "button": "#e7e7e7",
+          "button_label": "#1d2855",
           "secondary_button": "#e7f3fe",
           "secondary_button_label": "#ffffff",
-          "color_border": "#ffffff",
-          "bg_input": "#ffffff",
-          "input_text": "#161345",
+          "color_border": "#1d2855",
+          "bg_input": "rgba(0,0,0,0)",
+          "input_text": "#2f2f2f",
           "color_input": "#ffffff"
         }
       },
       "scheme-d319f50a-f4a4-4a15-ba5e-8b9c15da1ba4": {
         "settings": {
-          "background": "#ffffff",
-          "color_heading": "#161345",
-          "text": "#161345",
+          "background": "#1d2855",
+          "color_heading": "#ffffff",
+          "text": "#ffffff",
           "link_color": "#161345",
           "button": "#e7f3fe",
           "button_label": "#161345",
